@@ -115,6 +115,7 @@ namespace SurfaceTrails2.Composite
                             pts.Append(new GH_Point(pt2), new GH_Path(b, i));
                         }
                     }
+
                 }
                 dispatchPointsWatch.Stop();
                 allEdges.Clear();
