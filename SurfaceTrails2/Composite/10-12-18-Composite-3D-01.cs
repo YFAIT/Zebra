@@ -178,7 +178,7 @@ namespace SurfaceTrails2.Composite
                             {
                                 var start = segements[k].From;
                                 var end = segements[k].To;
-                                var test = "test         ";
+                                var test = "test      ";
 
                                 if (PointOperations.PointDifference(start, ptsTopoList[c]) < DocumentTolerance()
                                     || PointOperations.PointDifference(end, ptsTopoList[c]) < DocumentTolerance())
