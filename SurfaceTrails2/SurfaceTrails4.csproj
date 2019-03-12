@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug64</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C4F4A210-F650-4FB2-966A-F717DF6EFBC8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SurfaceTrails2</RootNamespace>
+    <AssemblyName>SurfaceTrails2</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug64|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="RhinoCommon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Rhinoceros 5 (64-bit)\System\RhinoCommon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Grasshopper">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\h\Desktop\grasshopper_0.9.76.0\Grasshopper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GH_IO">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\h\Desktop\grasshopper_0.9.76.0\GH_IO.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgentBased\18-11-18-GhcFlockingInBox.cs" />
+    <Compile Include="AgentBased\30-10-18-GhcFlockingMapToSurface-01.cs" />
+    <Compile Include="AgentBased\AgentBehaviours.cs" />
+    <Compile Include="AgentBased\AgentContainment.cs" />
+    <Compile Include="AgentBased\FlockAgentComponent.cs" />
+    <Compile Include="AgentBased\FlockAgenV2.0.cs" />
+    <Compile Include="AgentBased\IFlockAgent.cs" />
+    <Compile Include="AgentBased\14-10-18-GHcFlockingInBrep.cs" />
+    <Compile Include="BrepOperations\3-10-18-EdgeTopology.cs" />
+    <Compile Include="BrepOperations\BrepExplode.cs" />
+    <Compile Include="BrepOperations\BrepExplodeComponent.cs" />
+    <Compile Include="AgentBased\16-10-18-GhcFlockingInMesh.cs" />
+    <Compile Include="AgentBased\16-10-18-GhcFlockingInPlane.cs" />
+    <Compile Include="AgentBased\FlockSystem.cs" />
+    <Compile Include="AgentBased\FlockingSimulation - Copy\FlockAgent.cs" />
+    <Compile Include="AgentBased\FlockingSimulation - Copy\FlockSystem.cs" />
+    <Compile Include="AgentBased\FlockingSimulation - Copy\GhcFlockingSimulation.cs" />
+    <Compile Include="Composite\10-3-19-Composite-3D-01.cs" />
+    <Compile Include="Composite\11-12-18-Composite.cs" />
+    <Compile Include="Crv\9-10-18-RatioRectangle.cs" />
+    <Compile Include="Msh\MeshIterativeMoveV4.cs" />
+    <Compile Include="Utilities\MeshOperations.cs" />
+    <Compile Include="Utilities\NumberOperations.cs" />
+    <Compile Include="Utilities\PartitionTree.cs" />
+    <Compile Include="Utilities\PointOperations.cs" />
+    <Compile Include="Utilities\CurveDiscontinuity.cs" />
+    <Compile Include="Composite\NailPlacer.cs" />
+    <Compile Include="Utilities\ListOperations.cs" />
+    <Compile Include="Utilities\CurveOperations.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SurfaceToMesh\Trimmed srf to mesh 2\TrimmedSrfToMesh2.cs" />
+    <Compile Include="SurfaceToMesh\Trimmed srf to mesh\TrimmedsrftoMesh.cs" />
+    <Compile Include="SurfaceToMesh\Untrimmed mesh to srf\UntrimmedSurfaceToMeshComponent.cs" />
+    <Compile Include="SurfaceToMesh\Untrimmed mesh to srf\UntrimmedSurfaceToMeshInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\28-8-18-FlockSimulation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\30-8-18-CompositeLines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9-10-18-RatioRectangle.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\h\AppData\Roaming\Grasshopper\Libraries\SrfTrails.gha"
+Erase "$(TargetPath)"
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <FallbackCulture>en-US</FallbackCulture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug64|AnyCPU'">
+    <StartProgram>C:\Program Files\Rhinoceros 5 (64-bit)\System\Rhino.exe</StartProgram>
+    <StartArguments>
+    </StartArguments>
+    <StartAction>Program</StartAction>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+</Project>
