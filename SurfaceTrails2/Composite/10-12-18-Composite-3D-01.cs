@@ -113,6 +113,9 @@ namespace SurfaceTrails2.Composite
                             pt2 = nurbs.PointAtLength(nurbs.GetLength() * 0.5 - nakedLength * 0.5);
                             pts.Append(new GH_Point(pt1), new GH_Path(b, i));
                             pts.Append(new GH_Point(pt2), new GH_Path(b, i));
+
+
+
                         }
                     }
 
@@ -175,6 +178,7 @@ namespace SurfaceTrails2.Composite
                             {
                                 var start = segements[k].From;
                                 var end = segements[k].To;
+                                var test = "test         ";
 
                                 if (PointOperations.PointDifference(start, ptsTopoList[c]) < DocumentTolerance()
                                     || PointOperations.PointDifference(end, ptsTopoList[c]) < DocumentTolerance())
