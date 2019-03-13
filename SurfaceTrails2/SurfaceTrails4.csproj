@@ -71,7 +71,6 @@
     <Compile Include="AgentBased\FlockingSimulation - Copy\FlockSystem.cs" />
     <Compile Include="AgentBased\FlockingSimulation - Copy\GhcFlockingSimulation.cs" />
     <Compile Include="Composite\10-3-19-Composite-3D-01.cs" />
-    <Compile Include="Composite\11-12-18-Composite.cs" />
     <Compile Include="Crv\9-10-18-RatioRectangle.cs" />
     <Compile Include="Msh\MeshIterativeMoveV4.cs" />
     <Compile Include="Utilities\MeshOperations.cs" />

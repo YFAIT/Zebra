@@ -42,9 +42,6 @@ namespace SurfaceTrails2.Composite
             pManager.HideParameter(0);
             pManager.AddCurveParameter("crv", "Composite curve", "crv", GH_ParamAccess.tree);
             pManager.AddTextParameter("Profiling", "Profiling", "Time for major operations", GH_ParamAccess.list);
-            pManager.AddCurveParameter("CurveTree", "CurveTree", "CurveTree", GH_ParamAccess.tree);
-            pManager.AddIntegerParameter("topology", "topology", "topology", GH_ParamAccess.tree);
-
         }
 
         /// <summary>
@@ -61,161 +58,118 @@ namespace SurfaceTrails2.Composite
             double nakedLength = 0.05;
             double clothedWidth = 0.01;
             var profiling = new List<string>();
-            var edgeTopology = new List<GH_Integer>();
-            var allEdges = new List<GH_Curve>();
-            var pts = new GH_Structure<GH_Point>();
-            var joinedEdgesTree = new/* GH_Structure<GH_Curve>();*/ DataTree<Curve>();
-            var finalEdgesTree = new GH_Structure<GH_Curve>();
-            var ptsTopoList = new List<Point3d> ();
-            var countTopoList = new DataTree<int>();
+            var joinedEdges = new List<Curve>();
+            var countTopoList = new List<int>();
+            var segmentsList = new List<Line>();
+            var segmentTree = new DataTree<Line>();
+            var topoTree = new DataTree<int>();
+            var segmentTreeFinal = new DataTree<Line>();
+            var topoTreeFinal = new DataTree<int>();
+            var ptTree = new DataTree<Point3d>();
+            var ptTreeTemp = new DataTree<Point3d>();
+            var compositeTree = new DataTree<Curve>();
             //get varialbles from grasshopper
             if (!DA.GetDataList(0, meshes)) return;
             if (!DA.GetData(1, ref nakedLength)) return;
             if (!DA.GetData(2, ref clothedWidth)) return;
-            //getting all points from mesh and their topology
+            //applying code for each mesh in the mesh list
             int b = 0;
             foreach (var mesh in meshes)
             {
-                //topologyEdgesWatch.Start();
-                //for (int i = 0; i < mesh.TopologyEdges.Count; i++)
-                //{
-                //    edgeTopology.Add(new GH_Integer(mesh.TopologyEdges.GetConnectedFaces(i).Length));
-                //    allEdges.Add(new GH_Curve(mesh.TopologyEdges.EdgeLine(i).ToNurbsCurve()));
-                //}
-                //topologyEdgesWatch.Stop();
-                //addToTreeWatch.Start();
-
-                //var allEdgesTree = /*ListOperations.ReOrganize(*/ListOperations.PartitionToTree(allEdges, 3)/*)*/;
-                //var edgeTopologyTree = /*ListOperations.ReOrganize(*/ListOperations.PartitionToTree(edgeTopology, 3)/*)*/;
-                //addToTreeWatch.Stop();
-                ////drawing composite point according to their valence
-                //dispatchPointsWatch.Start();
-                //for (int i = 0; i < allEdgesTree.PathCount; i++)
-                //{
-                //    for (int j = 0; j < allEdgesTree.get_Branch(i).Count; j++)
-                //    {
-                //        var GHNurbs =(GH_Curve)allEdgesTree.get_Branch(i)[j];
-                //        var nurbs = GHNurbs.Value/*.ToNurbsCurve()*/;
-                //        var GHInteger = (GH_Integer) edgeTopologyTree.get_Branch(i)[j];
-                //        Point3d pt1;
-                //        Point3d pt2;
-
-                //        if (GHInteger.Value != 1)
-                //        {
-                //            pt1 = nurbs.PointAtLength(nurbs.GetLength() * 0.5 + clothedWidth * 0.5);
-                //            pt2 = nurbs.PointAtLength(nurbs.GetLength() * 0.5 - clothedWidth * 0.5);
-                //            pts.Append(new GH_Point(pt1), new GH_Path(b,i));
-                //            pts.Append(new GH_Point(pt2), new GH_Path(b,i));
-                //        }
-                //        else
-                //        {
-                //            pt1 = nurbs.PointAtLength(nurbs.GetLength() * 0.5 + nakedLength * 0.5);
-                //            pt2 = nurbs.PointAtLength(nurbs.GetLength() * 0.5 - nakedLength * 0.5);
-                //            pts.Append(new GH_Point(pt1), new GH_Path(b, i));
-                //            pts.Append(new GH_Point(pt2), new GH_Path(b, i));
-                //        }
-                //    }
-                //}
-                //dispatchPointsWatch.Stop();
-                //allEdges.Clear();
-                //edgeTopology.Clear();
-                //pts.Clear();
-                //joining curves of component
-                //for (int i = 0; i < allEdgesTree.PathCount; i++)
-                //{
-
                 for (int i = 0; i < mesh.Faces.Count; i++)
                 {
-                    //var GHCurveList= allEdgesTree.get_Branch(i);
-                    //     var curveList = new List<Curve>();
-
-                    //     foreach (GH_Curve ghCurve in GHCurveList)
-                    //         curveList.Add(ghCurve.Value);
-
-                    Point3f pta,ptb,ptc,ptd;
-
-                        mesh.Faces.GetFaceVertices(i, out pta, out ptb, out ptc, out ptd);
-                        var pta0 = new Point3d(pta.X, pta.Y, pta.Z);
-                        var pta1 = new Point3d(ptb.X, ptb.Y, ptb.Z);
-                        var pta2 = new Point3d(ptc.X, ptc.Y, ptc.Z);
-                        var pta3 = new Point3d(ptd.X, ptd.Y, ptd.Z);
-                        var facePts = new List<Point3d> {pta0, pta1, pta2, pta3};
-                        ptsTopoList.Add(pta0);
-                        ptsTopoList.Add(pta1);
-                        ptsTopoList.Add(pta2);
-                        ptsTopoList.Add(pta3);
-
-                        var joinedCurves = CurveOperations.ClosedPolylineFromPoints(facePts);
-                        joinedEdgesTree.Add(joinedCurves, new GH_Path(b, i));
-                        facePts.Clear();
-
-                    //joinedEdgesTree.Add(Curve.JoinCurves(curveList)[0], new GH_Path(b, i));
-                }
-                edgesFromPointsWatch.Start();
-                //newcode
-                for (int i = 0; i < joinedEdgesTree.BranchCount; i++)
-                {
-                    for (int j = 0; j < joinedEdgesTree.Branch(i).Count; j++)
+                    Point3f pta, ptb, ptc, ptd;
+                    //get all 4 points from each mesh face in the mesh
+                    mesh.Faces.GetFaceVertices(i, out pta, out ptb, out ptc, out ptd);
+                    var pta0 = new Point3d(pta.X, pta.Y, pta.Z);
+                    var pta1 = new Point3d(ptb.X, ptb.Y, ptb.Z);
+                    var pta2 = new Point3d(ptc.X, ptc.Y, ptc.Z);
+                    var pta3 = new Point3d(ptd.X, ptd.Y, ptd.Z);
+                    var facePts = new List<Point3d> { pta0, pta1, pta2, pta3 };
+                    //make closed Curve from all 4 points
+                    var joinedCurves = CurveOperations.ClosedPolylineFromPoints(facePts);
+                    joinedEdges.Add(joinedCurves);
+                    facePts.Clear();
+                    //convert curve to polyline
+                    Polyline polyline;
+                    if (!joinedEdges[i].TryGetPolyline(out polyline))
                     {
-                        //convert curve to polyline
-                        Polyline polyline;
-                        if (!joinedEdgesTree.Branch(i)[0].TryGetPolyline(out polyline))
+                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Only polygonal curves are supported.");
+                        return;
+                    }
+                    //make an unjoined list out of polyline segments
+                    var segements = polyline.GetSegments();
+                    segmentsList.AddRange(segements);
+
+                }
+                //find line topology
+                int topology;
+                for (int k = 0; k < segmentsList.Count; k++)
+                {
+                    topology = 0;
+                    for (int c = 0; c < segmentsList.Count; c++)
+                    {
+                        if (PointOperations.PointDifference(segmentsList[k].From, segmentsList[c].From) < DocumentTolerance()
+                          && PointOperations.PointDifference(segmentsList[k].To, segmentsList[c].To) < DocumentTolerance() ||
+                            PointOperations.PointDifference(segmentsList[k].From, segmentsList[c].To) < DocumentTolerance()
+                          && PointOperations.PointDifference(segmentsList[k].To, segmentsList[c].From) < DocumentTolerance())
+                            topology++;
+                    }
+                    countTopoList.Add(topology);
+                }
+                //make an organized data tree out of segements and their respective topology values
+                segmentTree = ListOperations.PartitionToTree<Line>(segmentsList, 4);
+                topoTree = ListOperations.PartitionToTree<int>(countTopoList, 4);
+
+                for (int i = 0; i < segmentTree.BranchCount; i++)
+                {
+                    segmentTreeFinal.AddRange(segmentTree.Branch(i), new GH_Path(b, i));
+                    topoTreeFinal.AddRange(topoTree.Branch(i), new GH_Path(b, i));
+                }
+                //make points out of organized edges 
+                for (int i = 0; i < segmentTreeFinal.BranchCount; i++)
+                {
+                    for (int j = 0; j < segmentTreeFinal.Branch(i).Count; j++)
+                    {
+                        var segment = segmentTreeFinal.Branch(i)[j];
+                        var topo = topoTreeFinal.Branch(i)[j];
+                        Point3d pt1, pt2;
+
+                        if (topo == 1)
                         {
-                            AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Only polygonal curves are supported.");
-                            return;
+                            pt1 = segment.ToNurbsCurve().PointAtLength(segment.ToNurbsCurve().GetLength() * 0.5 - nakedLength * 0.5);
+                            pt2 = segment.ToNurbsCurve().PointAtLength(segment.ToNurbsCurve().GetLength() * 0.5 + nakedLength * 0.5);
+                            ptTree.Add(pt1, new GH_Path(b, i));
+                            ptTree.Add(pt2, new GH_Path(b, i));
+                            ptTreeTemp.Add(pt1, new GH_Path(b, i));
+                            ptTreeTemp.Add(pt2, new GH_Path(b, i));
                         }
-                        //
-                        var segements = polyline.GetSegments();
-                        for (int k =0; k< segements.Length; k++)
+                        else
                         {
-                            int topology = 0;
-                            for (int c = 0; c < ptsTopoList.Count; c++)
-                            {
-                                var start = segements[k].From;
-                                var end = segements[k].To;
-
-                                if (PointOperations.PointDifference(start, ptsTopoList[c]) < DocumentTolerance()
-                                    || PointOperations.PointDifference(end, ptsTopoList[c]) < DocumentTolerance())
-                                    topology++;
-
-                            }
-                            countTopoList.Add(topology ,new GH_Path(b, i));
+                            pt1 = segment.ToNurbsCurve().PointAtLength(segment.ToNurbsCurve().GetLength() * 0.5 - clothedWidth * 0.5);
+                            pt2 = segment.ToNurbsCurve().PointAtLength(segment.ToNurbsCurve().GetLength() * 0.5 + clothedWidth * 0.5);
+                            ptTree.Add(pt1, new GH_Path(b, i));
+                            ptTree.Add(pt2, new GH_Path(b, i));
+                            ptTreeTemp.Add(pt1, new GH_Path(b, i));
+                            ptTreeTemp.Add(pt2, new GH_Path(b, i));
                         }
-
                     }
                 }
-                //drawing final curves
-                //for (int i = 0; i < joinedEdgesTree.BranchCount; i++)
-                //{
-                //    for (int j = 0; j < joinedEdgesTree.Branch(i).Count; j++)
-                //    {
-                //        //if (countTopoList.Branch(i)[j] = )
-                //    }
-                //}
-                //sorting points and making a polyline out of them
-                        //    for (int i = 0; i < joinedEdgesTree.BranchCount; i++)
-                        //    {
-                        //        for (int j = 0; j < joinedEdgesTree.Branch(i).Count; j++)
-                        //        {
-                        //            var joinedCurve = joinedEdgesTree.Branch(i)[0];
-
-                        //            var GHptList = pts.get_Branch(i);
-                        //            var ptList = new List<Point3d>();
-                        //            foreach (GH_Point ghPt in GHptList)
-                        //            {
-                        //                ptList.Add(ghPt.Value);
-                        //            }
-
-                        //            var sortedPoints = PointOperations.SortAlongCurve(joinedCurve, ptList);
-
-                        //            finalEdgesTree.Append(new GH_Curve(CurveOperations.ClosedPolylineFromPoints(sortedPoints)), new GH_Path(b));
-
-                        //            //joinedCurve.Clear();
-                        //            ptList.Clear();
-                        //        }
-                        //    }
-                        //    edgesFromPointsWatch.Stop();
-                        ptsTopoList.Clear();
+                //make polyines from organized points
+                for (int i = 0; i < ptTreeTemp.BranchCount; i++)
+                {
+                    var compositePolyline = CurveOperations.ClosedPolylineFromPoints(ptTreeTemp.Branch(i));
+                    compositeTree.Add(compositePolyline, new GH_Path(b, i));
+                }
+                //clearing out all execessive data
+                ptTreeTemp.Clear();
+                joinedEdges.Clear();
+                segmentsList.Clear();
+                countTopoList.Clear();
+                segmentTree.Clear();
+                topoTree.Clear();
+                segmentTreeFinal.Clear();
+                topoTreeFinal.Clear();
                 b++;
             }
             //profiling data preview in grasshopper
@@ -224,16 +178,12 @@ namespace SurfaceTrails2.Composite
             profiling.Add("Dispatch points: "+dispatchPointsWatch.ElapsedMilliseconds);
             profiling.Add("Edges from points: "+edgesFromPointsWatch.ElapsedMilliseconds);
             //export data to grasshopper
-            var x = pts;
-            var y = finalEdgesTree;
+            var x = ptTree;
+            var y = compositeTree;
             var z = profiling;
-            var u = joinedEdgesTree;
-            var v = countTopoList;
             DA.SetDataTree(0, x);
             DA.SetDataTree(1, y);
             DA.SetDataList(2, z);
-            DA.SetDataTree(3, u);
-            DA.SetDataTree(4, v);
         }
         /// <summary>
         /// Provides an Icon for the component.

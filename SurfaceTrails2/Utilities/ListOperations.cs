@@ -65,28 +65,21 @@ namespace SurfaceTrails2
             }
             return tree;
         }
-        public static DataTree<T> PartitionToTree<T>(List<T> list, int count) where T : IGH_Goo
+        public static DataTree<T> PartitionToTree<T>(List<T> list, int partitions)
         {
             var tree = new DataTree<T>();
-            int j = 0;
-            int k = 0;
+            int index = 0;
+            int count = 0;
 
             for (int i = 0; i < list.Count; i++)
             {
-                if (k == 2)
-                    tree.Add(list[i + 1], new GH_Path(j));
-                if (k == 3)
-                    tree.Add(list[i - 1], new GH_Path(j));
-
-                if (i % count == 0 && i != 0)
+                tree.Add(list[i], new GH_Path(index));
+                count++;
+                if (count >= partitions)
                 {
-                    tree.Add(list[i], new GH_Path(j));
-                    j++;
-                    k = 0;
+                    count = 0;
+                    index++;
                 }
-                if (j < list.Count / count)
-                    tree.Add(list[i], new GH_Path(j));
-
             }
             return tree;
         }
