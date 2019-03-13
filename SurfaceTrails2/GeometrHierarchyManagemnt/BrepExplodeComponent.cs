@@ -13,7 +13,7 @@ namespace SurfaceTrails2.BrepOperations
         public BrepExplodeComponent()
           : base("BrepExplode", "BrepExplode",
               "Explodes breps while respecting data tree structure",
-              "YFAtools", "Brep")
+              "YFAtools", "GeometrHierarchyManagemnt")
         {
         }
 

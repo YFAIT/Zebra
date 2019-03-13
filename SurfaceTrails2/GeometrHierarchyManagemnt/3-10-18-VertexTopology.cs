@@ -14,7 +14,7 @@ namespace SurfaceTrails2.BrepOperations
         public _3_10_18_EdgeTopology()
           : base("vertexTopology", "Topology",
               "Analyses vertex topology of any given edge network",
-              "YFAtools", "brep")
+              "YFAtools", "GeometrHierarchyManagemnt")
         {
         }
 

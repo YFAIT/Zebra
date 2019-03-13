@@ -50,19 +50,16 @@ namespace SurfaceTrails2.Composite
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            Stopwatch topologyEdgesWatch = new Stopwatch();
-            Stopwatch addToTreeWatch = new Stopwatch();
-            Stopwatch dispatchPointsWatch = new Stopwatch();
-            Stopwatch edgesFromPointsWatch = new Stopwatch();
+            var topologyEdgesWatch = new Stopwatch();
+            var addToTreeWatch = new Stopwatch();
+            var dispatchPointsWatch = new Stopwatch();
+            var edgesFromPointsWatch = new Stopwatch();
             var meshes = new List<Mesh>();
-            double nakedLength = 0.05;
-            double clothedWidth = 0.01;
+            var nakedLength = 0.05;
+            var clothedWidth = 0.01;
             var profiling = new List<string>();
             var joinedEdges = new List<Curve>();
-            var countTopoList = new List<int>();
             var segmentsList = new List<Line>();
-            var segmentTree = new DataTree<Line>();
-            var topoTree = new DataTree<int>();
             var segmentTreeFinal = new DataTree<Line>();
             var topoTreeFinal = new DataTree<int>();
             var ptTree = new DataTree<Point3d>();
@@ -73,7 +70,7 @@ namespace SurfaceTrails2.Composite
             if (!DA.GetData(1, ref nakedLength)) return;
             if (!DA.GetData(2, ref clothedWidth)) return;
             //applying code for each mesh in the mesh list
-            int b = 0;
+            var b = 0;
             foreach (var mesh in meshes)
             {
                 for (int i = 0; i < mesh.Faces.Count; i++)
@@ -100,26 +97,12 @@ namespace SurfaceTrails2.Composite
                     //make an unjoined list out of polyline segments
                     var segements = polyline.GetSegments();
                     segmentsList.AddRange(segements);
-
                 }
                 //find line topology
-                int topology;
-                for (int k = 0; k < segmentsList.Count; k++)
-                {
-                    topology = 0;
-                    for (int c = 0; c < segmentsList.Count; c++)
-                    {
-                        if (PointOperations.PointDifference(segmentsList[k].From, segmentsList[c].From) < DocumentTolerance()
-                          && PointOperations.PointDifference(segmentsList[k].To, segmentsList[c].To) < DocumentTolerance() ||
-                            PointOperations.PointDifference(segmentsList[k].From, segmentsList[c].To) < DocumentTolerance()
-                          && PointOperations.PointDifference(segmentsList[k].To, segmentsList[c].From) < DocumentTolerance())
-                            topology++;
-                    }
-                    countTopoList.Add(topology);
-                }
+                var countTopoList = CurveOperations.LineTopology(segmentsList, DocumentTolerance());
                 //make an organized data tree out of segements and their respective topology values
-                segmentTree = ListOperations.PartitionToTree<Line>(segmentsList, 4);
-                topoTree = ListOperations.PartitionToTree<int>(countTopoList, 4);
+                var segmentTree = ListOperations.PartitionToTree<Line>(segmentsList, 4);
+                var topoTree = ListOperations.PartitionToTree<int>(countTopoList, 4);
 
                 for (int i = 0; i < segmentTree.BranchCount; i++)
                 {

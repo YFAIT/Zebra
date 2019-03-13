@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Rhino.Geometry;
+using SurfaceTrails2.Composite;
 
 namespace SurfaceTrails2
 {
@@ -33,6 +34,25 @@ namespace SurfaceTrails2
 
             Array.Sort(lengthArray,curvesArray);
            return curvesArray.ToList().GetRange(0, 4);
+        }
+
+        public static List<int> LineTopology(List<Line> lines, double tolerance)
+        {
+            var countTopoList = new List<int>();
+            for (int i = 0; i < lines.Count; i++)
+            {
+                var topology = 0;
+                for (int j = 0; j < lines.Count; j++)
+                {
+                    if (PointOperations.PointDifference(lines[i].From, lines[j].From) < tolerance
+                        && PointOperations.PointDifference(lines[i].To, lines[j].To) < tolerance  ||
+                        PointOperations.PointDifference(lines[i].From, lines[j].To) < tolerance
+                        && PointOperations.PointDifference(lines[i].To, lines[j].From) < tolerance)
+                        topology++;
+                }
+                countTopoList.Add(topology);
+            }
+            return countTopoList;
         }
 
     }
