@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 
-namespace SurfaceTrails2.Composite
+namespace SurfaceTrails2.Utilities
 {
     public class Partition : GH_Component
     {

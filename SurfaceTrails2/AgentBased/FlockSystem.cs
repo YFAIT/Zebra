@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rhino.Geometry;
-using SurfaceTrails2.FlockingInBox;
 
-namespace SurfaceTrails2.AgentBased.FlockingInBox
+namespace SurfaceTrails2.AgentBased
 {
     public class FlockSystem
     {

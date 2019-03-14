@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.Trimmed_srf_to_mesh_2
+namespace SurfaceTrails2.SurfaceToMesh.Trimmed_srf_to_mesh_2
 {
     public class TrimmedSrfToMesh2 : GH_Component
     {

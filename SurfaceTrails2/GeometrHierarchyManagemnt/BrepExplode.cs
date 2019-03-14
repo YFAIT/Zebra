@@ -3,7 +3,7 @@ using Grasshopper;
 using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.BrepOperations
+namespace SurfaceTrails2.GeometrHierarchyManagemnt
 {
     public static class BrepExplode
     {

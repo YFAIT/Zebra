@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using SurfaceTrails2.AgentBased.FlockingInBox;
-using SurfaceTrails2.FlockingInBox;
+
 //using SurfaceTrails2.FlockingInBrep;
 
-namespace SurfaceTrails2.AgentBased.FlockingInBrep
+namespace SurfaceTrails2.AgentBased
 {
     public class GhcFlockingSimulation : GH_Component
     {

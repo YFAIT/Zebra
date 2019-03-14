@@ -2,7 +2,7 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.Untrimmed_mesh_to_srf
+namespace SurfaceTrails2.SurfaceToMesh.Untrimmed_mesh_to_srf
 {
     public class UntrimmedSurfaceToMeshComponent : GH_Component
     {

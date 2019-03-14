@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.Composite
+namespace SurfaceTrails2.Utilities
 {
     public static class CurveDiscontinuity
     {

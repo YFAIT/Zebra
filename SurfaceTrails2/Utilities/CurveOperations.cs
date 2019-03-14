@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Rhino.Geometry;
-using SurfaceTrails2.Composite;
 
-namespace SurfaceTrails2
+namespace SurfaceTrails2.Utilities
 {
    public static class CurveOperations
     {

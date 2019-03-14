@@ -1,7 +1,7 @@
 ﻿using System;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2
+namespace SurfaceTrails2.Utilities
 {
     static class Util
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using SurfaceTrails2.Composite;
+using SurfaceTrails2.Utilities;
 
-namespace SurfaceTrails2.BrepOperations
+namespace SurfaceTrails2.GeometrHierarchyManagemnt
 {
     public class _3_10_18_EdgeTopology : GH_Component
     {

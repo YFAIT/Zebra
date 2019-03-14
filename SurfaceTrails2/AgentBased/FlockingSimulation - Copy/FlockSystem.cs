@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rhino.Geometry;
+using SurfaceTrails2.Utilities;
 
-namespace SurfaceTrails2.FlockingOnsrf
+namespace SurfaceTrails2.AgentBased
 {
     public class FlockSystem
     {
@@ -87,7 +88,7 @@ namespace SurfaceTrails2.FlockingOnsrf
             RTree rTree = new RTree();
 
             for (int i = 0; i < Agents.Count; i++)
-                rTree.Insert(Agents[i].Position, i);
+                rTree.Insert((Point3d) Agents[i].Position, i);
 
             /* Then, we use the R-Tree to find the neighbours
                 and compute the desired velocity */

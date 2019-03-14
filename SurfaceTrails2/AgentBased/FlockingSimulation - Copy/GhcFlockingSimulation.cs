@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.FlockingOnsrf
+namespace SurfaceTrails2.AgentBased
 {
     public class GhcFlockingSimulation : GH_Component
     {

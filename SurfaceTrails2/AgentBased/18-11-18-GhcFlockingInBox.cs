@@ -4,8 +4,6 @@ using System.Threading;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using SurfaceTrails2.AgentBased.FlockingInBox;
-using SurfaceTrails2.FlockingInBox;
 
 namespace SurfaceTrails2.AgentBased
 {

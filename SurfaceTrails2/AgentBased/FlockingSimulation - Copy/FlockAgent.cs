@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.FlockingOnsrf
+namespace SurfaceTrails2.AgentBased
 {
     public class FlockAgent
     {

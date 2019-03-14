@@ -80,7 +80,6 @@
     <Compile Include="Utilities\PartitionTree.cs" />
     <Compile Include="Utilities\PointOperations.cs" />
     <Compile Include="Utilities\CurveDiscontinuity.cs" />
-    <Compile Include="Composite\NailPlacer.cs" />
     <Compile Include="Utilities\ListOperations.cs" />
     <Compile Include="Utilities\CurveOperations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

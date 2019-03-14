@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using SurfaceTrails2.AgentBased;
-using SurfaceTrails2.FlockingInBox;
+using SurfaceTrails2.Utilities;
+
 //using SurfaceTrails2.FlockingInBrep;
 
-namespace SurfaceTrails2.FlockingInMesh
+namespace SurfaceTrails2.AgentBased
 {
     public class GhcFlockingInBrep : GH_Component
     {

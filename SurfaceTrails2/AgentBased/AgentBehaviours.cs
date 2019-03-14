@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Rhino.Geometry;
-using SurfaceTrails2.AgentBased.FlockingInBox;
-using SurfaceTrails2.FlockingInBox;
 
 namespace SurfaceTrails2.AgentBased
 {

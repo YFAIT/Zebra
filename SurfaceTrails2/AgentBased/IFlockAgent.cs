@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Rhino.Geometry;
-using SurfaceTrails2.AgentBased.FlockingInBox;
 
-namespace SurfaceTrails2.FlockingInBox
+namespace SurfaceTrails2.AgentBased
 {
     public interface IFlockAgent
     {

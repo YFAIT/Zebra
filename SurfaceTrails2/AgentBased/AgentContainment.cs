@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Rhino;
 using Rhino.Geometry;
-using SurfaceTrails2.FlockingInBox;
 using SurfaceTrails2.Utilities;
 
 namespace SurfaceTrails2.AgentBased

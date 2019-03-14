@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Grasshopper;
 using Rhino.Geometry;
-using Grasshopper.Kernel;
-using Rhino.Geometry.Intersect;
 
-
-
-namespace SurfaceTrails2.Composite
+namespace SurfaceTrails2.Utilities
 {
     
     public static class PointOperations

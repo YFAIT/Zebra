@@ -1,11 +1,10 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using SurfaceTrails2.FlockingInBox;
+using SurfaceTrails2.Utilities;
 
-namespace SurfaceTrails2.AgentBased.FlockingInBox
+namespace SurfaceTrails2.AgentBased
 {
     public class FlockAgentComponent : GH_Component
     {
