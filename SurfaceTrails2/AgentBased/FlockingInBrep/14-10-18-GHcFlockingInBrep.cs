@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using SurfaceTrails2.Utilities;
 
-namespace SurfaceTrails2.AgentBased
+//using SurfaceTrails2.FlockingInBrep;
+
+namespace SurfaceTrails2.AgentBased.FlockingInBrep
 {
     public class GhcFlockingSimulation : GH_Component
     {
@@ -13,15 +14,13 @@ namespace SurfaceTrails2.AgentBased
 
         public GhcFlockingSimulation()
             : base(
-                  "Flocking in Plane",
-                  "Flocking in Plane",
-                  "Flocking in Plane",
+                  "Flocking in Brep-2",
+                  "Flocking in  Brep-2",
+                  "Flocking in  Brep-2",
                   "YFAtools",
                   "AgentBased")
         {
         }
-
-
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddBooleanParameter("Use Parallel", "Use Parallel", "Use Parallel", GH_ParamAccess.item, true);
@@ -39,32 +38,27 @@ namespace SurfaceTrails2.AgentBased
             pManager[11].Optional = true;
             pManager.AddCircleParameter("Attractors", "Attractors", "Attractors", GH_ParamAccess.list);
             pManager[12].Optional = true;
-            pManager.AddCurveParameter("AttractorCurves", "AttractorCurves", "AttractorCurves", GH_ParamAccess.list);
-            pManager[13].Optional = true;
-            pManager.AddCurveParameter("innercrv", "innercrv", "innercrv", GH_ParamAccess.list);
-            pManager[14].Optional = true;
             pManager.AddVectorParameter("Wind", "Wind", "Wind", GH_ParamAccess.item);
+            pManager[13].Optional = true;
+            pManager.AddCurveParameter("AttractorCurves", "AttractorCurves", "AttractorCurves", GH_ParamAccess.list);
+            pManager[14].Optional = true;
+            pManager.AddPointParameter("AttractorCurvePoints", "AttractorCurvePoints", "AttractorCurvePoints", GH_ParamAccess.list);
             pManager[15].Optional = true;
+            pManager.AddBrepParameter("Brep", "Brep", "Brep", GH_ParamAccess.item);
             pManager.AddGenericParameter("Agents", "Agents", "Agents to Flock", GH_ParamAccess.list);
-            pManager.AddCurveParameter("crv", "crv", "crv", GH_ParamAccess.item);
+           
         }
-
-
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Info", "Info", "Information", GH_ParamAccess.item);
             pManager.AddPointParameter("Positions", "Positions", "The agent positions", GH_ParamAccess.list);
             pManager.AddVectorParameter("Velocities", "Velocities", "The agent veloctiies", GH_ParamAccess.list);
         }
-
-
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             // ===============================================================================================
             // Read input parameters
             // ===============================================================================================
-            bool iUseParallel = false;
-            bool iUseRTree = false;
             bool iReset = true;
             bool iPlay = false;
             int iCount = 0;
@@ -77,13 +71,14 @@ namespace SurfaceTrails2.AgentBased
             List<Circle> iRepellers = new List<Circle>();
             List<Circle> iAttractors = new List<Circle>();
             List<Curve> iAttractorCurves = new List<Curve>();
-            List<Curve> iInnerCurves = new List<Curve>();
+            bool iUseParallel = false;
+            bool iUseRTree = false;
+            Brep brep = null;
             Vector3d wind = Vector3d.Unset;
-            var Agents = new List<FlockAgent>();
-            Curve curve = null;
+            var agents = new List<FlockAgent>();
+            var startPoints = new List<Point3d>();
 
-            DA.GetData("Use Parallel", ref iUseParallel);
-            DA.GetData("Use R-Tree", ref iUseRTree);
+
             DA.GetData("Reset", ref iReset);
             DA.GetData("Play", ref iPlay);
             DA.GetData("Count", ref iCount);
@@ -96,75 +91,76 @@ namespace SurfaceTrails2.AgentBased
             DA.GetDataList("Repellers", iRepellers);
             DA.GetDataList("Attractors", iAttractors);
             DA.GetDataList("AttractorCurves", iAttractorCurves);
-            DA.GetDataList("innercrv", iInnerCurves);
+            DA.GetDataList("AttractorCurvePoints", startPoints);
+            DA.GetData("Use Parallel", ref iUseParallel);
+            DA.GetData("Use R-Tree", ref iUseRTree);
+            DA.GetData("Brep", ref brep);
             DA.GetData("Wind", ref wind);
-            DA.GetDataList("Agents", Agents);
-            DA.GetData("crv", ref curve);
+            DA.GetDataList("Agents", agents);
 
-            Random random = new Random();
-            var agents = new List<FlockAgent>();
-            var box = curve.GetBoundingBox(true);
+            Mesh Mesh = new Mesh();
+            //Random random = new Random();
+            //int agentCount = iCount;
+            //var fagents = new List<BoxAgent>();
 
-            var min = box.Corner(true, true, true);
-            var max = box.Corner(false, false, true);
-            var randX = random.NextDouble() * (max.X - min.X) + min.X;
-            var randY = random.NextDouble() * (max.Y - min.Y) + min.Y;
+            //var box = brep.GetBoundingBox(true);
+            //var min = box.PointAt(0, 0, 0);
+            //var max = box.PointAt(1, 1, 1);
+            //Mesh from brep
+            var mesh = Mesh.CreateFromBrep(brep);
+            for (int i = 0; i < mesh.Length; i++)
+                Mesh.Append(mesh[i]);
+            Mesh.Weld(0.01);
 
-            for (int i = 0; i < iCount; i++)
+            //closest Points to startpoints
+            var closestPoints = new List<Point3d>();
+            for (int i = 0; i < startPoints.Count; i++)
             {
-                var randPt = Util.GetRandomPoint(min.X, max.X, min.Y, max.Y, 0.0, 0.0);
-                //var randPt = new Point3d(randX,randY,0);
-
-
-                FlockAgent agent = new FlockAgent(randPt, Util.GetRandomUnitVectorXY() * 4.0);
-
-                if (curve.Contains(randPt) == PointContainment.Inside)
-                    agents.Add(agent);
-
-                if (agents.Count == iCount)
-                    break;
+                double t;
+                iAttractorCurves[0].ClosestPoint(startPoints[i], out t);
+                var curveClosestPoint = iAttractorCurves[0].PointAt(t);
+                closestPoints.Add(curveClosestPoint);
             }
-            foreach (FlockAgent agent in Agents)
+            //var randPt = box.PointAt(random.NextDouble(), random.NextDouble(), random.NextDouble());
+            //BoxAgent fagent = new BoxAgent(randPt, Util.GetRandomUnitVector() * 4.0);`
+            int j = 0;
+            foreach (FlockAgent agent in agents)
             {
-                var planeContainment = new PlaneContainment();
-                agent.IContainment = planeContainment;
-                planeContainment.Curve = curve;
+                var brepContainment = new BrepContainment();
+                brepContainment.Mesh = Mesh;
+                agent.IContainment = brepContainment;
 
-                //agent.InnerCurves = iInnerCurves;
+                agent.ClosestPoint = closestPoints[j];
+                j++;
             }
             var Ifagents = new List<IFlockAgent>();
-            Ifagents.AddRange(Agents);
-
+            Ifagents.AddRange(agents);
             // ===============================================================================================
             // Read input parameters
             // ===============================================================================================
-
             if (iReset || flockSystem == null)
             {
-                flockSystem = new FlockSystem(Ifagents);
+                flockSystem = new FlockSystem(/*iCount,*//* i3D,*/ /*box,*/ /*fagent*/Ifagents);
             }
             else
             {
                 // ===============================================================================================
                 // Assign the input parameters to the corresponding variables in the  "flockSystem" object
                 // ===============================================================================================
-
                 flockSystem.Timestep = iTimestep;
                 flockSystem.NeighbourhoodRadius = iNeighbourhoodRadius;
                 flockSystem.AlignmentStrength = iAlignment;
-                //flockSystem.InnerCurves = iInnerCurves;
                 flockSystem.CohesionStrength = iCohesion;
                 flockSystem.SeparationStrength = iSeparation;
                 flockSystem.SeparationDistance = iSeparationDistance;
                 flockSystem.Repellers = iRepellers;
                 flockSystem.Attractors = iAttractors;
-                flockSystem.UseParallel = iUseParallel;
                 flockSystem.AttractorCurves = iAttractorCurves;
+                flockSystem.UseParallel = iUseParallel;
                 flockSystem.Wind = wind;
                 // ===============================================================================
                 // Update the flock
                 // ===============================================================================
-
                 if (iUseRTree)
                     flockSystem.UpdateUsingRTree();
                 else
@@ -172,11 +168,9 @@ namespace SurfaceTrails2.AgentBased
 
                 if (iPlay) ExpireSolution(true);
             }
-
             // ===============================================================================
             // Output the agent positions and velocities so we can see them on display
             // ===============================================================================
-
             List<GH_Point> positions = new List<GH_Point>();
             List<GH_Vector> velocities = new List<GH_Vector>();
 
@@ -190,10 +184,25 @@ namespace SurfaceTrails2.AgentBased
             DA.SetDataList("Velocities", velocities);
         }
 
+        /// <summary>
+        /// Provides an Icon for the component.
+        /// </summary>
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                //You can add image files to your project resources and access them like this:
+                // return Resources.IconForThisComponent;
+                return null;
+            }
+        }
 
-        protected override System.Drawing.Bitmap Icon { get { return Properties.Resources._28_8_18_FlockSimulation; } }
-
-
-        public override Guid ComponentGuid { get { return new Guid("48b00dff-fb37-474d-8ec6-5b888e9f28d8"); } }
+        /// <summary>
+        /// Gets the unique ID for this component. Do not change this ID after release.
+        /// </summary>
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("84e7c5f1-b921-48f1-8a82-ec4bcaa1f825"); }
+        }
     }
 }

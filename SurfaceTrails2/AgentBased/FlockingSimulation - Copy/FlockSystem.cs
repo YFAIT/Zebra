@@ -28,8 +28,8 @@ namespace SurfaceTrails2.AgentBased
                 for (int i = 0; i < agentCount; i++)
                 {
                     FlockAgent agent = new FlockAgent(
-                        Util.GetRandomPoint(0.0, 30.0, 0.0, 30.0, 0.0, 30.0),
-                        Util.GetRandomUnitVector() * 4.0);
+                        PointOperations.GetRandomPoint(0.0, 30.0, 0.0, 30.0, 0.0, 30.0),
+                        VectorOperations.GetRandomUnitVector() * 4.0);
 
                     agent.FlockSystem = this;
 
@@ -39,8 +39,8 @@ namespace SurfaceTrails2.AgentBased
                 for (int i = 0; i < agentCount; i++)
                 {
                     FlockAgent agent = new FlockAgent(
-                        Util.GetRandomPoint(0.0, 30.0, 0.0, 30.0, 0.0, 0.0),
-                        Util.GetRandomUnitVectorXY() * 4.0);
+                        PointOperations.GetRandomPoint(0.0, 30.0, 0.0, 30.0, 0.0, 0.0),
+                        VectorOperations.GetRandomUnitVectorXY() * 4.0);
 
                     agent.FlockSystem = this;
 

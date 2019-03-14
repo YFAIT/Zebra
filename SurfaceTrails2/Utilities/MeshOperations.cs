@@ -8,6 +8,7 @@ namespace SurfaceTrails2.Utilities
 {
     static class MeshOperations
     {
+        //Find the center of a mesh face
         public static Point3d MeshFaceCenter(int meshfaceindex, Mesh m)
         {
             var temppt = new Point3d(0, 0, 0);
@@ -43,7 +44,7 @@ namespace SurfaceTrails2.Utilities
 
             return temppt;
         }
-
+        //Move mesh vertex 
         public static Mesh VertexMove(Mesh meshIn, Point3d attrPt, int cPCount, Vector3d subVec, double vAmp,
             bool toggle)
         {

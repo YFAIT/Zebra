@@ -62,7 +62,7 @@ namespace SurfaceTrails2.AgentBased
 
             foreach (Point3d point in points)
             {
-                FlockAgent agent = new FlockAgent(point, Util.GetRandomUnitVector() * minVelocity);
+                FlockAgent agent = new FlockAgent(point, VectorOperations.GetRandomUnitVector() * minVelocity);
                 agent.MinVelocity = minVelocity;
                 agent.MaxVelocity = maxVelocity;
               

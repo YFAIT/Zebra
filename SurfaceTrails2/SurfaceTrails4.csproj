@@ -53,23 +53,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgentBased\18-11-18-GhcFlockingInBox.cs" />
-    <Compile Include="AgentBased\30-10-18-GhcFlockingMapToSurface-01.cs" />
+    <Compile Include="AgentBased\FlockingInBox\GhcFlockingSimulation.cs" />
+    <Compile Include="AgentBased\FlockingMapToSurface\30-10-18-GhcFlockingMapToSurface-01.cs" />
     <Compile Include="AgentBased\AgentBehaviours.cs" />
     <Compile Include="AgentBased\AgentContainment.cs" />
     <Compile Include="AgentBased\FlockAgentComponent.cs" />
     <Compile Include="AgentBased\FlockAgenV2.0.cs" />
     <Compile Include="AgentBased\IFlockAgent.cs" />
-    <Compile Include="AgentBased\14-10-18-GHcFlockingInBrep.cs" />
+    <Compile Include="AgentBased\FlockingInBrep\14-10-18-GHcFlockingInBrep.cs" />
     <Compile Include="GeometrHierarchyManagemnt\3-10-18-VertexTopology.cs" />
     <Compile Include="GeometrHierarchyManagemnt\BrepExplode.cs" />
     <Compile Include="GeometrHierarchyManagemnt\BrepExplodeComponent.cs" />
-    <Compile Include="AgentBased\16-10-18-GhcFlockingInMesh.cs" />
-    <Compile Include="AgentBased\16-10-18-GhcFlockingInPlane.cs" />
+    <Compile Include="AgentBased\FlockingInMesh\16-10-18-GhcFlockingInMesh.cs" />
+    <Compile Include="AgentBased\FlockingInPlane\16-10-18-GhcFlockingInPlane.cs" />
     <Compile Include="AgentBased\FlockSystem.cs" />
-    <Compile Include="AgentBased\FlockingSimulation - Copy\FlockAgent.cs" />
-    <Compile Include="AgentBased\FlockingSimulation - Copy\FlockSystem.cs" />
-    <Compile Include="AgentBased\FlockingSimulation - Copy\GhcFlockingSimulation.cs" />
     <Compile Include="GeometrHierarchyManagemnt\13-3-19-LineTopology.cs" />
     <Compile Include="Composite\10-3-19-Composite-3D-01.cs" />
     <Compile Include="Composite\11-12-18-Composite.cs" />
@@ -79,7 +76,6 @@
     <Compile Include="Utilities\NumberOperations.cs" />
     <Compile Include="Utilities\PartitionTree.cs" />
     <Compile Include="Utilities\PointOperations.cs" />
-    <Compile Include="Utilities\CurveDiscontinuity.cs" />
     <Compile Include="Utilities\ListOperations.cs" />
     <Compile Include="Utilities\CurveOperations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -92,7 +88,7 @@
     <Compile Include="SurfaceToMesh\Untrimmed mesh to srf\UntrimmedSurfaceToMeshComponent.cs" />
     <Compile Include="SurfaceToMesh\Untrimmed mesh to srf\UntrimmedSurfaceToMeshInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\Util.cs" />
+    <Compile Include="Utilities\VectorOperations.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

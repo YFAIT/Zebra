@@ -49,6 +49,7 @@ namespace SurfaceTrails2.Crv
             double length = 1.0;
             double width = 1.0;
             double area = 10;
+            //get values from grasshopper
             if (!DA.GetData(0, ref length)) return;
             if (!DA.GetData(1, ref width)) return;
             if (!DA.GetData(2, ref area)) return;
@@ -57,20 +58,14 @@ namespace SurfaceTrails2.Crv
             double v = Math.Sqrt(u * area);
             double w = v / u;
             Rectangle3d rect = new Rectangle3d(Plane.WorldXY, Math.Ceiling(v), Math.Ceiling(w));
-
-         var   r = new GH_Rectangle(rect);
-         var   a = rect.Area;
-         var   c = rect.Center;
-
+            //values for export
+            var   r = new GH_Rectangle(rect);
+            var   a = rect.Area;
+            var   c = rect.Center;
+            //Export data to grasshopper
             DA.SetData(0, r);
             DA.SetData(1, a);
             DA.SetData(2, c);
-
-
-
-
-
-
         }
 
         /// <summary>

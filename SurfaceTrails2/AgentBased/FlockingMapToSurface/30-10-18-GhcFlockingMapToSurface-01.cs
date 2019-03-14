@@ -5,7 +5,7 @@ using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using SurfaceTrails2.Utilities;
 
-namespace SurfaceTrails2.AgentBased
+namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
 {
     public class GhcFlockingSimulation : GH_Component
     {

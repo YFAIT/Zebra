@@ -8,6 +8,16 @@ namespace SurfaceTrails2.Utilities
     
     public static class PointOperations
     {
+        static Random random = new Random();
+        //gets a random point between specified bounds assigned by the user
+        public static Point3d GetRandomPoint(double minX, double maxX, double minY, double maxY, double minZ, double maxZ)
+        {
+            double x = minX + (maxX - minX) * random.NextDouble();
+            double y = minY + (maxY - minY) * random.NextDouble();
+            double z = minZ + (maxZ - minZ) * random.NextDouble();
+            return new Point3d(x, y, z);
+        }
+        //gets one closest point to a certain point from a list of points and tells you its index in this list of points
         public static Point3d ClosestPointWithIndex(Point3d mainPoint, List<Point3d> closePoints, out int index)
         {
             double minDistance =0;
@@ -28,6 +38,7 @@ namespace SurfaceTrails2.Utilities
              }
             return closePoints[index];
         }
+        //gets a chosen number closest points to a certain point from a list of points and tells you its indices of these points in this list of points
         public static List<Point3d> ClosestPointsWithIndex( Point3d mainPoint, List<Point3d> closePoints, int numberOfPoints, out List<int> indices)
         {
             double[] distances = new double[closePoints.Count];
@@ -56,6 +67,7 @@ namespace SurfaceTrails2.Utilities
 
             return orderedPointsList.GetRange(0, numberOfPoints);
         }
+        //gets a chosen number closest points to a certain point from a list of points
         public static List<Point3d> ClosestPoints(Point3d mainPoint, List<Point3d> closePoints, int numberOfPoints)
         {
             List<double> distances = new List<double>();
@@ -76,7 +88,7 @@ namespace SurfaceTrails2.Utilities
            var orderedPointsList = orderedPoints.ToList();
             return orderedPointsList.GetRange(0, numberOfPoints);
         }
-
+        //Sorts points along a specified curve
         public static List<Point3d> SortAlongCurve(Curve curve, List<Point3d> points)
         {
             List<double> tParams = new List<double>();
@@ -89,13 +101,12 @@ namespace SurfaceTrails2.Utilities
                 curve.ClosestPoint(point, out t);
                 tParams.Add(t);
             }
-
             var tParamsArray = tParams.ToArray();
 
             Array.Sort(tParamsArray,sortedPointsArray);
            return sortedPointsArray.ToList();
         }
-
+        //substracts point coordintes from another so we can find duplicates
         public static double PointDifference(Point3d p1, Point3d p2)
         {
             return (Math.Abs(p1.X - p2.X) + Math.Abs(p1.Y - p2.Y) + Math.Abs(p1.Z - p2.Z));

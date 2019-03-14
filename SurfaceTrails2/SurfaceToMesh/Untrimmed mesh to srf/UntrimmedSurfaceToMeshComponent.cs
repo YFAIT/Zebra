@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -23,7 +24,7 @@ namespace SurfaceTrails2.SurfaceToMesh.Untrimmed_mesh_to_srf
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddSurfaceParameter("Surface", "s", "Untrimmed surface to be meshed", GH_ParamAccess.item);
             pManager.AddIntegerParameter("U", "u", "U paramter for mesh", GH_ParamAccess.item);
@@ -34,7 +35,7 @@ namespace SurfaceTrails2.SurfaceToMesh.Untrimmed_mesh_to_srf
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddMeshParameter("Mesh", "m", "Output Mesh", GH_ParamAccess.item);
         }
@@ -49,18 +50,17 @@ namespace SurfaceTrails2.SurfaceToMesh.Untrimmed_mesh_to_srf
             Surface surface = null;
             int u = 1;
             int v = 1;
+            Mesh mesh = new Mesh();
+            //get values from grasshopper and apply them to variables
             if (!DA.GetData(0, ref surface)) return;
             if (!DA.GetData(1, ref u)) return;
             if (!DA.GetData(2, ref v)) return;
-
-            Rhino.Geometry.Mesh mesh = new Rhino.Geometry.Mesh();
-
-
+            //transform quad untrimmed surface to mesh
             for (int i = 0; i < u; i++)
             {
                 for (int j = 0; j < v; j++)
                 {
-                    Rhino.Geometry.Mesh subMsh = new Rhino.Geometry.Mesh();
+                    Mesh subMsh = new Mesh();
 
                     subMsh.Vertices.Add(surface.PointAt(surface.Domain(0).Length / u * i, surface.Domain(1).Length / v * j));
                     subMsh.Vertices.Add(surface.PointAt(surface.Domain(0).Length / u * (i + 1), surface.Domain(1).Length / v * j));
@@ -68,23 +68,21 @@ namespace SurfaceTrails2.SurfaceToMesh.Untrimmed_mesh_to_srf
                     subMsh.Vertices.Add(surface.PointAt(surface.Domain(0).Length / u * i, surface.Domain(1).Length / v * (j + 1)));
 
                     subMsh.Faces.AddFace(0, 1, 2, 3);
-
                     mesh.Append(subMsh);
                 }
             }
-
+            //combines meshes and unify faces and normals
             mesh.Vertices.CombineIdentical(true, true);
             mesh.FaceNormals.ComputeFaceNormals();
             mesh.Normals.ComputeNormals();
-
+            //export data to grasshopper
             DA.SetData(0, mesh);
         }
-
         /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
         /// Icons need to be 24x24 pixels.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
+        protected override Bitmap Icon
         {
             get
             {

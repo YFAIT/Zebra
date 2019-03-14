@@ -11,7 +11,7 @@ namespace SurfaceTrails2.SurfaceToMesh.Trimmed_srf_to_mesh_2
         /// </summary>
         public TrimmedSrfToMesh2()
           : base("TrimmedSrfToMesh2", "TrimmedSrfToMesh2",
-              "Description",
+              "Makes a mesh out of trimmed surface quad with it's vertices known",
               "YFAtools", "SurfaceToMesh")
         {
         }
@@ -41,13 +41,12 @@ namespace SurfaceTrails2.SurfaceToMesh.Trimmed_srf_to_mesh_2
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             Brep surface = null;
+            Mesh mesh = new Mesh();
+            Mesh subMsh = new Mesh();
+            //get values from grasshopper
             if (!DA.GetData(0, ref surface)) return;
 
-            Mesh mesh = new Mesh();
-
             var srfPt = surface.DuplicateVertices();
-
-            Mesh subMsh = new Mesh();
 
             subMsh.Vertices.Add(srfPt[0]);
             subMsh.Vertices.Add(srfPt[1]);
@@ -57,12 +56,11 @@ namespace SurfaceTrails2.SurfaceToMesh.Trimmed_srf_to_mesh_2
             subMsh.Faces.AddFace(0, 1, 2, 3);
 
             mesh.Append(subMsh);
-
-
+            //mesh combine and unify normals
             mesh.Vertices.CombineIdentical(true, true);
             mesh.FaceNormals.ComputeFaceNormals();
             mesh.Normals.ComputeNormals();
-
+            //Export data to grasshopper
             DA.SetData(0, mesh);
             DA.SetDataList(1, srfPt);
 

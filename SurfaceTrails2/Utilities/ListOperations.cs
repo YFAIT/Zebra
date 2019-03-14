@@ -7,6 +7,7 @@ namespace SurfaceTrails2.Utilities
 {
     public static class ListOperations
     {
+        //reorganized certain indices in a list of 4 items
         public static GH_Structure<T> ReOrganize<T>(GH_Structure<T> tree) where T : IGH_Goo
         {
             for (int i = 0; i < tree.PathCount; i++)
@@ -18,6 +19,7 @@ namespace SurfaceTrails2.Utilities
             }
             return tree;
         }
+        //reorganized certain indices in a list of 4 items
         public static DataTree<T> ReOrganize2<T>(DataTree<T> tree)
         {
             for (int i = 0; i < tree.BranchCount; i++)
@@ -35,7 +37,7 @@ namespace SurfaceTrails2.Utilities
             }
             return tree;
         }
-
+        //makes a partitcioned tree out of a list (not working and kept for reference)
         public static GH_Structure<T> PartitionToGH_Structure<T>(List<T> list, int count) where T : IGH_Goo
         {
             var tree = new GH_Structure<T>();
@@ -61,6 +63,7 @@ namespace SurfaceTrails2.Utilities
             }
             return tree;
         }
+        //makes a partitcioned tree out of a list (works as planned)
         public static DataTree<T> PartitionToTree<T>(List<T> list, int partitions)
         {
             var tree = new DataTree<T>();
@@ -79,6 +82,7 @@ namespace SurfaceTrails2.Utilities
             }
             return tree;
         }
+        //shifts elements from a list from one index to the next index in a circular behaviour
         public static T[] Shift<T>(IList<T> input, int shift)   
         {
             int l = input.Count;
