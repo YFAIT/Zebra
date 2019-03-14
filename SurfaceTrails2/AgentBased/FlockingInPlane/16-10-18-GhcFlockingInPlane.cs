@@ -48,16 +48,12 @@ namespace SurfaceTrails2.AgentBased.FlockingInPlane
             pManager.AddGenericParameter("Agents", "Agents", "Agents to Flock", GH_ParamAccess.list);
             pManager.AddCurveParameter("crv", "crv", "crv", GH_ParamAccess.item);
         }
-
-
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Info", "Info", "Information", GH_ParamAccess.item);
             pManager.AddPointParameter("Positions", "Positions", "The agent positions", GH_ParamAccess.list);
             pManager.AddVectorParameter("Velocities", "Velocities", "The agent veloctiies", GH_ParamAccess.list);
         }
-
-
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             // ===============================================================================================
@@ -81,7 +77,7 @@ namespace SurfaceTrails2.AgentBased.FlockingInPlane
             Vector3d wind = Vector3d.Unset;
             var Agents = new List<FlockAgent>();
             Curve curve = null;
-
+            //get values from grasshopper
             DA.GetData("Use Parallel", ref iUseParallel);
             DA.GetData("Use R-Tree", ref iUseRTree);
             DA.GetData("Reset", ref iReset);
@@ -100,7 +96,7 @@ namespace SurfaceTrails2.AgentBased.FlockingInPlane
             DA.GetData("Wind", ref wind);
             DA.GetDataList("Agents", Agents);
             DA.GetData("crv", ref curve);
-
+            //assign values to flock agents
             Random random = new Random();
             var agents = new List<FlockAgent>();
             var box = curve.GetBoundingBox(true);

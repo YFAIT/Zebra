@@ -8,14 +8,16 @@ using SurfaceTrails2.Utilities;
 
 namespace SurfaceTrails2.AgentBased
 {
+    //Interface for agents to be contained in any geometry it varies based on geometry type
     public interface IAgentContainment
     {
-        Vector3d DesiredVector(Point3d Position, Vector3d desiredVelocity);
+        Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity);
     }
+    //contain agent in a box
      class BoxContainment : IAgentContainment
     {
         public Box Box { get; set; }
-        public  Vector3d DesiredVector(Point3d Position, Vector3d desiredVelocity)
+        public  Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity)
         {
             double boundingBoxMinX = Box.PointAt(0, 0, 0).X;
             double boundingBoxMinY = Box.PointAt(0, 0, 0).Y;
@@ -25,61 +27,63 @@ namespace SurfaceTrails2.AgentBased
             double boundingBoxMaxZ = Box.PointAt(1, 1, 1).Z;
             double multiplier = 3;
 
-            if (Position.X < boundingBoxMinX)
-                desiredVelocity += new Vector3d(boundingBoxMaxX - Position.X, 0, 0) * multiplier;
+            if (position.X < boundingBoxMinX)
+                desiredVelocity += new Vector3d(boundingBoxMaxX - position.X, 0, 0) * multiplier;
 
-            else if (Position.X > boundingBoxMaxX)
-                desiredVelocity += new Vector3d(-Position.X, 0, 0) * multiplier;
+            else if (position.X > boundingBoxMaxX)
+                desiredVelocity += new Vector3d(-position.X, 0, 0) * multiplier;
 
-            if (Position.Y < boundingBoxMinY)
-                desiredVelocity += new Vector3d(0, boundingBoxMaxY - Position.Y, 0) * multiplier;
+            if (position.Y < boundingBoxMinY)
+                desiredVelocity += new Vector3d(0, boundingBoxMaxY - position.Y, 0) * multiplier;
 
-            else if (Position.Y > boundingBoxMaxY)
-                desiredVelocity += new Vector3d(0, -Position.Y, 0) * multiplier;
+            else if (position.Y > boundingBoxMaxY)
+                desiredVelocity += new Vector3d(0, -position.Y, 0) * multiplier;
 
-            if (Position.Z < boundingBoxMinZ)
-                desiredVelocity += new Vector3d(0, 0, boundingBoxMaxZ - Position.Z) * multiplier;
+            if (position.Z < boundingBoxMinZ)
+                desiredVelocity += new Vector3d(0, 0, boundingBoxMaxZ - position.Z) * multiplier;
 
-            else if (Position.Z > boundingBoxMaxZ)
-                desiredVelocity += new Vector3d(0, 0, -Position.Z) * multiplier;
+            else if (position.Z > boundingBoxMaxZ)
+                desiredVelocity += new Vector3d(0, 0, -position.Z) * multiplier;
 
             return desiredVelocity;
         }
     }
+    //contain agent in a brep
     class BrepContainment : IAgentContainment
     {
         public Mesh Mesh { get; set; }
-        public Vector3d DesiredVector(Point3d Position, Vector3d desiredVelocity)
+        public Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity)
         {
             double multiplier = 3;
 
-            if (!Mesh.IsPointInside(Position, 0.01, false))
+            if (!Mesh.IsPointInside(position, 0.01, false))
             {
-                var reverse = Point3d.Subtract(Position, Mesh.ClosestPoint(Position));
+                var reverse = Point3d.Subtract(position, Mesh.ClosestPoint(position));
                 reverse.Reverse();
                  desiredVelocity += reverse * multiplier;
             }
             return desiredVelocity;
         }
     }
+    //contain agent in a mesh (fast)
     class MeshContainment : IAgentContainment
     {
         public Mesh Mesh { get; set; }
 
-        public Vector3d DesiredVector(Point3d Position, Vector3d desiredVelocity)
+        public Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity)
         {
         double multiplier = 40;
 
-            if (!Mesh.IsPointInside(Position, 0.01, false))
+            if (!Mesh.IsPointInside(position, 0.01, false))
             {
-                var reverse = Point3d.Subtract(Position, Mesh.ClosestPoint(Position));
+                var reverse = Point3d.Subtract(position, Mesh.ClosestPoint(position));
                 reverse.Reverse();
                 desiredVelocity += reverse * multiplier;
             }
             return desiredVelocity;
         }
     }
-
+    //contain agent in a Surface
     class SurfaceContainment : IAgentContainment
     {
         public NurbsSurface Surface { get; set; }
@@ -114,42 +118,42 @@ namespace SurfaceTrails2.AgentBased
             return desiredVelocity;
         }
     }
-
+    //contain agent in a plane
     class PlaneContainment : IAgentContainment
     {
         public Curve Curve { get; set; }
-        public Vector3d DesiredVector(Point3d Position, Vector3d desiredVelocity )
+        public Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity )
         {
             double multiplier = 80;
-            if (Curve.Contains(Position) == PointContainment.Outside || Curve.Contains(Position) == PointContainment.Coincident)
+            if (Curve.Contains(position) == PointContainment.Outside || Curve.Contains(position) == PointContainment.Coincident)
             {
                 double t;
-                Curve.ClosestPoint(Position, out t);
-                var reverse = Point3d.Subtract(Position, Curve.PointAt(t));
+                Curve.ClosestPoint(position, out t);
+                var reverse = Point3d.Subtract(position, Curve.PointAt(t));
                 reverse.Reverse();
                 desiredVelocity = reverse * multiplier;
             }
             return desiredVelocity;
         }
     }
-
+    //contain agent in a mesh for forming with wind
    public class MeshWindForming : IAgentContainment
     {
         public Mesh Mesh { get; set; }
         
 
-        public Vector3d DesiredVector(Point3d Position, Vector3d desiredVelocity)
+        public Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity)
         {
         var newMesh = Mesh.DuplicateMesh();
         double multiplier = 40;
 
-            if (newMesh.IsPointInside(Position, 0.01, false))
+            if (newMesh.IsPointInside(position, 0.01, false))
             {
-                var reverse = Point3d.Subtract(Position, newMesh.ClosestPoint(Position));
+                var reverse = Point3d.Subtract(position, newMesh.ClosestPoint(position));
                 reverse.Reverse();
                 desiredVelocity += reverse * multiplier;
                 
-                Mesh = MeshOperations.VertexMove(newMesh, Position, 1, desiredVelocity, 0.5, false);
+                Mesh = MeshOperations.VertexMove(newMesh, position, 1, desiredVelocity, 0.5, false);
             }
             return desiredVelocity;
         }

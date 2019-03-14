@@ -77,8 +77,8 @@ namespace SurfaceTrails2.AgentBased.FlockingInBrep
             Vector3d wind = Vector3d.Unset;
             var agents = new List<FlockAgent>();
             var startPoints = new List<Point3d>();
-
-
+            Mesh Mesh = new Mesh();
+            //get values from grasshopper
             DA.GetData("Reset", ref iReset);
             DA.GetData("Play", ref iPlay);
             DA.GetData("Count", ref iCount);
@@ -98,7 +98,6 @@ namespace SurfaceTrails2.AgentBased.FlockingInBrep
             DA.GetData("Wind", ref wind);
             DA.GetDataList("Agents", agents);
 
-            Mesh Mesh = new Mesh();
             //Random random = new Random();
             //int agentCount = iCount;
             //var fagents = new List<BoxAgent>();
@@ -122,7 +121,9 @@ namespace SurfaceTrails2.AgentBased.FlockingInBrep
                 closestPoints.Add(curveClosestPoint);
             }
             //var randPt = box.PointAt(random.NextDouble(), random.NextDouble(), random.NextDouble());
-            //BoxAgent fagent = new BoxAgent(randPt, Util.GetRandomUnitVector() * 4.0);`
+            //BoxAgent fagent = new BoxAgent(randPt, Util.GetRandomUnitVector() * 4.0);
+
+            //assign values to agents
             int j = 0;
             foreach (FlockAgent agent in agents)
             {

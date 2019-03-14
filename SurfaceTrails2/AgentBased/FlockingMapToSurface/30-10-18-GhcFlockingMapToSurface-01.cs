@@ -78,9 +78,13 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
             Vector3d wind = Vector3d.Unset;
             List<FlockAgent> agents = new List<FlockAgent>();
             Surface baseSurface = null;
+            List<GH_Point> positions = new List<GH_Point>();
+            List<GH_Vector> velocities = new List<GH_Vector>();
+            List<GH_Point> surfacePositions = new List<GH_Point>();
+            List<Circle> surfaceRepller = new List<Circle>();
+            List<Circle> surfaceAttractors = new List<Circle>();
             //var startPoints = new List<Point3d>();
-
-
+            //get values from grasshopper
             DA.GetData("Use Parallel", ref iUseParallel);
             DA.GetData("Use R-Tree", ref iUseRTree);
             DA.GetData("Reset", ref iReset);
@@ -99,21 +103,13 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
             DA.GetData("Wind", ref wind);
             DA.GetDataList("Agents", agents);
             DA.GetData("srf", ref baseSurface);
-
-            List<GH_Point> positions = new List<GH_Point>();
-            List<GH_Vector> velocities = new List<GH_Vector>();
-            List<GH_Point> surfacePositions = new List<GH_Point>();
-            List<Circle> surfaceRepller = new List<Circle>();
-            List<Circle> surfaceAttractors = new List<Circle>();
+            //assign values to agents
             var surface = baseSurface.ToNurbsSurface();
-
-
             //var boundingBox = surface.GetBoundingBox(true);
             //var xMin = boundingBox.Corner(true, true, true).X;
             //var xMax = boundingBox.Corner(false, true, true).X;
             //var yMin = boundingBox.Corner(true, true, true).Y;
             //var yMax = boundingBox.Corner(true, false, true).Y;
-
             var xMin = 0;
             var xMax = 30;
             var yMin = 0;
@@ -127,7 +123,6 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
 
             //    agents.Add(agent);
             //}
-
 
 
             //var closestPoints = new List<Point3d>();

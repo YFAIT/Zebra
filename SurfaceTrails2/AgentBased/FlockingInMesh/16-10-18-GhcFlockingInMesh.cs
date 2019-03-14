@@ -75,8 +75,8 @@ namespace SurfaceTrails2.AgentBased.FlockingInMesh
             bool iUseRTree = false;
             Vector3d wind = Vector3d.Unset;
             var agents = new List<FlockAgent>();
-
-
+            var fagents = new List<FlockAgent>();
+            //get values from grasshopper
             DA.GetData("Reset", ref iReset);
             DA.GetData("Play", ref iPlay);
             DA.GetData("Mesh", ref Mesh);
@@ -94,11 +94,8 @@ namespace SurfaceTrails2.AgentBased.FlockingInMesh
             DA.GetData("Use R-Tree", ref iUseRTree);
             DA.GetData("Wind", ref wind);
             DA.GetDataList("Agents", agents);
-
-
-
+            //Assign values to flock agents
             int agentCount = iCount;
-            var fagents = new List<FlockAgent>();
 
             var box = Mesh.GetBoundingBox(true);
             var min = box.PointAt(0, 0, 0);

@@ -6,8 +6,10 @@ using Rhino.Geometry;
 
 namespace SurfaceTrails2.AgentBased
 {
+    //behiours in which the agents move
     static class AgentBehaviours
     {
+        //agent move in the same direction of the neighbours
         public static Vector3d Alignment(List<IFlockAgent> neighbours, Vector3d desiredVelocity,
             FlockSystem flockSystem)
         {
@@ -22,7 +24,7 @@ namespace SurfaceTrails2.AgentBased
             desiredVelocity += flockSystem.AlignmentStrength * alignment;
             return desiredVelocity;
         }
-
+        //agent move towards the center of the neighbours
         public static Vector3d Cohesion(List<IFlockAgent> neighbours, Point3d Position, Vector3d desiredVelocity,
             FlockSystem flockSystem)
         {
@@ -39,7 +41,7 @@ namespace SurfaceTrails2.AgentBased
             desiredVelocity += flockSystem.CohesionStrength * cohesion;
             return desiredVelocity;
         }
-
+        //agent move away from neighbours if it gets too close
         public static Vector3d Separation(List<IFlockAgent> neighbours, Point3d Position, Vector3d desiredVelocity,
             FlockSystem flockSystem)
         {
@@ -62,7 +64,7 @@ namespace SurfaceTrails2.AgentBased
             desiredVelocity += flockSystem.SeparationStrength * separation;
             return desiredVelocity;
         }
-
+        // an object the repells agents away if they get close to it
         public static Vector3d Repellers(Point3d Position, Vector3d desiredVelocity, FlockSystem flockSystem)
         {
             foreach (Circle repeller in flockSystem.Repellers)
@@ -81,7 +83,7 @@ namespace SurfaceTrails2.AgentBased
             }
             return desiredVelocity;
         }
-
+        // an object the attracts agents to it 
         public static Vector3d Attractor(Point3d Position, Vector3d desiredVelocity, FlockSystem flockSystem)
         {
             foreach (Circle Attractor in flockSystem.Attractors)
@@ -137,6 +139,8 @@ namespace SurfaceTrails2.AgentBased
         //    }
         //    return desiredVelocity;
         //}
+
+        // an Curve the attracts agents to it 
         public static Vector3d AttractorCurve(Point3d closestPoint,Point3d Position, Vector3d desiredVelocity, FlockSystem flockSystem)
         {
             double distanceToAttractor = Position.DistanceTo(closestPoint);

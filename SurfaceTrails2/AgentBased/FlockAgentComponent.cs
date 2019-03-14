@@ -48,18 +48,14 @@ namespace SurfaceTrails2.AgentBased
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             bool reset = false;
-           
             List<Point3d> points = new List<Point3d>();
-          
-
+            var agents = new List<FlockAgent>();
+            //Get values from grasshopper
             DA.GetData("Reset", ref reset);
             DA.GetData("Minimum velocity", ref minVelocity);
             DA.GetData("Maximum velocity", ref maxVelocity);
             DA.GetDataList("Start point for agent", points);
-
-            var agents = new List<FlockAgent>();
-
-
+            //Assign velocity to points
             foreach (Point3d point in points)
             {
                 FlockAgent agent = new FlockAgent(point, VectorOperations.GetRandomUnitVector() * minVelocity);
@@ -71,6 +67,8 @@ namespace SurfaceTrails2.AgentBased
             //if (reset)
             //{
             //agents.Clear();
+
+            //reset the solution to recompute again
             int i = 0;
                 foreach (Point3d point in points)
                 {
@@ -88,14 +86,11 @@ namespace SurfaceTrails2.AgentBased
                 i++;
             }
             //}
-           
 
-
-
+            //assigning data for export
             var a = agents;
-
+            //Export data to grasshopper
             DA.SetDataList(0, a);
-
         }
 
         /// <summary>

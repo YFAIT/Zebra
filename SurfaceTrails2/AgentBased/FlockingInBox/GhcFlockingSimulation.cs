@@ -81,12 +81,10 @@ namespace SurfaceTrails2.AgentBased.FlockingInBox
             Box box = Box.Unset;
             var startPoints = new List<Point3d>();
             Mesh mesh = null;
-
             var boxContainment = new BoxContainment();
             var meshContainment = new MeshWindForming();
-
-
-
+            var closestPoints = new List<Point3d>();
+            //get values from grasshopper
             DA.GetData("Use Parallel", ref iUseParallel);
             DA.GetData("Use R-Tree", ref iUseRTree);
             DA.GetData("Reset", ref iReset);
@@ -106,12 +104,7 @@ namespace SurfaceTrails2.AgentBased.FlockingInBox
             DA.GetDataList("Agents", agents);
             DA.GetData("Box", ref box);
             DA.GetData("Mesh", ref mesh);
-
-            
-
-
-            var closestPoints = new List<Point3d>();
-            //closest Points to startpoints
+            //getting closest points to to each agent
             for (int i = 0; i < startPoints.Count; i++)
             {
                 double t;
@@ -123,6 +116,7 @@ namespace SurfaceTrails2.AgentBased.FlockingInBox
             //var randPt = box.PointAt(random.NextDouble(), random.NextDouble(), random.NextDouble());
             //BoxAgent fagent = new BoxAgent(randPt, Util.GetRandomUnitVector() * 4.0);
             
+            //assigning values to flock agents
             int j = 0;
             foreach (FlockAgent agent in agents)
             {
@@ -144,34 +138,33 @@ namespace SurfaceTrails2.AgentBased.FlockingInBox
             }
             else
             {
-                // ===============================================================================================
-                // Assign the input parameters to the corresponding variables in the  "flockSystem" object
-                // ===============================================================================================
-                _flockSystem.Timestep = iTimestep;
-                _flockSystem.NeighbourhoodRadius = iNeighbourhoodRadius;
-                _flockSystem.AlignmentStrength = iAlignment;
-                _flockSystem.CohesionStrength = iCohesion;
-                _flockSystem.SeparationStrength = iSeparation;
-                _flockSystem.SeparationDistance = iSeparationDistance;
-                _flockSystem.Repellers = iRepellers;
-                _flockSystem.Attractors = iAttractors;
-                _flockSystem.AttractorCurves = iAttractorCurves;
-                _flockSystem.UseParallel = iUseParallel;
-                //flockSystem.Box = box;
-                _flockSystem.Wind = wind;
-                _flockSystem.CurvePoints = startPoints;
-                _flockSystem.ClosestPoints = closestPoints;
+            // ===============================================================================================
+            // Assign the input parameters to the corresponding variables in the  "flockSystem" object
+            // ===============================================================================================
+            _flockSystem.Timestep = iTimestep;
+            _flockSystem.NeighbourhoodRadius = iNeighbourhoodRadius;
+            _flockSystem.AlignmentStrength = iAlignment;
+            _flockSystem.CohesionStrength = iCohesion;
+            _flockSystem.SeparationStrength = iSeparation;
+            _flockSystem.SeparationDistance = iSeparationDistance;
+            _flockSystem.Repellers = iRepellers;
+            _flockSystem.Attractors = iAttractors;
+            _flockSystem.AttractorCurves = iAttractorCurves;
+            _flockSystem.UseParallel = iUseParallel;
+            //flockSystem.Box = box;
+            _flockSystem.Wind = wind;
+            _flockSystem.CurvePoints = startPoints;
+            _flockSystem.ClosestPoints = closestPoints;
 
-                // ===============================================================================
-                // Update the flock
-                // ===============================================================================
-                if (iUseRTree)
-                    _flockSystem.UpdateUsingRTree();
-                else
-                    _flockSystem.Update();
+            // ===============================================================================
+            // Update the flock
+            // ===============================================================================
+            if (iUseRTree)
+                _flockSystem.UpdateUsingRTree();
+            else
+                _flockSystem.Update();
 
-                if (iPlay) ExpireSolution(true);
-
+            if (iPlay) ExpireSolution(true);
             }
             // ===============================================================================
             // Output the agent positions and velocities so we can see them on display
@@ -184,20 +177,15 @@ namespace SurfaceTrails2.AgentBased.FlockingInBox
                 var agent = (FlockAgent) flockAgent;
                 positions.Add(new GH_Point(agent.Position));
                 velocities.Add(new GH_Vector(agent.Velocity));
-
             }
-
+            //Export data to grasshopper
             DA.SetDataList("Positions", positions);
             DA.SetDataList("Velocities", velocities);
             DA.SetDataList("AttractorPoints", startPoints);
             DA.SetDataList("ClosestPoints", closestPoints);
             DA.SetData("Mesh", mesh);
         }
-
-
         protected override System.Drawing.Bitmap Icon { get { return Properties.Resources._28_8_18_FlockSimulation; } }
-
-
         public override Guid ComponentGuid { get { return new Guid("d7f22bc3-fc53-4ad9-ae67-6597d259d671"); } }
     }
 }

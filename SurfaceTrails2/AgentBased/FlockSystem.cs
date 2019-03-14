@@ -22,7 +22,7 @@ namespace SurfaceTrails2.AgentBased
         public bool UseParallel;
         public Vector3d Wind;
         private  List<IFlockAgent> _iAgents = new List<IFlockAgent>();
-
+        //Constructor to assign each flock agent to the flocksystem
         public FlockSystem(List<IFlockAgent> Iagents)
         {
             _iAgents = Iagents; 
@@ -33,7 +33,7 @@ namespace SurfaceTrails2.AgentBased
                     IAgents.Add(_iAgents[i]);
                 }
         }
-
+        //method to find nearby neignbours to each agent
         private List<IFlockAgent> FindNeighbours(IFlockAgent agent)
         {
             List<IFlockAgent> neighbours = new List<IFlockAgent>();
@@ -44,11 +44,13 @@ namespace SurfaceTrails2.AgentBased
 
             return neighbours;
         }
+        //method to compute desired velocity of agent based on behaviours applied
         private void ComputeAgentDesiredVelocity(IFlockAgent agent)
         {
             List<IFlockAgent> neighbours = FindNeighbours(agent);
             agent.ComputeDesiredVelocity(neighbours);
         }
+        //update per second for position and velocity
         public void Update()
         {
             if (UseParallel)
@@ -61,6 +63,7 @@ namespace SurfaceTrails2.AgentBased
             foreach (IFlockAgent agent in IAgents)
                 agent.UpdateVelocityAndPosition();
         }
+        //initialization of the R tree
         public void UpdateUsingRTree()
         {
             /* First, build the R-Tree */

@@ -25,12 +25,12 @@ namespace SurfaceTrails2.AgentBased
             get { return Icontainment2; }
             set { Icontainment2 = value; }
         }
-
+        //constructor assigned values
         public FlockAgent(Point3d position, Vector3d velocity) 
-    {
+         {
         Position = position;
         Velocity = velocity;
-    }
+         }
         // ===============================================================================
         // Agent behaviours methods Interactions are taken from Flocksystem class 
         // ===============================================================================
@@ -44,7 +44,7 @@ namespace SurfaceTrails2.AgentBased
             Position += Velocity * FlockSystem.Timestep;
         }
         public void ComputeDesiredVelocity(List<IFlockAgent> neighbours)
-    {
+        {
         // First, reset the desired velocity to 0
         desiredVelocity = new Vector3d(0.0, 0.0, 0.0);
             // ===============================================================================
