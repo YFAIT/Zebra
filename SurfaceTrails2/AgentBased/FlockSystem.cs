@@ -59,7 +59,7 @@ namespace SurfaceTrails2.AgentBased
                 foreach (IFlockAgent agent in IAgents)
                     ComputeAgentDesiredVelocity(agent);
 
-            // Once the desired velocity for each agent has been computed, we update each position and velocity
+         // Once the desired velocity for each agent has been computed, we update each position and velocity
             foreach (IFlockAgent agent in IAgents)
                 agent.UpdateVelocityAndPosition();
         }

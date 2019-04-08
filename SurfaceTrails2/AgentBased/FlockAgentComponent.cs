@@ -19,20 +19,17 @@ namespace SurfaceTrails2.AgentBased
               "YFAtools", "AgentBased")
         {
         }
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-
             pManager.AddBooleanParameter("Reset", "Reset", "Reset Agents", GH_ParamAccess.item, false);
             pManager.AddNumberParameter("Minimum velocity", "minV", "Minimum velocity for agent", GH_ParamAccess.item, 4);
             pManager.AddNumberParameter("Maximum velocity", "MaxV", "Maximum velocity for agent", GH_ParamAccess.item, 8);
             pManager.AddPointParameter("Start point for agent","startPt","the point from which to start agents",GH_ParamAccess.list);
             //pManager[2].Optional = true;
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -40,7 +37,6 @@ namespace SurfaceTrails2.AgentBased
         {
             pManager.AddGenericParameter("Agent", "Agent", "agent to flock", GH_ParamAccess.item);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -86,13 +82,11 @@ namespace SurfaceTrails2.AgentBased
                 i++;
             }
             //}
-
             //assigning data for export
             var a = agents;
             //Export data to grasshopper
             DA.SetDataList(0, a);
         }
-
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -105,7 +99,6 @@ namespace SurfaceTrails2.AgentBased
                 return null;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
