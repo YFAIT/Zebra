@@ -53,19 +53,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgentBased\FlockingInBox\GhcFlockingSimulation.cs" />
-    <Compile Include="AgentBased\FlockingMapToSurface\30-10-18-GhcFlockingMapToSurface-01.cs" />
+    <Compile Include="AgentBased\16-10-18-GhcFlockingInBox.cs" />
+    <Compile Include="AgentBased\30-10-18-GhcFlockingMapToSurface-01.cs" />
     <Compile Include="AgentBased\AgentBehaviours.cs" />
     <Compile Include="AgentBased\AgentContainment.cs" />
     <Compile Include="AgentBased\FlockAgentComponent.cs" />
     <Compile Include="AgentBased\FlockAgenV2.0.cs" />
     <Compile Include="AgentBased\IFlockAgent.cs" />
-    <Compile Include="AgentBased\FlockingInBrep\14-10-18-GHcFlockingInBrep.cs" />
+    <Compile Include="AgentBased\14-10-18-GHcFlockingInBrep.cs" />
     <Compile Include="GeometrHierarchyManagemnt\3-10-18-VertexTopology.cs" />
     <Compile Include="GeometrHierarchyManagemnt\BrepExplode.cs" />
     <Compile Include="GeometrHierarchyManagemnt\BrepExplodeComponent.cs" />
-    <Compile Include="AgentBased\FlockingInMesh\16-10-18-GhcFlockingInMesh.cs" />
-    <Compile Include="AgentBased\FlockingInPlane\16-10-18-GhcFlockingInPlane.cs" />
+    <Compile Include="AgentBased\16-10-18-GhcFlockingInMesh.cs" />
+    <Compile Include="AgentBased\16-10-18-GhcFlockingInPlane.cs" />
     <Compile Include="AgentBased\FlockSystem.cs" />
     <Compile Include="GeometrHierarchyManagemnt\13-3-19-LineTopology.cs" />
     <Compile Include="Composite\10-3-19-Composite-3D-01.cs" />

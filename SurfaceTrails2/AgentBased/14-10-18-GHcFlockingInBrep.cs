@@ -59,6 +59,8 @@ namespace SurfaceTrails2.AgentBased.FlockingInBrep
             // ===============================================================================================
             // Read input parameters
             // ===============================================================================================
+            bool iUseParallel = false;
+            bool iUseRTree = false;
             bool iReset = true;
             bool iPlay = false;
             int iCount = 0;
@@ -71,8 +73,6 @@ namespace SurfaceTrails2.AgentBased.FlockingInBrep
             List<Circle> iRepellers = new List<Circle>();
             List<Circle> iAttractors = new List<Circle>();
             List<Curve> iAttractorCurves = new List<Curve>();
-            bool iUseParallel = false;
-            bool iUseRTree = false;
             Brep brep = null;
             Vector3d wind = Vector3d.Unset;
             var agents = new List<FlockAgent>();
@@ -120,6 +120,9 @@ namespace SurfaceTrails2.AgentBased.FlockingInBrep
                 var curveClosestPoint = iAttractorCurves[0].PointAt(t);
                 closestPoints.Add(curveClosestPoint);
             }
+            //---------------------------------------------------------------
+
+
             //var randPt = box.PointAt(random.NextDouble(), random.NextDouble(), random.NextDouble());
             //BoxAgent fagent = new BoxAgent(randPt, Util.GetRandomUnitVector() * 4.0);
 

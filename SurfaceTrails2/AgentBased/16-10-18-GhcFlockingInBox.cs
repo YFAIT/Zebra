@@ -6,12 +6,12 @@ using Rhino.Geometry;
 
 namespace SurfaceTrails2.AgentBased.FlockingInBox
 {
-    public class GhcFlockingSimulation : GH_Component
+    public class GhcFlockingInBox : GH_Component
     {
         private FlockSystem _flockSystem;
        
 
-        public GhcFlockingSimulation()
+        public GhcFlockingInBox()
             : base(
                   "Flocking in Box",
                   "Flocking in Box",

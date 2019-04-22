@@ -88,7 +88,7 @@ namespace SurfaceTrails2.AgentBased
             // ===============================================================================
             // Adding Wind
             // ===============================================================================
-            desiredVelocity += FlockSystem.Wind * 5;
+            desiredVelocity += FlockSystem.Wind * 0;
         }
     }
 }
