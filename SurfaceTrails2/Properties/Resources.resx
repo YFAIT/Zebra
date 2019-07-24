@@ -118,6 +118,87 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AttractingCurveBehaviour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AttractingCurveBehaviour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AttractionBehaviour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AttractionBehaviour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BoxContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BoxContainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BrepContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BrepContainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BrepExplode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BrepExplode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Composite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Composite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Composite3d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Composite3d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Engine__2_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Engine (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LineTopology" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LineTopology.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MeshContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MeshContainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OutsideMeshContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OutsideMeshContainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PartitionList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PartitionList.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PlaneContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PlaneContainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Point_Topology" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Point Topology.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Properties" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Properties.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rec" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rec.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rec__2_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rec (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RepellerBehaviour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RepellerBehaviour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SurfaceContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SurfaceContainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TrimmedSrfToMesh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TrimmedSrfToMesh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TrimmedSrfToMesh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TrimmedSrfToMesh2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UntrimmedQuadtoMesh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UntrimmedQuadtoMesh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WindBehaviour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WindBehaviour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_190512_01_FlockSimulation3D" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\190512-01-FlockSimulation3D.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_190512_01_FlockSimulation_2d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\190512-01-FlockSimulation-2d.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_190512_01_FlockSimulation_Srf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\190512-01-FlockSimulation-Srf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_190512_01_FlockSimulation_YA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\190512-01-FlockSimulation-YA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="_28_8_18_FlockSimulation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\28-8-18-FlockSimulation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

@@ -53,42 +53,55 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgentBased\16-10-18-GhcFlockingInBox.cs" />
-    <Compile Include="AgentBased\30-10-18-GhcFlockingMapToSurface-01.cs" />
-    <Compile Include="AgentBased\AgentBehaviours.cs" />
-    <Compile Include="AgentBased\AgentContainment.cs" />
-    <Compile Include="AgentBased\FlockAgentComponent.cs" />
-    <Compile Include="AgentBased\FlockAgenV2.0.cs" />
-    <Compile Include="AgentBased\IFlockAgent.cs" />
-    <Compile Include="AgentBased\14-10-18-GHcFlockingInBrep.cs" />
+    <Compile Include="AgentBased\20-05-19-FlockingEngineComponent.cs" />
+    <Compile Include="AgentBased\Behaviours\20-05-19-AgentBehaviours.cs" />
+    <Compile Include="AgentBased\Behaviours\FollowOrganizedPointsComponent.cs" />
+    <Compile Include="AgentBased\Containment\20-5-19-AgentContainment.cs" />
+    <Compile Include="AgentBased\Containment\BoxContainmentComponent.cs" />
+    <Compile Include="AgentBased\Containment\BrepContainmentComponent.cs" />
+    <Compile Include="AgentBased\Containment\ContainOutsideMeshComponent.cs" />
+    <Compile Include="AgentBased\Containment\IAgentContainment.cs" />
+    <Compile Include="AgentBased\Containment\MeshContainmentComponent.cs" />
+    <Compile Include="AgentBased\Containment\PlaneContainmentComponent.cs" />
+    <Compile Include="AgentBased\Containment\SurfaceContainmentComponent.cs" />
+    <Compile Include="AgentBased\30-4-19-FlockPropertiesComponent.cs" />
+    <Compile Include="AgentBased\Behaviours\AttractingBehaviourComponent.cs" />
+    <Compile Include="AgentBased\Behaviours\AttractorCurveBehaviourComponent.cs" />
+    <Compile Include="AgentBased\FlockAgent\20-05-19-FlockAgenV2.0.cs" />
+    <Compile Include="AgentBased\FlockAgent\FlockAgent2DComponent.cs" />
+    <Compile Include="AgentBased\FlockAgent\FlockAgentSrfComponent-02.cs" />
+    <Compile Include="AgentBased\FlockAgent\FlockAgentComponent.cs" />
+    <Compile Include="AgentBased\Behaviours\IAgentBehaviours.cs" />
+    <Compile Include="AgentBased\FlockAgent\IFlockAgent.cs" />
+    <Compile Include="AgentBased\Behaviours\RepellingBehaviourComponent.cs" />
+    <Compile Include="AgentBased\Behaviours\WindBehaviourComponent.cs" />
     <Compile Include="GeometrHierarchyManagemnt\3-10-18-VertexTopology.cs" />
-    <Compile Include="GeometrHierarchyManagemnt\BrepExplode.cs" />
+    <Compile Include="OperationLibrary\BrepExplode.cs" />
     <Compile Include="GeometrHierarchyManagemnt\BrepExplodeComponent.cs" />
-    <Compile Include="AgentBased\16-10-18-GhcFlockingInMesh.cs" />
-    <Compile Include="AgentBased\16-10-18-GhcFlockingInPlane.cs" />
     <Compile Include="AgentBased\FlockSystem.cs" />
     <Compile Include="GeometrHierarchyManagemnt\13-3-19-LineTopology.cs" />
     <Compile Include="Composite\10-3-19-Composite-3D-01.cs" />
     <Compile Include="Composite\11-12-18-Composite.cs" />
     <Compile Include="Crv\9-10-18-RatioRectangle.cs" />
     <Compile Include="Msh\MeshIterativeMoveV4.cs" />
-    <Compile Include="Utilities\MeshOperations.cs" />
-    <Compile Include="Utilities\NumberOperations.cs" />
-    <Compile Include="Utilities\PartitionTree.cs" />
-    <Compile Include="Utilities\PointOperations.cs" />
-    <Compile Include="Utilities\ListOperations.cs" />
-    <Compile Include="Utilities\CurveOperations.cs" />
+    <Compile Include="OperationLibrary\MeshOperations.cs" />
+    <Compile Include="OperationLibrary\NumberOperations.cs" />
+    <Compile Include="Utilities\PartitionTreeComponent.cs" />
+    <Compile Include="OperationLibrary\PointOperations.cs" />
+    <Compile Include="OperationLibrary\ListOperations.cs" />
+    <Compile Include="OperationLibrary\CurveOperations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SurfaceToMesh\Trimmed srf to mesh 2\TrimmedSrfToMesh2.cs" />
-    <Compile Include="SurfaceToMesh\Trimmed srf to mesh\TrimmedsrftoMesh.cs" />
-    <Compile Include="SurfaceToMesh\Untrimmed mesh to srf\UntrimmedSurfaceToMeshComponent.cs" />
-    <Compile Include="SurfaceToMesh\Untrimmed mesh to srf\UntrimmedSurfaceToMeshInfo.cs" />
+    <Compile Include="SurfaceToMesh\TrimmedSrfToMesh2.cs" />
+    <Compile Include="SurfaceToMesh\TrimmedsrftoMesh.cs" />
+    <Compile Include="SurfaceToMesh\UntrimmedSurfaceToMeshComponent.cs" />
+    <Compile Include="SurfaceToMesh\UntrimmedSurfaceToMeshInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\VectorOperations.cs" />
+    <Compile Include="OperationLibrary\VectorOperations.cs" />
+    <Compile Include="Utilities\ResettableDataRecorderComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -100,12 +113,98 @@
     <None Include="Resources\28-8-18-FlockSimulation.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\9-10-18-RatioRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\190512-01-FlockSimulation-YA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RepellerBehaviour.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\190512-01-FlockSimulation-2d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\190512-01-FlockSimulation3D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Engine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Engine %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rec.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rec %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AttractionBehaviour.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AttractingCurveBehaviour.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Properties.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BoxContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WindBehaviour.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MeshContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OutsideMeshContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlaneContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SurfaceContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Artboard 1.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\30-8-18-CompositeLines.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\9-10-18-RatioRectangle.png" />
+    <None Include="Resources\Composite.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Composite3d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BrepContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BrepExplode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LineTopology.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Point Topology.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PartitionList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TrimmedSrfToMesh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TrimmedSrfToMesh2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UntrimmedQuadtoMesh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\190512-01-FlockSimulation-Srf.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

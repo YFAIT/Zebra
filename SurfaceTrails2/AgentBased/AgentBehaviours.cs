@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Rhino.Geometry;
+using SurfaceTrails2.AgentBased;
 
 namespace SurfaceTrails2.AgentBased
 {
@@ -153,5 +154,136 @@ namespace SurfaceTrails2.AgentBased
             desiredVelocity += attraction;
             return desiredVelocity;
         }
+    }
+}
+
+public class Alignment : IAgentBehaviours
+{
+    public List<IFlockAgent> Neighbours { get; set; }
+    public Vector3d DesiredVelocity  { get; set; }
+    public FlockSystem FlockSystem  { get; set; }
+    public Vector3d ComputeDesiredVelocity()
+    {
+        Vector3d alignment = Vector3d.Zero;
+        foreach (IFlockAgent neighbour in Neighbours)
+        alignment += neighbour.Velocity;
+        // We divide by the number of neighbours to actually get their average velocity
+        alignment /= Neighbours.Count;
+        DesiredVelocity += FlockSystem.AlignmentStrength * alignment;
+        return DesiredVelocity;
+    }
+}
+public class Cohesion : IAgentBehaviours
+{
+    public List<IFlockAgent> Neighbours { get; set; }
+    public Point3d Position { get; set; }
+    public Vector3d DesiredVelocity { get; set; }
+    public FlockSystem FlockSystem { get; set; }
+    public Vector3d ComputeDesiredVelocity()
+    {
+        Point3d centre = Point3d.Origin;
+        foreach (IFlockAgent neighbour in Neighbours)
+            centre += neighbour.Position;
+        // We divide by the number of neighbours to actually get their centre of mass
+        centre /= Neighbours.Count;
+        Vector3d cohesion = centre - Position;
+        DesiredVelocity += FlockSystem.CohesionStrength * cohesion;
+        return DesiredVelocity;
+    }
+}
+
+public class Separation : IAgentBehaviours
+{
+    public List<IFlockAgent> Neighbours { get; set; }
+    public Point3d Position { get; set; }
+    public Vector3d DesiredVelocity { get; set; }
+    public FlockSystem FlockSystem { get; set; }
+    public Vector3d ComputeDesiredVelocity()
+    {
+        Vector3d separation = Vector3d.Zero;
+
+        foreach (IFlockAgent neighbour in Neighbours)
+        {
+            double distanceToNeighbour = Position.DistanceTo(neighbour.Position);
+
+            if (distanceToNeighbour < FlockSystem.SeparationDistance)
+            {
+                Vector3d getAway = Position - neighbour.Position;
+
+                /* We scale the getAway vector by inverse of distanceToNeighbour to make 
+                   the getAway vector bigger as the agent gets closer to its neighbour */
+                separation += getAway / (getAway.Length * distanceToNeighbour);
+            }
+        }
+        DesiredVelocity += FlockSystem.SeparationStrength * separation;
+        return DesiredVelocity;
+    }
+}
+public class Repellers : IAgentBehaviours
+{
+    public Point3d Position { get; set; }
+    public Vector3d DesiredVelocity { get; set; }
+    public FlockSystem FlockSystem { get; set; }
+    public Vector3d ComputeDesiredVelocity()
+    {
+        foreach (Circle repeller in FlockSystem.Repellers)
+        {
+            double distanceToRepeller = Position.DistanceTo(repeller.Center);
+
+            Vector3d repulsion = Position - repeller.Center;
+
+            // Repulstion gets stronger as the agent gets closer to the repeller
+            repulsion /= (repulsion.Length * distanceToRepeller);
+
+            // Repulsion strength is also proportional to the radius of the repeller circle/sphere
+            // This allows the user to tweak the repulsion strength by tweaking the radius
+            repulsion *= 30.0 * repeller.Radius;
+            DesiredVelocity += repulsion;
+        }
+        return DesiredVelocity;
+    }
+}
+public class Attractor : IAgentBehaviours
+{
+    public Point3d Position { get; set; }
+    public Vector3d DesiredVelocity { get; set; }
+    public FlockSystem FlockSystem { get; set; }
+    public Vector3d ComputeDesiredVelocity()
+    {
+        foreach (Circle attractor in FlockSystem.Attractors)
+        {
+            double distanceToAttractor = Position.DistanceTo(attractor.Center);
+
+            Vector3d attraction = attractor.Center - Position;
+
+            // Repulstion gets stronger as the agent gets closer to the repeller
+            attraction *= (attraction.Length / distanceToAttractor);
+
+            // Repulsion strength is also proportional to the radius of the repeller circle/sphere
+            // This allows the user to tweak the repulsion strength by tweaking the radius
+            attraction *= 0.1 * attractor.Radius;
+
+            DesiredVelocity += attraction;
+        }
+        return DesiredVelocity;
+    }
+}
+public class AttractorCurve : IAgentBehaviours
+{
+    public Point3d Position { get; set; }
+    public Vector3d DesiredVelocity { get; set; }
+    public FlockSystem FlockSystem { get; set; }
+    public Point3d ClosestPoint { get; set; }
+    public Vector3d ComputeDesiredVelocity()
+    {
+        double distanceToAttractor = Position.DistanceTo(ClosestPoint);
+        Vector3d attraction = ClosestPoint - Position;
+        // Repulstion gets stronger as the agent gets closer to the repeller
+        attraction *= (attraction.Length / distanceToAttractor);
+        // Repulsion strength is also proportional to the radius of the repeller circle/sphere
+        // This allows the user to tweak the repulsion strength by tweaking the radius
+        attraction *= 10;
+        DesiredVelocity += attraction;
+        return DesiredVelocity;
     }
 }

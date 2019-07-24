@@ -32,9 +32,9 @@ namespace SurfaceTrails2.Composite
         {
             pManager.AddMeshParameter("mesh", "m", "Mesh to make the YFA composite system on", GH_ParamAccess.list);
             pManager[0].DataMapping = GH_DataMapping.Flatten;
-            pManager.AddNumberParameter("Offset Thickness", "thickness", "Offset thickness of composite", GH_ParamAccess.item, 0.02);
-            pManager.AddNumberParameter("Naked edge length", "length", "Length of edge on the naked sides of the brep", GH_ParamAccess.item, 0.05);
-            pManager.AddNumberParameter("Clothed edge width", "width", "width of edge on the clothed sides of the brep", GH_ParamAccess.item, 0.01);
+            pManager.AddNumberParameter("Offset Thickness", "t", "Offset thickness of composite", GH_ParamAccess.item, 0.02);
+            pManager.AddNumberParameter("Naked edge length", "l", "Length of edge on the naked sides of the brep", GH_ParamAccess.item, 0.05);
+            pManager.AddNumberParameter("Clothed edge width", "w", "width of edge on the clothed sides of the brep", GH_ParamAccess.item, 0.01);
 
         }
 
@@ -43,10 +43,10 @@ namespace SurfaceTrails2.Composite
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("Composite points", "pt", "pt", GH_ParamAccess.tree);
+            pManager.AddPointParameter("Composite points", "p", "pt", GH_ParamAccess.tree);
             pManager.HideParameter(0);
-            pManager.AddCurveParameter("crv", "Composite curve", "crv", GH_ParamAccess.tree);
-            pManager.AddTextParameter("Profiling", "Profiling", "Time for major operations", GH_ParamAccess.list);
+            pManager.AddCurveParameter("crv", "c", "crv", GH_ParamAccess.tree);
+            pManager.AddTextParameter("Profiling", "P", "Time for major operations", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace SurfaceTrails2.Composite
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources._30_8_18_CompositeLines;
+                return Resources.Composite;
             }
         }
 

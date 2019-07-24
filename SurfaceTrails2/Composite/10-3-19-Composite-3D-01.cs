@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Grasshopper;
@@ -6,7 +6,8 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using SurfaceTrails2.Utilities;
+ using SurfaceTrails2.Properties;
+ using SurfaceTrails2.Utilities;
 
 namespace SurfaceTrails2.Composite
 {
@@ -21,7 +22,6 @@ namespace SurfaceTrails2.Composite
               "YFAtools", "Composite")
         {
         }
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -29,22 +29,20 @@ namespace SurfaceTrails2.Composite
         {
             pManager.AddMeshParameter("mesh", "m", "Mesh to make the YFA composite system on", GH_ParamAccess.list);
             pManager[0].DataMapping = GH_DataMapping.Flatten;
-            pManager.AddNumberParameter("Naked edge length", "length", "Length of edge on the naked sides of the brep", GH_ParamAccess.item, 0.05);
-            pManager.AddNumberParameter("Clothed edge width", "width", "width of edge on the clothed sides of the brep", GH_ParamAccess.item, 0.01);
+            pManager.AddNumberParameter("Naked edge length", "l", "Length of edge on the naked sides of the brep", GH_ParamAccess.item, 0.05);
+            pManager.AddNumberParameter("Clothed edge width", "w", "width of edge on the clothed sides of the brep", GH_ParamAccess.item, 0.01);
 
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("Composite points", "pt", "pt", GH_ParamAccess.tree);
+            pManager.AddPointParameter("Composite points", "p", "pt", GH_ParamAccess.tree);
             pManager.HideParameter(0);
-            pManager.AddCurveParameter("crv", "Composite curve", "crv", GH_ParamAccess.tree);
-            pManager.AddTextParameter("Profiling", "Profiling", "Time for major operations", GH_ParamAccess.list);
+            pManager.AddCurveParameter("crv", "c", "Composite curve", GH_ParamAccess.tree);
+            pManager.AddTextParameter("Profiling", "P", "Time for major operations", GH_ParamAccess.list);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -178,7 +176,7 @@ namespace SurfaceTrails2.Composite
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Resources.Composite3d;
             }
         }
         /// <summary>

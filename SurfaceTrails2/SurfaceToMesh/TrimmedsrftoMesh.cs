@@ -1,6 +1,7 @@
 ﻿using System;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SurfaceTrails2.Properties;
 
 namespace SurfaceTrails2.SurfaceToMesh.Trimmed_srf_to_mesh
 {
@@ -88,7 +89,7 @@ namespace SurfaceTrails2.SurfaceToMesh.Trimmed_srf_to_mesh
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Resources.TrimmedSrfToMesh;
             }
         }
 

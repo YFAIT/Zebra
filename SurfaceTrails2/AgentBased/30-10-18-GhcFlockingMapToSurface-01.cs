@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
+using SurfaceTrails2.AgentBased.Containment;
 using SurfaceTrails2.Utilities;
 
-namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
+namespace SurfaceTrails2.AgentBased
 {
     public class GhcFlockingSimulation : GH_Component
     {
@@ -76,11 +77,12 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
             List<Circle> iAttractors = new List<Circle>();
             //List<Curve> iAttractorCurves = new List<Curve>();
             Vector3d wind = Vector3d.Unset;
-            List<FlockAgent> agents = new List<FlockAgent>();
+            List<FlockAgent.FlockAgent> agents = new List<FlockAgent.FlockAgent>();
             Surface baseSurface = null;
             List<GH_Point> positions = new List<GH_Point>();
             List<GH_Vector> velocities = new List<GH_Vector>();
             List<GH_Point> surfacePositions = new List<GH_Point>();
+            List<GH_Vector> surfaceVectors = new List<GH_Vector>();
             List<Circle> surfaceRepller = new List<Circle>();
             List<Circle> surfaceAttractors = new List<Circle>();
             //var startPoints = new List<Point3d>();
@@ -110,10 +112,11 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
             //var xMax = boundingBox.Corner(false, true, true).X;
             //var yMin = boundingBox.Corner(true, true, true).Y;
             //var yMax = boundingBox.Corner(true, false, true).Y;
-            var xMin = 0;
-            var xMax = 30;
-            var yMin = 0;
-            var yMax = 30;
+            const double xMin = 0;
+            const double xMax = 30;
+            const double yMin = 0;
+            const double yMax = 30;
+            List<IAgentContainment> containments = new List<IAgentContainment>();
 
             //for (int i = 0; i < iCount; i++)
             //{
@@ -123,11 +126,13 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
 
             //    agents.Add(agent);
             //}
-
-
+            var interactions = new List<IAgentBehavioursInteractions>();
+            Wind windb = new Wind();
+            windb.WindVec = wind;
+            interactions.Add(windb);
             //var closestPoints = new List<Point3d>();
             //closest Points to startpoints
-         //----------------------------------------------------------------------------------------
+            //----------------------------------------------------------------------------------------
             //for (int i = 0; i < startPoints.Count; i++)
             //{
             //    double t;
@@ -157,8 +162,27 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
             //    agents[i].Position = new Point3d(nu, nv, 0);
             //}
 
-            int j = 0;
-            foreach (FlockAgent agent in agents)
+            //int j = 0;
+
+            var surfaceContainment = new SurfaceContainment
+            {
+                Surface = surface,
+                //xMin = xMin,
+                //xMax = xMax,
+                //yMin = yMin,
+                //yMax = yMax,
+
+
+                xMin = surface.Domain(0).T0,
+                xMax = surface.Domain(0).T1,
+                yMin = surface.Domain(1).T0,
+                yMax = surface.Domain(1).T1,
+                Multiplier = 1.0,
+                Label = "s"
+            };
+            containments.Add(surfaceContainment);
+
+            foreach (FlockAgent.FlockAgent agent in agents)
             {
                 //double u;
                 //double v;
@@ -169,30 +193,37 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
                 //    surface.Domain(1).T1, yMin, yMax, v);
 
                 //agent.Position = new Point3d(nu, nv, 0);
-                agent.Position = new Point3d(agent.Position.X, agent.Position.Y, 0);
 
-                var surfaceContainment = new SurfaceContainment();
-                agent.IContainment = surfaceContainment;
 
-                surfaceContainment.Surface = surface;
 
-                surfaceContainment.xMin = xMin;
-                surfaceContainment.xMax = xMax;
-                surfaceContainment.yMin = yMin;
-                surfaceContainment.yMax = yMax;
+
+
+                //agent.Position = new Point3d(agent.Position.X, agent.Position.Y, 0);
+              
+
+
+
+                //agent.Containment = surfaceContainment;
+                //agent.Containment.Add(surfaceContainment);
+                agent.Containment = containments;
+
+                agent.Interactions = interactions;
 
                 //agent.ClosestPoint = closestPoints[j];
-                j++;
+                //j++;
             }
             var Ifagents = new List<IFlockAgent>();
             Ifagents.AddRange(agents);
             // ===============================================================================================
             // Read input parameters
             // ===============================================================================================
-
             if (iReset || flockSystem == null)
             {
                 flockSystem = new FlockSystem(/*iCount,surface*/Ifagents);
+                foreach (var agent in agents)
+                {
+                    agent.Position = agent.StartPosition;
+                }
             }
             else
             {
@@ -240,6 +271,7 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
                 flockSystem.CohesionStrength = iCohesion;
                 flockSystem.SeparationStrength = iSeparation;
                 flockSystem.SeparationDistance = iSeparationDistance;
+
                 flockSystem.Repellers = surfaceRepller;
                 flockSystem.Attractors = surfaceAttractors;
                 flockSystem.UseParallel = iUseParallel;
@@ -258,8 +290,9 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
             // ===============================================================================
             // Output the agent positions and velocities so we can see them on display
             // ===============================================================================
-            foreach (FlockAgent agent in flockSystem.IAgents)
+            foreach (var flockAgent in flockSystem.IAgents)
             {
+                var agent = (FlockAgent.FlockAgent) flockAgent;
                 positions.Add(new GH_Point(agent.Position));
                 velocities.Add(new GH_Vector(agent.Velocity));
                 // ===============================================================================
@@ -273,13 +306,21 @@ namespace SurfaceTrails2.AgentBased.FlockingMapToSurface
 
                 //var nu = (agent.Position.X - 0) / (flockSystem.XMax - 0);
                 //var nv = (agent.Position.Y - 0) / (flockSystem.XMax - 0);
-
+                    
                 var nu = NumberOperations.remap(xMin, xMax, surface.Domain(0).T0,
                     surface.Domain(0).T1, agent.Position.X);
                 var nv = NumberOperations.remap(yMin, yMax, surface.Domain(1).T0,
                     surface.Domain(1).T1, agent.Position.Y);
+                
+
+                //var vu = NumberOperations.remap(xMin, xMax, surface.Domain(0).T0,
+                //    surface.Domain(0).T1, agent.Velocity.X);
+                //var vv = NumberOperations.remap(yMin, yMax, surface.Domain(1).T0,
+                //    surface.Domain(1).T1, agent.Velocity.Y);
+
 
                 surfacePositions.Add(new GH_Point(surface.PointAt(nu, nv)));
+                //surfaceVectors.Add(new GH_Vector(new Vector3d(surface.PointAt(vu, vv))));
                 //surfacePositions.Add(new GH_Point(surface.PointAt(agent.Position.X, agent.Position.Y)));
             }
             DA.SetDataList("Positions", surfacePositions);

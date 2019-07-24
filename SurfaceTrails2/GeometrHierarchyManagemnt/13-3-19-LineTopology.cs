@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SurfaceTrails2.Properties;
 using SurfaceTrails2.Utilities;
 
 namespace SurfaceTrails2.GeometrHierarchyManagemnt
@@ -58,7 +59,7 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Resources.LineTopology;
             }
         }
 

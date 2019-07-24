@@ -2,13 +2,14 @@
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
+using SurfaceTrails2.Properties;
 
 namespace SurfaceTrails2.Utilities
 {
     public class Partition : GH_Component
     {
         public Partition()
-            : base("Partition test", "PartTest", "Test partitioning logic.", "YFAtools", "Composite")
+            : base("Partition test", "PartTest", "Test partitioning logic.", "YFAtools", "Utilities")
         { }
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
@@ -53,7 +54,7 @@ namespace SurfaceTrails2.Utilities
         }
         protected override System.Drawing.Bitmap Icon
         {
-            get { return null; }
+            get { return Resources.PartitionList; }
         }
         public override Guid ComponentGuid
         {

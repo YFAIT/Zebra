@@ -7,7 +7,7 @@ namespace SurfaceTrails2.AgentBased
 {
     public class FlockSystem
     {
-        public List<IFlockAgent> IAgents = new List<IFlockAgent>();
+        public bool UseParallel;
         public double Timestep;
         public double NeighbourhoodRadius;
         public double AlignmentStrength;
@@ -16,12 +16,11 @@ namespace SurfaceTrails2.AgentBased
         public double SeparationDistance;
         public List<Circle> Repellers;
         public List<Circle> Attractors;
+        public List<Circle> FollowAttractors;
         public List<Curve> AttractorCurves;
-        public List<Point3d> CurvePoints;
-        public List<Point3d> ClosestPoints;
-        public bool UseParallel;
         public Vector3d Wind;
-        private  List<IFlockAgent> _iAgents = new List<IFlockAgent>();
+        public List<IFlockAgent> IAgents = new List<IFlockAgent>();
+        private List<IFlockAgent> _iAgents = new List<IFlockAgent>();
         //Constructor to assign each flock agent to the flocksystem
         public FlockSystem(List<IFlockAgent> Iagents)
         {
@@ -67,12 +66,10 @@ namespace SurfaceTrails2.AgentBased
         public void UpdateUsingRTree()
         {
             /* First, build the R-Tree */
-
             RTree rTree = new RTree();
 
             for (int i = 0; i < IAgents.Count; i++)
                 rTree.Insert(IAgents[i].Position, i);
-
             /* Then, we use the R-Tree to find the neighbours
                 and compute the desired velocity */
 

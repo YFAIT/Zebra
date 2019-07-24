@@ -12,6 +12,7 @@ namespace SurfaceTrails2.AgentBased
         public double MinVelocity { get; set; }
         public double MaxVelocity { get; set; }
         public Point3d Position { get; set; }
+        public Point3d StartPosition { get; set; }
         public Point3d ClosestPoint { get; set; }
         public Vector3d Velocity { get; set; }
         public FlockSystem FlockSystem { get; set; }
