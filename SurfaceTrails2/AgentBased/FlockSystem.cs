@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rhino.Geometry;
-
+// This class manages the interaction between each agent in the flock and each other
+/*this class may contain items for behaviours like repellers and attractors and curves, they should be put in a seperate class
+ for a better practice */
 namespace SurfaceTrails2.AgentBased
 {
     public class FlockSystem
@@ -17,6 +19,7 @@ namespace SurfaceTrails2.AgentBased
         public List<Circle> Repellers;
         public List<Circle> Attractors;
         public List<Circle> FollowAttractors;
+        public List<Circle> FollowCurveAttractors;
         public List<Curve> AttractorCurves;
         public Vector3d Wind;
         public List<IFlockAgent> IAgents = new List<IFlockAgent>();

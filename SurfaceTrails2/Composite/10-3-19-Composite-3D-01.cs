@@ -4,7 +4,6 @@ using System.Diagnostics;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
-using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
  using SurfaceTrails2.Properties;
  using SurfaceTrails2.Utilities;

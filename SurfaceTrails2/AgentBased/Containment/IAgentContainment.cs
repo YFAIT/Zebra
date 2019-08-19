@@ -1,4 +1,5 @@
 ﻿using Rhino.Geometry;
+//This Interface control the rules for any containment entity for the flock
 
 namespace SurfaceTrails2.AgentBased
 {
@@ -6,7 +7,7 @@ namespace SurfaceTrails2.AgentBased
     public interface IAgentContainment
     {
         string Label { get; set; }
-        double Multiplier { get; set; }
+        //double Multiplier { get; set; }
         Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity);
     }
 }

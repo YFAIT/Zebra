@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
+//This Component control containment outside a boundary, Also used as a precise repeller
 
 namespace SurfaceTrails2.AgentBased.Containment
 {

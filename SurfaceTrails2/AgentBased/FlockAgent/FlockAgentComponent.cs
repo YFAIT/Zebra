@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
 using SurfaceTrails2.Utilities;
-
+//this component control the flock strating position and velocity
 namespace SurfaceTrails2.AgentBased.FlockAgent
 {
     public class FlockAgentComponent : GH_Component

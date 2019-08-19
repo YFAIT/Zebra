@@ -142,11 +142,20 @@
   <data name="Engine__2_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Engine (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="FollowCurve_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FollowCurve-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FollowOrganisedPoints_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FollowOrganisedPoints-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="LineTopology" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LineTopology.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MeshContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MeshContainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MeshWindForming_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MeshWindForming-01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="OutsideMeshContainer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OutsideMeshContainer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

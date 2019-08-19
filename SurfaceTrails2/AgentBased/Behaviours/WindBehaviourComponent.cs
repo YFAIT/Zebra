@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
+
+//This component controls the Wind behaviour for the the flock
 
 namespace SurfaceTrails2.AgentBased
 {
@@ -19,7 +19,7 @@ namespace SurfaceTrails2.AgentBased
               "AgentBased")
         {
         }
-
+        //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>

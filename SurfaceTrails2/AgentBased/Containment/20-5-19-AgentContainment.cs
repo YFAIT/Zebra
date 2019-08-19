@@ -1,5 +1,5 @@
 ﻿using Rhino.Geometry;
-using SurfaceTrails2.Utilities;
+//This class contains all flocking containing algorithms, containing the flock in a certain boundary
 
 namespace SurfaceTrails2.AgentBased.Containment
 {

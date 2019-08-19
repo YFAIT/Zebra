@@ -2,6 +2,7 @@
 using Rhino.Geometry;
 using SurfaceTrails2.AgentBased;
 using SurfaceTrails2.AgentBased.Behaviours;
+// This class controls all flocking behaviours possible, It is supplied by rules provided by IAgentBehaviours
 
 namespace SurfaceTrails2.AgentBased
 {
@@ -69,7 +70,7 @@ namespace SurfaceTrails2.AgentBased
 // ===============================================================================================
 // Agent advanced behaviours (attractor, repluser, ...etc)
 // ===============================================================================================
-public class Repeller : IAgentInteractions
+public class Repeller : IAgentBehaviours
 {
     public string Label { get; set; }
     public List<Curve> Curves { get; set; }
@@ -78,9 +79,8 @@ public class Repeller : IAgentInteractions
     public Vector3d DesiredVelocity { get; set; }
     public FlockSystem FlockSystem { get; set; }
     public List<Circle> Circles { get; set; }
-    public List<Point3d> ClosestPoint { get; set; }
+    public Point3d ClosestPoint { get; set; }
     public double Multiplier { get; set; }
-
     public Vector3d ComputeDesiredVelocity()
     {
         foreach (Circle repeller in FlockSystem.Repellers)
@@ -97,7 +97,7 @@ public class Repeller : IAgentInteractions
         return DesiredVelocity;
     }
 }
-public class Attractor : IAgentInteractions
+public class Attractor : IAgentBehaviours
 {
     public bool AttractToNearestPt { get; set; }
     public string Label { get; set; }
@@ -107,7 +107,7 @@ public class Attractor : IAgentInteractions
     public Vector3d DesiredVelocity { get; set; }
     public FlockSystem FlockSystem { get; set; }
     public List<Circle> Circles { get; set; }
-    public List<Point3d> ClosestPoint { get; set; }
+    public Point3d ClosestPoint { get; set; }
     public double Multiplier { get; set; }
 
 
@@ -118,12 +118,11 @@ public class Attractor : IAgentInteractions
            
             if (AttractToNearestPt)
             {
-                double distanceToAttractor = Position.DistanceTo(ClosestPoint[0]);
-                Vector3d attraction = ClosestPoint[0] - Position;
-                // Repulstion gets stronger as the agent gets closer to the repeller
+                double distanceToAttractor = Position.DistanceTo(ClosestPoint);
+                Vector3d attraction = ClosestPoint - Position;
+                // Attraction gets stronger as the agent gets closer to the attractor
                 attraction *= (attraction.Length / distanceToAttractor);
-                // Repulsion strength is also proportional to the radius of the repeller circle/sphere
-                // This allows the user to tweak the repulsion strength by tweaking the radius
+
                 attraction *= Multiplier * attractor.Radius;
                 DesiredVelocity += attraction;
             }
@@ -131,10 +130,10 @@ public class Attractor : IAgentInteractions
             {
                 double distanceToAttractor = Position.DistanceTo(attractor.Center);
                 Vector3d attraction = attractor.Center - Position;
-                // Repulstion gets stronger as the agent gets closer to the repeller
+                // Attraction gets stronger as the agent gets closer to the attractor
                 attraction *= (attraction.Length / distanceToAttractor);
-                // Repulsion strength is also proportional to the radius of the repeller circle/sphere
-                // This allows the user to tweak the repulsion strength by tweaking the radius
+                // Attraction strength is also proportional to the radius of the attractor circle/sphere
+                // This allows the user to tweak the Attraction strength by tweaking the radius
                 attraction *= Multiplier * attractor.Radius;
                 DesiredVelocity += attraction;
             }
@@ -142,7 +141,7 @@ public class Attractor : IAgentInteractions
         return DesiredVelocity;
     }
 }
-public class AttractorCurve : IAgentInteractions
+public class AttractorCurve : IAgentBehaviours
 {
     public string Label { get; set; }
     public List<Curve> Curves { get; set; }
@@ -151,23 +150,22 @@ public class AttractorCurve : IAgentInteractions
     public Vector3d WindVec { get; set; }
     public Vector3d DesiredVelocity { get; set; }
     public FlockSystem FlockSystem { get; set; }
-    public List<Point3d> ClosestPoint { get; set; }
+    public Point3d ClosestPoint { get; set; }
     public double Multiplier { get; set; }
 
     public Vector3d ComputeDesiredVelocity()
     {
-        double distanceToAttractor = Position.DistanceTo(ClosestPoint[0]);
-        Vector3d attraction = ClosestPoint[0] - Position;
-        // Repulstion gets stronger as the agent gets closer to the repeller
+        double distanceToAttractor = Position.DistanceTo(ClosestPoint);
+        Vector3d attraction = ClosestPoint - Position;
+        // Attraction gets stronger as the agent gets closer to the attractor
         attraction *= (attraction.Length / distanceToAttractor);
-        // Repulsion strength is also proportional to the radius of the repeller circle/sphere
-        // This allows the user to tweak the repulsion strength by tweaking the radius
+
         attraction *= Multiplier;
         DesiredVelocity += attraction;
         return DesiredVelocity;
     }
 }
-public class Wind : IAgentInteractions
+public class Wind : IAgentBehaviours
 {
     public string Label { get; set; }
     public List<Curve> Curves { get; set; }
@@ -176,16 +174,17 @@ public class Wind : IAgentInteractions
     public Vector3d WindVec { get; set; }
     public Vector3d DesiredVelocity { get; set; }
     public FlockSystem FlockSystem { get; set; }
-    public List<Point3d> ClosestPoint { get; set; }
+    public Point3d ClosestPoint { get; set; }
     public double Multiplier { get; set; }
     public Vector3d ComputeDesiredVelocity()
     {
+        //Adding the wind vector to direct the agents towards the wind direction
         DesiredVelocity += FlockSystem.Wind * Multiplier;
         return DesiredVelocity;
     }
 }
 
-public class FollowOrganizedPoints : IAgentInteractions
+public class FollowOrganizedPoints : IAgentBehaviours
 {
     public string Label { get; set; }
     public List<Curve> Curves { get; set; }
@@ -194,30 +193,90 @@ public class FollowOrganizedPoints : IAgentInteractions
     public Vector3d WindVec { get; set; }
     public Vector3d DesiredVelocity { get; set; }
     public FlockSystem FlockSystem { get; set; }
-    public List<Point3d> ClosestPoint { get; set; }
+    public Point3d ClosestPoint { get; set; }
     public double Multiplier { get; set; }
+    public bool Loop { get; set; }
     public Vector3d ComputeDesiredVelocity()
     {
-        for (var i = 0; i < FlockSystem.FollowAttractors.Count; i++)
+        //A List of points that deletes a point with each iteration then adds it back to the end of the list
+        //Resulting in attracting points by the order they are provided
+        for (int j = 0; j < FlockSystem.FollowAttractors.Count; j++)
         {
-            Circle attractor = FlockSystem.FollowAttractors[i];
-            double distanceToAttractor = Position.DistanceTo(ClosestPoint[0]);
-            Vector3d attraction = ClosestPoint[0] - Position;
-            // Repulstion gets stronger as the agent gets closer to the repeller
-            attraction *= (attraction.Length / distanceToAttractor);
-            // Repulsion strength is also proportional to the radius of the repeller circle/sphere
-            // This allows the user to tweak the repulsion strength by tweaking the radius
-            attraction *= Multiplier * attractor.Radius;
-            DesiredVelocity += attraction;
-            if (ClosestPoint[0].DistanceTo(Position) < ClosestPoint[0].DistanceTo(ClosestPoint[1])/2)
+            List<Circle> attractors = FlockSystem.FollowAttractors;
+            var shiftedAttractor = attractors[0];
+
+            //attraction behaviour if the flock is far, if not then go to the next point
+            if (attractors[j].Center.DistanceTo(Position) > 0.1)
             {
-                attraction = ClosestPoint[1] - Position;
-                // Repulstion gets stronger as the agent gets closer to the repeller
+                Circle attractor = attractors[j];
+                double distanceToAttractor = Position.DistanceTo(attractors[j].Center);
+                Vector3d attraction = attractors[j].Center - Position;
+                // Attraction gets stronger as the agent gets closer to the attractor
                 attraction *= (attraction.Length / distanceToAttractor);
-                // Repulsion strength is also proportional to the radius of the repeller circle/sphere
-                // This allows the user to tweak the repulsion strength by tweaking the radius
+                // Attraction strength is also proportional to the radius of the attractor circle/sphere
+                // This allows the user to tweak the Attraction strength by tweaking the radius
                 attraction *= Multiplier * attractor.Radius;
                 DesiredVelocity += attraction;
+            break;
+            }
+            else if (Loop)
+            {
+                attractors.RemoveAt(0);
+                //Adds the removed point back at the end of the list to have the points continue looping
+                attractors.Insert(attractors.Count,shiftedAttractor);
+            }
+            else
+            {
+                attractors.RemoveAt(0);
+            }
+        }
+        return DesiredVelocity;
+    }
+}
+public class FollowCurve : IAgentBehaviours
+{
+    public string Label { get; set; }
+    public List<Curve> Curves { get; set; }
+    public List<Circle> Circles { get; set; }
+    public Point3d Position { get; set; }
+    public Vector3d WindVec { get; set; }
+    public Vector3d DesiredVelocity { get; set; }
+    public FlockSystem FlockSystem { get; set; }
+    public Point3d ClosestPoint { get; set; }
+    public double Multiplier { get; set; }
+    public bool Loop { get; set; }
+    public Vector3d ComputeDesiredVelocity()
+    {
+        //A List of points that deletes a point with each iteration then adds it back to the end of the list
+        //Resulting in attracting points by the order they are provided
+        for (int j = 0; j < FlockSystem.FollowCurveAttractors.Count; j++)
+        {
+            List<Circle> attractors = FlockSystem.FollowCurveAttractors;
+            var shiftedAttractor = attractors[0];
+
+            //attraction behaviour if the flock is far, if not then go to the next point
+            if (attractors[j].Center.DistanceTo(Position) > 0.1)
+            {
+                Circle attractor = attractors[j];
+                double distanceToAttractor = Position.DistanceTo(attractors[j].Center);
+                Vector3d attraction = attractors[j].Center - Position;
+                // Attraction gets stronger as the agent gets closer to the attractor
+                attraction *= (attraction.Length / distanceToAttractor);
+                // Attraction strength is also proportional to the radius of the attractor circle/sphere
+                // This allows the user to tweak the Attraction strength by tweaking the radius
+                attraction *= Multiplier * attractor.Radius;
+                DesiredVelocity += attraction;
+                break;
+            }
+            else if (Loop)
+            {
+                attractors.RemoveAt(0);
+                //Adds the removed point back at the end of the list to have the points continue looping
+                attractors.Insert(attractors.Count, shiftedAttractor);
+            }
+            else
+            {
+                attractors.RemoveAt(0);
             }
         }
         return DesiredVelocity;

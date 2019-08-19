@@ -82,7 +82,7 @@ namespace SurfaceTrails2.AgentBased
 
             var remappedCurves = new List<Curve>();
             var remappedPoints = new List<Point3d>();
-            //assigning values to flock agents
+//assigning values to flock agents
             foreach (FlockAgent.FlockAgent agent in agents)
             {
                 agent.Containment = containments;

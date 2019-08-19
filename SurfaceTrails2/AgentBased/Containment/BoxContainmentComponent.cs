@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
-
+//This Component control containment in a box boundary
 namespace SurfaceTrails2.AgentBased.Containment
 {
     public class BoxContainmentComponent : GH_Component

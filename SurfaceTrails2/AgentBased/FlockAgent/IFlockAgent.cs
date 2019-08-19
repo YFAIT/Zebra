@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Rhino.Geometry;
-
+//This interface control rules that any agent should have to be part of a flock
 namespace SurfaceTrails2.AgentBased
 {
     public interface IFlockAgent

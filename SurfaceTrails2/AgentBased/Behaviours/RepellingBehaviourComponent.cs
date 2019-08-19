@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Grasshopper;
-using Grasshopper.GUI;
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
+
+//This component controls the Repelling behaviour for the the flock
 
 namespace SurfaceTrails2.AgentBased
 {
@@ -21,6 +20,7 @@ namespace SurfaceTrails2.AgentBased
               "AgentBased")
         {
         }
+        //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>

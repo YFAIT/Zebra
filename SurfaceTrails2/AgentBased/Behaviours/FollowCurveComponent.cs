@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
 
-//This component controls the attracting Curve behaviour for the the flock
+//This component controls the Follow Curve behaviour for the the flock
 
-namespace SurfaceTrails2.AgentBased
+namespace SurfaceTrails2.AgentBased.Behaviours
 {
-    public class AttractorCurveBehaviourComponent : GH_Component
+    public class FollowCurveComponent : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the AttractorCurveBehaviourComponent class.
+        /// Initializes a new instance of the FollowOrganizedPointsComponent class.
         /// </summary>
-        public AttractorCurveBehaviourComponent()
-          : base("AttractorCurveBehaviour", "Nickname",
+        public FollowCurveComponent()
+          : base("FollowCurveBehaviour", "Nickname",
               "Description",
               "YFAtools",
               "AgentBased")
@@ -22,16 +23,16 @@ namespace SurfaceTrails2.AgentBased
         }
         //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("Curves", "C", "Curves", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("Count", "C", "Curve resolution Point Count", GH_ParamAccess.item);
+            //pManager.AddBooleanParameter("Attract to Nearest Point", "N", "attracts agents to nearest point to their start point", GH_ParamAccess.item, true);
             pManager.AddNumberParameter("Multiplier", "M", "Multiplier", GH_ParamAccess.item, 1);
-
-
+            pManager.AddBooleanParameter("Loop", "L", "Loop", GH_ParamAccess.item, true);
         }
 
         /// <summary>
@@ -39,8 +40,7 @@ namespace SurfaceTrails2.AgentBased
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AttractorCurveBehaviour", "B", "AttractorCurveBehaviour", GH_ParamAccess.list);
-
+            pManager.AddGenericParameter("FollowCurveBehaviour", "B", "FollowCurveBehaviour", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,24 +49,38 @@ namespace SurfaceTrails2.AgentBased
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            AttractorCurve attractorCurve = new AttractorCurve();
+            FollowCurve followCurve = new FollowCurve();
             List<Curve> curves = new List<Curve>();
+            List<Circle> circles = new List<Circle>();
             double multiplier = 1.0;
+            bool loop = true;
+            int count = 0;
+            //bool attractToNearestPt = true;
 
             DA.GetDataList("Curves", curves);
+            DA.GetData("Count", ref count);
             DA.GetData("Multiplier", ref multiplier);
+            DA.GetData("Loop", ref loop);
+            //DA.GetData("Attract to Nearest Point", ref attractToNearestPt);
 
 
-            attractorCurve.Curves = curves;
-            attractorCurve.Multiplier = multiplier;
-            attractorCurve.Label = "c";
+            Point3d[] ptArray;
+            curves[0].DivideByCount(count, true, out ptArray);
+            var points = ptArray.ToList();
+            foreach (Point3d point in points)
+                circles.Add(new Circle(point,1));
 
+            followCurve.Circles = circles;
+            followCurve.Multiplier = multiplier;
+            followCurve.Loop = loop;
+            followCurve.Label = "l";
+            //follow.AttractToNearestPt = attractToNearestPt;
             //var info = "values are" + circles[0].Radius;
-            DA.SetData("AttractorCurveBehaviour", attractorCurve);
+            DA.SetData("FollowCurveBehaviour", followCurve);
         }
 
         /// <summary>
-        /// Provides an Icon for the component.
+        /// Provides an Icon for the component
         /// </summary>
         protected override System.Drawing.Bitmap Icon
         {
@@ -74,7 +88,7 @@ namespace SurfaceTrails2.AgentBased
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.AttractingCurveBehaviour;
+                return Resources.FollowCurve_01;
             }
         }
 
@@ -83,7 +97,7 @@ namespace SurfaceTrails2.AgentBased
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("e9ecf167-151f-44df-8085-575628106436"); }
+            get { return new Guid("55131d56-de13-4122-90f3-134d7d95ff3a"); }
         }
     }
 }

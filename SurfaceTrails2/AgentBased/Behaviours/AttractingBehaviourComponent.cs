@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
+
+//This component controls the attracting behaviour for the the flock
 
 namespace SurfaceTrails2.AgentBased
 {
@@ -19,6 +20,7 @@ namespace SurfaceTrails2.AgentBased
               "AgentBased")
         {
         }
+        //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>
@@ -60,7 +62,6 @@ namespace SurfaceTrails2.AgentBased
             //var info = "values are" + circles[0].Radius;
             DA.SetData("AttractorBehaviour", attractor);
         }
-
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -73,7 +74,6 @@ namespace SurfaceTrails2.AgentBased
                 return Resources.AttractionBehaviour;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

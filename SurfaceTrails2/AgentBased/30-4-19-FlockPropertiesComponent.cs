@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 using SurfaceTrails2.Properties;
+
+/*This Class Control all changable parameters in form of sliders for ease of use
+Then adds them to the main component of flocking
+*/
 
 namespace SurfaceTrails2.AgentBased
 {
@@ -26,7 +28,7 @@ namespace SurfaceTrails2.AgentBased
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddIntegerParameter("Count", "C", "Number of Agents", GH_ParamAccess.item, 50);
+            //pManager.AddIntegerParameter("Count", "C", "Number of Agents", GH_ParamAccess.item, 50);
             pManager.AddNumberParameter("Timestep", "T", "Timestep", GH_ParamAccess.item, 0.02);
             pManager.AddNumberParameter("Neighbourhood Radius", "R", "Neighbourhood Radius", GH_ParamAccess.item, 3.5);
             pManager.AddNumberParameter("Alignment", "A", "Alignment", GH_ParamAccess.item, 0.5);
@@ -50,7 +52,7 @@ namespace SurfaceTrails2.AgentBased
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            int iCount = 0;
+            //int iCount = 0;
             double iTimestep = 0.0;
             double iNeighbourhoodRadius = 0.0;
             double iAlignment = 0.0;
@@ -60,15 +62,16 @@ namespace SurfaceTrails2.AgentBased
             List<double> flockProps = new List<double>();
             //var prop = new FlockProperties();
 
-            DA.GetData("Count", ref iCount);
+            //DA.GetData("Count", ref iCount);
             DA.GetData("Timestep", ref iTimestep);
             DA.GetData("Neighbourhood Radius", ref iNeighbourhoodRadius);
             DA.GetData("Alignment", ref iAlignment);
             DA.GetData("Cohesion", ref iCohesion);
             DA.GetData("Separation", ref iSeparation);
             DA.GetData("Separation Distance", ref iSeparationDistance);
-       
-            flockProps.Add(iCount);
+
+            //flockProps.Add(iCount);
+            flockProps.Add(1.0);
             flockProps.Add(iTimestep);
             flockProps.Add(iNeighbourhoodRadius);
             flockProps.Add(iAlignment);

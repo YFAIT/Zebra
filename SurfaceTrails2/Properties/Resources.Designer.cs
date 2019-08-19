@@ -213,6 +213,26 @@ namespace SurfaceTrails2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FollowCurve_01 {
+            get {
+                object obj = ResourceManager.GetObject("FollowCurve_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FollowOrganisedPoints_01 {
+            get {
+                object obj = ResourceManager.GetObject("FollowOrganisedPoints_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LineTopology {
             get {
                 object obj = ResourceManager.GetObject("LineTopology", resourceCulture);
@@ -226,6 +246,16 @@ namespace SurfaceTrails2.Properties {
         internal static System.Drawing.Bitmap MeshContainer {
             get {
                 object obj = ResourceManager.GetObject("MeshContainer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MeshWindForming_01 {
+            get {
+                object obj = ResourceManager.GetObject("MeshWindForming_01", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
