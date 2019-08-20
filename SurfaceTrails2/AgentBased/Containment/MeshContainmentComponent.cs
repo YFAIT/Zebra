@@ -2,6 +2,7 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
+
 //This Component control containment in a Closed Mesh boundary
 
 namespace SurfaceTrails2.AgentBased.Containment
@@ -14,7 +15,7 @@ namespace SurfaceTrails2.AgentBased.Containment
         public MeshContainmentComponent()
           : base("MeshContainment", "Nickname",
               "Description",
-              "YFAtools",
+              "Zebra",
               "AgentBased")
         {
         }

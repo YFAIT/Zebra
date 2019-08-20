@@ -16,7 +16,7 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public FollowOrganizedPointsComponent()
           : base("FollowOrganizedPointsComponent", "Nickname",
               "Description",
-              "YFAtools",
+              "Zebra",
               "AgentBased")
         {
         }
@@ -62,7 +62,7 @@ namespace SurfaceTrails2.AgentBased.Behaviours
             follow.Circles = circles;
             follow.Multiplier = multiplier;
             follow.Loop = loop;
-            follow.Label = "f";
+            //follow.Label = 'f';
             //follow.AttractToNearestPt = attractToNearestPt;
             //var info = "values are" + circles[0].Radius;
             DA.SetData("FollowPointsBehaviour", follow);

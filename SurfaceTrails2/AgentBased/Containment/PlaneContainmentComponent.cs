@@ -2,6 +2,7 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
+
 //This Component control containment in a 2d plane boundary, In case of flocking in 2d mode
 namespace SurfaceTrails2.AgentBased.Containment
 {
@@ -13,7 +14,7 @@ namespace SurfaceTrails2.AgentBased.Containment
         public PlaneContainmentComponent()
           : base("PlaneContainment", "Nickname",
               "Description",
-              "YFAtools",
+              "Zebra",
               "AgentBased")
         {
         }

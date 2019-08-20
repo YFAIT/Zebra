@@ -9,7 +9,7 @@ namespace SurfaceTrails2.Utilities
     public class Partition : GH_Component
     {
         public Partition()
-            : base("Partition test", "PartTest", "Test partitioning logic.", "YFAtools", "Utilities")
+            : base("Partition test", "PartTest", "Test partitioning logic.", "Zebra", "Utilities")
         { }
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)

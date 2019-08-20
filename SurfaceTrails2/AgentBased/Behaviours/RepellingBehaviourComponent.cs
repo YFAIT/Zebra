@@ -6,7 +6,7 @@ using SurfaceTrails2.Properties;
 
 //This component controls the Repelling behaviour for the the flock
 
-namespace SurfaceTrails2.AgentBased
+namespace SurfaceTrails2.AgentBased.Behaviours
 {
     public class RepellingBehaviourComponent : GH_Component
     {
@@ -16,7 +16,7 @@ namespace SurfaceTrails2.AgentBased
         public RepellingBehaviourComponent()
           : base("RepellingBehaviour", "Nickname",
               "Description",
-              "YFAtools",
+              "Zebra",
               "AgentBased")
         {
         }
@@ -55,7 +55,7 @@ namespace SurfaceTrails2.AgentBased
 
             repeller.Multiplier = multiplier;
             repeller.Circles = circles;
-            repeller.Label = "r";
+            //repeller.Label = 'r';
 
             //var info = "values are" + circles[0].Radius;
             DA.SetData("repellerBehaviour", repeller);

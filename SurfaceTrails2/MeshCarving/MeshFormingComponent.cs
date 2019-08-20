@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-using SurfaceTrails2.Utilities;
 
 namespace SurfaceTrails2.MeshCarving
 {
@@ -23,7 +23,7 @@ namespace SurfaceTrails2.MeshCarving
         public MeshFormingComponent()
           : base("MeshFormingComponent", "Nickname",
               "Description",
-              "YFAtools", "Manipulation")
+              "Zebra", "Manipulation")
         {
         }
         /// <summary>

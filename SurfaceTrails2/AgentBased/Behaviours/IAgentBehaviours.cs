@@ -1,12 +1,22 @@
 ﻿using System.Collections.Generic;
 using Rhino.Geometry;
 
+public enum BehaviourType
+{
+    Repeller,
+    Attractor,
+    AttractorCurve,
+    Wind,
+    FollowPoints,
+    FollowCurve
+}
+
 //Sets the rules and requirement for the the Agent behaviours to get the correct data, While belonging to a certain family or group
 namespace SurfaceTrails2.AgentBased.Behaviours
 {
     public interface IAgentBehaviours
     {
-        string Label { get; set; }
+        BehaviourType BehaviourType { get; set; }
         Point3d ClosestPoint { get; set; }
         List<Curve> Curves { get; set; }
         List<Circle> Circles { get; set; }

@@ -3,7 +3,7 @@ using Grasshopper;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 
-namespace SurfaceTrails2.Utilities
+namespace SurfaceTrails2.OperationLibrary
 {
     public static class ListOperations
     {

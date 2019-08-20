@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
@@ -16,7 +14,7 @@ namespace SurfaceTrails2.Crv
         public _9_10_18_RatioRectangle()
           : base("Ratio Rectangle", "RatioRect",
               "Makes Rectangle from ratio and area",
-              "YFAtools", "Crv")
+              "Zebra", "Crv")
         {
         }
 

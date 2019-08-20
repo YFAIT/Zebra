@@ -6,11 +6,11 @@ using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using SurfaceTrails2.AgentBased.Behaviours;
 using SurfaceTrails2.AgentBased.Containment;
-using SurfaceTrails2.Utilities;
+using SurfaceTrails2.AgentBased.FlockAgent;
+
 /*This Class is the main grasshopper component fo flocking that gets supplied by options to change the flocking attributes
  *Also this class controls the timing for the whole flocking algorithm
  */
-
 namespace SurfaceTrails2.AgentBased
 {
     public class GhcFlockingInBox : GH_Component
@@ -21,23 +21,26 @@ namespace SurfaceTrails2.AgentBased
             : base(
                   "Flocking Engine",
                   "Engine",
-                  "Flocking Engine",
-                  "YFAtools",
+                  "The main engine to control the flock",
+                  "Zebra",
                   "AgentBased")
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddBooleanParameter("Use Parallel", "P", "Use Parallel", GH_ParamAccess.item, true);
-            pManager.AddBooleanParameter("Use R-Tree", "T", "Use R-Tree", GH_ParamAccess.item, true);
-            pManager.AddBooleanParameter("Reset", "R", "Reset", GH_ParamAccess.item, false);
-            pManager.AddBooleanParameter("Play", "P", "Play", GH_ParamAccess.item, false);
-            pManager.AddGenericParameter("Agents", "A", "Agents to Flock", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Flock Values", "F", "Flock Values", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Interactions", "I", "Interactions", GH_ParamAccess.list);
+            pManager.AddBooleanParameter("Use Parallel", "P",
+                "If you want to use more than one processor core mark it as true", GH_ParamAccess.item, true);
+            pManager.AddBooleanParameter("Use R-Tree", "T",
+                "a faster method to calculate flocking, mark it as true for faster calculations", GH_ParamAccess.item, true);
+            pManager.AddBooleanParameter("Reset", "R", "Resets the flock to its initial position", GH_ParamAccess.item, false);
+            pManager.AddBooleanParameter("Play", "P", "set true to start flocking and false to stop it", GH_ParamAccess.item, false);
+            pManager.AddGenericParameter("Agents", "A", "Agents from the agents component", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Flock Properties", "F", "Flock Properties from the properties component", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Behaviours", "B", "Behviours should all be supplied to this input", GH_ParamAccess.list);
             pManager[6].Optional = true;
-            pManager.AddGenericParameter("Containment", "C", "Containment", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Containment", "C",
+                "All containing geometry should be supplied in this input, if there is a surface please add it first", GH_ParamAccess.list);
         }
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
@@ -56,37 +59,27 @@ namespace SurfaceTrails2.AgentBased
             List<double> flockProps = new List<double>();
             List<IAgentBehaviours> interactions = new List<IAgentBehaviours>();
             List<FlockAgent.FlockAgent> agents = new List<FlockAgent.FlockAgent>();
-            List<GH_Point> surfacePositions = new List<GH_Point>();
             List<IAgentContainment> containments = new List<IAgentContainment>();
-//get values from grasshopper
+            //get values from grasshopper
             DA.GetData("Use Parallel", ref iUseParallel);
             DA.GetData("Use R-Tree", ref iUseRTree);
             DA.GetData("Reset", ref iReset);
             DA.GetData("Play", ref iPlay);
             DA.GetDataList("Agents", agents);
-            DA.GetDataList("Flock Values", flockProps);
-            DA.GetDataList("Interactions", interactions);
+            DA.GetDataList("Flock Properties", flockProps);
+            DA.GetDataList("Behaviours", interactions);
             DA.GetDataList("Containment", containments);
-//surface params
-            const double xMin = 0;
-            const double xMax = 30;
-            const double yMin = 0;
-            const double yMax = 30;
-
+            //surface params
             var points = agents.Select(p => p.Position).ToList();
             BoundingBox box = new BoundingBox(points);
-            List<Circle> surfaceRepller = new List<Circle>();
-            List<Circle> surfaceAttractors = new List<Circle>();
-            List<GH_Vector> surfaceVectors = new List<GH_Vector>();
-            SurfaceContainment container = null;
-
-            var remappedCurves = new List<Curve>();
-            var remappedPoints = new List<Point3d>();
-//assigning values to flock agents
+            //assigning values to flock agents
             foreach (FlockAgent.FlockAgent agent in agents)
             {
                 agent.Containment = containments;
                 agent.Interactions = interactions;
+
+                if (containments[0].Label == 's')
+                    agent.SrfBoudningBox = box;
             }
             var ifagents = new List<IFlockAgent>();
             ifagents.AddRange(agents);
@@ -104,123 +97,21 @@ namespace SurfaceTrails2.AgentBased
 // ===============================================================================================
 // Assign the input parameters to the corresponding variables in the  "flockSystem" object
 // ===============================================================================================
-                 _flockSystem.Timestep = flockProps[1];
-                 _flockSystem.NeighbourhoodRadius = flockProps[2];
-                 _flockSystem.AlignmentStrength = flockProps[3];
-                 _flockSystem.CohesionStrength = flockProps[4];
-                 _flockSystem.SeparationStrength = flockProps[5];
-                 _flockSystem.SeparationDistance = flockProps[6];
-
-
-                // ===============================================================================================
-                // ===============================================================================================
-                // Code Needs enhancement regarding surface to remove all core code from the main code starting from here to the end of code.
-                // ===============================================================================================
-                // ===============================================================================================
-                foreach (var interaction in interactions)
-                {
-                    if (interaction.Label == "r")
-                    {
-                        if (containments[0].Label == "s")
-                        {
-                            container = (SurfaceContainment)containments[0];
-
-                            foreach (var repeller in interaction.Circles)
-                            {
-// ===============================================================================================
-// Remap repellers
-// ===============================================================================================
-                                double u;
-                                double v;
-                                container.Surface.ClosestPoint(repeller.Center, out u, out v);
-
-                                var nu = NumberOperations.remap(box.Min.X,
-                                    box.Max.X, xMin, xMax, u);
-                                var nv = NumberOperations.remap(box.Min.Y,
-                                    box.Max.Y, yMin, yMax, v);
-                                Point3d remappedCenter = new Point3d(nu, nv, 0);
-                                Circle remappedCircle = new Circle(remappedCenter, repeller.Radius);
-                                surfaceRepller.Add(remappedCircle);
-                            }
-                            _flockSystem.Repellers = surfaceRepller;
-
-                        }
-
-                        else
-                        _flockSystem.Repellers = interaction.Circles;
-                    }
-                    else if (interaction.Label == "a")
-                    {
-                        if (containments[0].Label == "s")
-                        {
-                            container = (SurfaceContainment)containments[0];
-
-                            foreach (var attractor in interaction.Circles)
-                            {
-// ===============================================================================================
-// Remap Attractors
-// ===============================================================================================
-                                double u;
-                                double v;
-                                container.Surface.ClosestPoint(attractor.Center, out u, out v);
-
-                                var nu = NumberOperations.remap(box.Min.X,
-                                    box.Max.X, xMin, xMax, u);
-                                var nv = NumberOperations.remap(box.Min.Y,
-                                    box.Max.Y, yMin, yMax, v);
-                                Point3d remappedCenter = new Point3d(nu, nv, 0);
-                                Circle remappedCircle = new Circle(remappedCenter, attractor.Radius);
-                                surfaceAttractors.Add(remappedCircle);
-                            }
-                            _flockSystem.Attractors = surfaceAttractors;
-                        }
-                        else
-                        _flockSystem.Attractors = interaction.Circles;
-                    }
-                    else if (interaction.Label == "c")
-                    {
-                        if (containments[0].Label == "s")
-                        {
- //getting curve data: points and degree
-                            container = (SurfaceContainment)containments[0];
-                            var interactionAttractorCurve = (AttractorCurve)interaction;
-                            var attractorcurve = interactionAttractorCurve.Curves[0].ToNurbsCurve();
-                            var controlpoints = attractorcurve.Points;
-                            var degree = attractorcurve.Degree;
-
-                            foreach (var controlpoint in controlpoints)
-                            {
-                                double u;
-                                double v;
-                                container.Surface.ClosestPoint(controlpoint.Location, out u, out v);
-
-                                var nu = NumberOperations.remap(container.Surface.Domain(0).T0,
-                                    container.Surface.Domain(0).T1, xMin, xMax, u);
-                                var nv = NumberOperations.remap(container.Surface.Domain(1).T0,
-                                    container.Surface.Domain(1).T1, yMin, yMax, v);
-                                Point3d remappedControlPoint = new Point3d(nu, nv, 0);
-                                remappedPoints.Add(remappedControlPoint);
-                            }
-                            var remappedCurve = Curve.CreateControlPointCurve(remappedPoints, degree);
-                            remappedCurves.Add(remappedCurve);
-                            _flockSystem.AttractorCurves = remappedCurves;
-                        }
-
-                        else
-                        _flockSystem.AttractorCurves = interaction.Curves;
-                    }
-                
-                }
-
-                _flockSystem.UseParallel = iUseParallel;
+                 _flockSystem.Timestep = flockProps[0];
+                 _flockSystem.NeighbourhoodRadius = flockProps[1];
+                 _flockSystem.AlignmentStrength = flockProps[2];
+                 _flockSystem.CohesionStrength = flockProps[3];
+                 _flockSystem.SeparationStrength = flockProps[4];
+                 _flockSystem.SeparationDistance = flockProps[5];
+                 _flockSystem.UseParallel = iUseParallel;
 // ===============================================================================
 // Update the flock
 // ===============================================================================
-            if (iUseRTree)
+                if (iUseRTree)
                 _flockSystem.UpdateUsingRTree();
             else
                 _flockSystem.Update();
-
+            //makes grasshopper iterate again when calculation is done
             if (iPlay) ExpireSolution(true);
             }
 // ===============================================================================
@@ -229,44 +120,15 @@ namespace SurfaceTrails2.AgentBased
             List<GH_Point> positions = new List<GH_Point>();
             List<GH_Vector> velocities = new List<GH_Vector>();
 
-            foreach (var flockAgent in _flockSystem.IAgents)
+            foreach (FlockAgent.FlockAgent agent in agents)
             {
-                var agent = (FlockAgent.FlockAgent)flockAgent;
-              
-                positions.Add(new GH_Point(agent.Position));
-                velocities.Add(new GH_Vector(agent.Velocity));
-
-                if (containments[0].Label == "s")
-                {
-                    container = (SurfaceContainment)containments[0];
-
-                    var nu = NumberOperations.remap(xMin, xMax, container.Surface.Domain(0).T0,
-                        container.Surface.Domain(0).T1, agent.Position.X);
-                    var nv = NumberOperations.remap(yMin, yMax, container.Surface.Domain(1).T0,
-                        container.Surface.Domain(1).T1, agent.Position.Y);
-
-
-                    var vu = NumberOperations.remap(xMin, xMax, container.Surface.Domain(0).T0,
-                        container.Surface.Domain(0).T1, agent.Velocity.X);
-                    var vv = NumberOperations.remap(yMin, yMax, container.Surface.Domain(1).T0,
-                        container.Surface.Domain(1).T1, agent.Velocity.Y);
-
-
-                    surfacePositions.Add(new GH_Point(container.Surface.PointAt(nu, nv)));
-                    surfaceVectors.Add(new GH_Vector(new Vector3d(container.Surface.PointAt(vu, vv))));
-                }
+                agent.DisplayToGrasshopper();
+                positions.Add(agent.GHPosition);
+                velocities.Add(agent.GHVelocities);
             }
-//Export data to grasshopper
-            if (containments[0].Label == "s")
-            {
-                DA.SetDataList("Positions", surfacePositions);
-                DA.SetDataList("Velocities", surfaceVectors);
-            }
-            else
-            {
+            //Export data to grasshopper
                 DA.SetDataList("Positions", positions);
                 DA.SetDataList("Velocities", velocities);
-            }
         }
         protected override System.Drawing.Bitmap Icon { get { return Properties.Resources.Engine__2_; } }
         public override Guid ComponentGuid { get { return new Guid("d7f22bc3-fc53-4ad9-ae67-6597d259d671"); } }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-using SurfaceTrails2.Utilities;
+
 //this component control the flock strating position and velocity
 namespace SurfaceTrails2.AgentBased.FlockAgent
 {
@@ -16,7 +17,7 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         public FlockAgentComponent()
           : base("Flock Agent 3D", "FlockAgent 3D",
               "Agent parameters",
-              "YFAtools", "AgentBased")
+              "Zebra", "AgentBased")
         {
         }
 

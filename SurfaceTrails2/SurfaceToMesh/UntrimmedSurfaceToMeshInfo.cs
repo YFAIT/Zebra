@@ -2,7 +2,7 @@
 using System.Drawing;
 using Grasshopper.Kernel;
 
-namespace SurfaceTrails2.SurfaceToMesh.Untrimmed_mesh_to_srf
+namespace SurfaceTrails2.SurfaceToMesh
 {
     public class UntrimmedSurfaceToMeshInfo : GH_AssemblyInfo
     {

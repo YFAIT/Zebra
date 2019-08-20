@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
 
-namespace SurfaceTrails2.SurfaceToMesh.Trimmed_srf_to_mesh
+namespace SurfaceTrails2.SurfaceToMesh
 {
     public class TrimmedsrftoMesh : GH_Component
     {
@@ -13,7 +13,7 @@ namespace SurfaceTrails2.SurfaceToMesh.Trimmed_srf_to_mesh
         public TrimmedsrftoMesh()
           : base("TrimmedsrftoMesh", "TrimmedsrftoMesh",
               "Makes a mesh out of trimmed surface quad with it's vertices known",
-              "YFAtools", "SurfaceToMesh")
+              "Zebra", "SurfaceToMesh")
         {
         }
 

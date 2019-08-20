@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-using SurfaceTrails2.Utilities;
 
 namespace SurfaceTrails2.GeometrHierarchyManagemnt
 {
@@ -15,7 +15,7 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
         public _3_10_18_EdgeTopology()
           : base("vertexTopology", "Topology",
               "Analyses vertex topology of any given edge network",
-              "YFAtools", "GeometrHierarchyManagemnt")
+              "Zebra", "GeometrHierarchyManagemnt")
         {
         }
 

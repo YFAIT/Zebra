@@ -5,7 +5,7 @@ using SurfaceTrails2.Properties;
 
 //This component controls the Wind behaviour for the the flock
 
-namespace SurfaceTrails2.AgentBased
+namespace SurfaceTrails2.AgentBased.Behaviours
 {
     public class WindBehaviourComponent : GH_Component
     {
@@ -15,7 +15,7 @@ namespace SurfaceTrails2.AgentBased
         public WindBehaviourComponent()
           : base("WindBehaviour", "Nickname",
               "Description",
-              "YFAtools",
+              "Zebra",
               "AgentBased")
         {
         }
@@ -53,7 +53,7 @@ namespace SurfaceTrails2.AgentBased
 
             wind.WindVec = vector;
             wind.Multiplier = multiplier;
-            wind.Label = "w";
+            //wind.Label = 'w';
 
             //var info = "values are" + circles[0].Radius;
             DA.SetData("windBehaviour", wind);

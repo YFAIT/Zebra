@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rhino.Geometry;
-// This class manages the interaction between each agent in the flock and each other
-/*this class may contain items for behaviours like repellers and attractors and curves, they should be put in a seperate class
+using SurfaceTrails2.AgentBased.FlockAgent;
+/*This class manages the interaction between each agent in the flock and each other
+this class may contain items for behaviours like repellers and attractors and curves, they should be put in a seperate class
  for a better practice */
 namespace SurfaceTrails2.AgentBased
 {
     public class FlockSystem
     {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
         public bool UseParallel;
         public double Timestep;
         public double NeighbourhoodRadius;
@@ -35,7 +39,9 @@ namespace SurfaceTrails2.AgentBased
                     IAgents.Add(_iAgents[i]);
                 }
         }
-        //method to find nearby neignbours to each agent
+// ===============================================================================================
+// method to find nearby neignbours to each agent
+// ===============================================================================================
         private List<IFlockAgent> FindNeighbours(IFlockAgent agent)
         {
             List<IFlockAgent> neighbours = new List<IFlockAgent>();
@@ -46,13 +52,17 @@ namespace SurfaceTrails2.AgentBased
 
             return neighbours;
         }
-        //method to compute desired velocity of agent based on behaviours applied
+// ===============================================================================================
+// method to compute desired velocity of agent based on behaviours applied
+// ===============================================================================================
         private void ComputeAgentDesiredVelocity(IFlockAgent agent)
         {
             List<IFlockAgent> neighbours = FindNeighbours(agent);
             agent.ComputeDesiredVelocity(neighbours);
         }
-        //update per second for position and velocity
+// ===============================================================================================
+// update per second for position and velocity
+// ===============================================================================================
         public void Update()
         {
             if (UseParallel)

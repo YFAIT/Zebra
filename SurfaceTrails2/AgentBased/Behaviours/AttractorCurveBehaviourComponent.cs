@@ -6,7 +6,7 @@ using SurfaceTrails2.Properties;
 
 //This component controls the attracting Curve behaviour for the the flock
 
-namespace SurfaceTrails2.AgentBased
+namespace SurfaceTrails2.AgentBased.Behaviours
 {
     public class AttractorCurveBehaviourComponent : GH_Component
     {
@@ -16,7 +16,7 @@ namespace SurfaceTrails2.AgentBased
         public AttractorCurveBehaviourComponent()
           : base("AttractorCurveBehaviour", "Nickname",
               "Description",
-              "YFAtools",
+              "Zebra",
               "AgentBased")
         {
         }
@@ -59,7 +59,7 @@ namespace SurfaceTrails2.AgentBased
 
             attractorCurve.Curves = curves;
             attractorCurve.Multiplier = multiplier;
-            attractorCurve.Label = "c";
+            //attractorCurve.Label = 'c';
 
             //var info = "values are" + circles[0].Radius;
             DA.SetData("AttractorCurveBehaviour", attractorCurve);

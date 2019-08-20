@@ -1,4 +1,5 @@
 ﻿using Rhino.Geometry;
+
 //This class contains all flocking containing algorithms, containing the flock in a certain boundary
 
 namespace SurfaceTrails2.AgentBased.Containment
@@ -6,7 +7,7 @@ namespace SurfaceTrails2.AgentBased.Containment
     //contain agent in a box
      class BoxContainment : IAgentContainment
     {
-        public string Label { get; set; }
+        public char Label { get; set; }
         public double Multiplier { get; set; }
         public Box Box { get; set; }
         public  Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity)
@@ -43,7 +44,7 @@ namespace SurfaceTrails2.AgentBased.Containment
     //contain agent in a brep
     class BrepContainment : IAgentContainment
     {
-        public string Label { get; set; }
+        public char Label { get; set; }
 
         public double Multiplier { get; set; }
 
@@ -64,7 +65,7 @@ namespace SurfaceTrails2.AgentBased.Containment
     //contain agent in a mesh (fast)
     class MeshContainment : IAgentContainment
     {
-        public string Label { get; set; }
+        public char Label { get; set; }
 
         public double Multiplier { get; set; }
 
@@ -86,10 +87,10 @@ namespace SurfaceTrails2.AgentBased.Containment
     //contain agent in a Surface
     class SurfaceContainment : IAgentContainment
     {
-        public string Label { get; set; }
-        string IAgentContainment.Label
+        public char Label { get; set; }
+        char IAgentContainment.Label
         {
-            get { return Label = "s"; }
+            get { return Label = 's'; }
             set { Label = value; }
         }
 
@@ -122,7 +123,7 @@ namespace SurfaceTrails2.AgentBased.Containment
     //contain agent in a plane
     class PlaneContainment : IAgentContainment
     {
-        public string Label { get; set; }
+        public char Label { get; set; }
 
         public double Multiplier { get; set; }
 
@@ -144,7 +145,7 @@ namespace SurfaceTrails2.AgentBased.Containment
     //contain agent in a mesh for forming with wind
    public class ContainOutsideMesh : IAgentContainment
     {
-        public string Label { get; set; }
+        public char Label { get; set; }
 
         public double Multiplier { get; set; }
 

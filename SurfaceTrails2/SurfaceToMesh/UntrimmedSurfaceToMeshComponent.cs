@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
 
-namespace SurfaceTrails2.SurfaceToMesh.Untrimmed_mesh_to_srf
+namespace SurfaceTrails2.SurfaceToMesh
 {
     public class UntrimmedSurfaceToMeshComponent : GH_Component
     {
@@ -18,7 +18,7 @@ namespace SurfaceTrails2.SurfaceToMesh.Untrimmed_mesh_to_srf
         public UntrimmedSurfaceToMeshComponent()
           : base("UntrimmedQuadToMesh", "UntrimmedToMesh",
               "A remake to the old school componenet Mesh surface but with less parameters",
-              "YFAtools", "SurfaceToMesh")
+              "Zebra", "SurfaceToMesh")
         {
         }
 

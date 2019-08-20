@@ -1,7 +1,7 @@
 ﻿using System;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.Utilities
+namespace SurfaceTrails2.OperationLibrary
 {
     static class VectorOperations
     {

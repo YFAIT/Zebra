@@ -2,6 +2,7 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
+
 //This Component control containment outside a boundary, Also used as a precise repeller
 
 namespace SurfaceTrails2.AgentBased.Containment
@@ -14,7 +15,7 @@ namespace SurfaceTrails2.AgentBased.Containment
         public ContainOutsideMeshComponent()
           : base("ContainOutsideMesh", "Nickname",
               "Description",
-              "YFAtools",
+              "Zebra",
               "AgentBased")
         {
         }

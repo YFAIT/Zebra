@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
 
 namespace SurfaceTrails2.GeometrHierarchyManagemnt
@@ -14,7 +15,7 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
         public BrepExplodeComponent()
           : base("BrepExplode", "BrepExplode",
               "Explodes breps while respecting data tree structure",
-              "YFAtools", "GeometrHierarchyManagemnt")
+              "Zebra", "GeometrHierarchyManagemnt")
         {
         }
 

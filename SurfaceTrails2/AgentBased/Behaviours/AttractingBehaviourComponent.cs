@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
-
 //This component controls the attracting behaviour for the the flock
-
-namespace SurfaceTrails2.AgentBased
+namespace SurfaceTrails2.AgentBased.Behaviours
 {
     public class AttractingBehaviourComponent : GH_Component
     {
@@ -14,15 +12,14 @@ namespace SurfaceTrails2.AgentBased
         /// Initializes a new instance of the AttractingBehaviourComponent class.
         /// </summary>
         public AttractingBehaviourComponent()
-          : base("AttractingBehaviour", "Nickname",
-              "Description",
-              "YFAtools",
+          : base("AttractingBehaviour", "Attract",
+              "Initiates attractions toward a point or points",
+              "Zebra",
               "AgentBased")
         {
         }
         //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -30,7 +27,7 @@ namespace SurfaceTrails2.AgentBased
         {
             pManager.AddCircleParameter("Circles", "C", "Circles", GH_ParamAccess.list);
             pManager.AddBooleanParameter("Attract to Nearest Point", "N", "attracts agents to nearest point to their start point", GH_ParamAccess.item, true);
-            pManager.AddNumberParameter("Multiplier", "M", "Multiplier", GH_ParamAccess.item, 1);
+            pManager.AddNumberParameter("Multiplier", "M", "Multiplier to increase the strength of the behaviour", GH_ParamAccess.item, 1);
         }
         /// <summary>
         /// Registers all the output parameters for this component.
@@ -45,21 +42,26 @@ namespace SurfaceTrails2.AgentBased
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             Attractor attractor = new Attractor();
             List<Circle> circles = new List<Circle>();
             double multiplier = 1.0;
             bool attractToNearestPt = true;
-
+            //get values from grasshopper
             DA.GetDataList("Circles", circles);
             DA.GetData(1 , ref attractToNearestPt);
             DA.GetData("Multiplier", ref multiplier);
-
-
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             attractor.Circles = circles;
             attractor.Multiplier = multiplier;
-            attractor.Label = "a";
             attractor.AttractToNearestPt = attractToNearestPt;
-            //var info = "values are" + circles[0].Radius;
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             DA.SetData("AttractorBehaviour", attractor);
         }
         /// <summary>

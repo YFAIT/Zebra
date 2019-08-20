@@ -225,7 +225,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\h\AppData\Roaming\Grasshopper\Libraries\SrfTrails.gha"
+    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\h\AppData\Roaming\Grasshopper\Libraries\ZebraV1.0.gha"
 Erase "$(TargetPath)"
 </PostBuildEvent>
   </PropertyGroup>

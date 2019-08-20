@@ -9,7 +9,7 @@
 //          : base("Timer Example",
 //            "TimEx",
 //            "Run an adjustable timer",
-//            "YFAtools", "Mesh")
+//            "Zebra", "Mesh")
 //        {
             
 //            Counter = 0;

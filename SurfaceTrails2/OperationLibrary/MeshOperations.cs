@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.Utilities
+namespace SurfaceTrails2.OperationLibrary
 {
     static class MeshOperations
     {

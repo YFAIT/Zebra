@@ -1,12 +1,12 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
- using SurfaceTrails2.Properties;
- using SurfaceTrails2.Utilities;
+using SurfaceTrails2.OperationLibrary;
+using SurfaceTrails2.Properties;
 
 namespace SurfaceTrails2.Composite
 {
@@ -18,7 +18,7 @@ namespace SurfaceTrails2.Composite
         public _28_11_18_Composite_3D_01()
           : base("Composit 3D", "Composite3D",
               "Creates YFA composite lines with respect to it's thickness and 3d Boundary",
-              "YFAtools", "Composite")
+              "Zebra", "Composite")
         {
         }
         /// <summary>

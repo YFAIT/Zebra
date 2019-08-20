@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
-using Rhino.Geometry;
 using SurfaceTrails2.Properties;
 
 namespace SurfaceTrails2.Utilities
@@ -17,7 +14,7 @@ namespace SurfaceTrails2.Utilities
         public ResettableDataRecorderComponent()
           : base("ResettableDataRecorderComponent", "Nickname",
               "Description",
-              "YFAtools", "Utilities")
+              "Zebra", "Utilities")
         {
         }
 

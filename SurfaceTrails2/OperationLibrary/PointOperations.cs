@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Rhino.Geometry;
 
-namespace SurfaceTrails2.Utilities
+namespace SurfaceTrails2.OperationLibrary
 {
     
     public static class PointOperations

@@ -17,7 +17,7 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public FollowCurveComponent()
           : base("FollowCurveBehaviour", "Nickname",
               "Description",
-              "YFAtools",
+              "Zebra",
               "AgentBased")
         {
         }
@@ -73,7 +73,7 @@ namespace SurfaceTrails2.AgentBased.Behaviours
             followCurve.Circles = circles;
             followCurve.Multiplier = multiplier;
             followCurve.Loop = loop;
-            followCurve.Label = "l";
+            //followCurve.Label = 'l';
             //follow.AttractToNearestPt = attractToNearestPt;
             //var info = "values are" + circles[0].Radius;
             DA.SetData("FollowCurveBehaviour", followCurve);
