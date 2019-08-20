@@ -70,9 +70,9 @@
     <Compile Include="AgentBased\Behaviours\AttractorCurveBehaviourComponent.cs" />
     <Compile Include="AgentBased\FlockAgent\19-08-19-FlockAgenV2.0.cs" />
     <Compile Include="AgentBased\FlockAgent\FlockAgent2DComponent.cs" />
-    <Compile Include="AgentBased\FlockAgent\FlockAgentSrfComponent-02.cs" />
     <Compile Include="AgentBased\FlockAgent\FlockAgentComponent.cs" />
     <Compile Include="AgentBased\Behaviours\IAgentBehaviours.cs" />
+    <Compile Include="AgentBased\FlockAgent\FlockAgentSrfComponent-03.cs" />
     <Compile Include="AgentBased\FlockAgent\IFlockAgent.cs" />
     <Compile Include="AgentBased\Behaviours\RepellingBehaviourComponent.cs" />
     <Compile Include="AgentBased\Behaviours\WindBehaviourComponent.cs" />

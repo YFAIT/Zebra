@@ -111,6 +111,12 @@ namespace SurfaceTrails2.AgentBased
                  _flockSystem.SeparationStrength = flockProps[5];
                  _flockSystem.SeparationDistance = flockProps[6];
 
+
+                // ===============================================================================================
+                // ===============================================================================================
+                // Code Needs enhancement regarding surface to remove all core code from the main code starting from here to the end of code.
+                // ===============================================================================================
+                // ===============================================================================================
                 foreach (var interaction in interactions)
                 {
                     if (interaction.Label == "r")
