@@ -2,8 +2,7 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
-
-//This Component control containment in a surface boundary
+//This Component controls containment in a surface boundary
 namespace SurfaceTrails2.AgentBased.Containment
 {
     public class SurfaceContainmentComponent : GH_Component
@@ -12,68 +11,65 @@ namespace SurfaceTrails2.AgentBased.Containment
         /// Initializes a new instance of the SurfaceContainmentComponent class.
         /// </summary>
         public SurfaceContainmentComponent()
-          : base("SurfaceContainment", "Nickname",
-              "Description",
+          : base("Surface Containment", "SurfaceContainment",
+              "controls containment in a surface boundary",
               "Zebra",
               "AgentBased")
         {
         }
+        //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.secondary;
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddSurfaceParameter("Surface", "S", "Surface", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Multiplier", "M", "Multiplier", GH_ParamAccess.item, 1);
+            pManager.AddSurfaceParameter("Surface", "S", "Surface container in which the flock will kept", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Multiplier", "M", "Strength of parameter", GH_ParamAccess.item, 1);
 
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SurfaceContainer", "C", "SurfaceContainer", GH_ParamAccess.item);
-
+            pManager.AddGenericParameter("SurfaceContainer", "C", "Surface Container class to supply to container input in flocking engine",
+                GH_ParamAccess.item);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             SurfaceContainment container = new SurfaceContainment();
             Surface surface = null;
             double multiplier = 1.0;
-
             var xMin = 0;
             var xMax = 30;
             var yMin = 0;
             var yMax = 30;
-
+            //get values from grasshopper
             DA.GetData("Surface", ref surface);
             DA.GetData("Multiplier", ref multiplier);
-
-            //var xMin = surface.Domain(0).T0;
-            //var xMax = surface.Domain(0).T1;
-            //var yMin = surface.Domain(1).T0;
-            //var yMax = surface.Domain(1).T1;
-
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             container.xMin = xMin;
             container.xMax = xMax;
             container.yMin = yMin;
             container.yMax = yMax;
 
-
             container.Surface = surface.ToNurbsSurface();
             container.Multiplier = multiplier;
-
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             DA.SetData("SurfaceContainer", container);
         }
-
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -86,7 +82,6 @@ namespace SurfaceTrails2.AgentBased.Containment
                 return Resources.SurfaceContainer;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

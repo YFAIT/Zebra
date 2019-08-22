@@ -2,31 +2,27 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
-
+//Makes a mesh out of trimmed surface quad with it's vertices known
 namespace SurfaceTrails2.SurfaceToMesh
 {
-    public class TrimmedsrftoMesh : GH_Component
+    public class TrimmedSrfToMesh2Component : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the TrimmedsrftoMesh class.
+        /// Initializes a new instance of the TrimmedSrfToMesh2 class.
         /// </summary>
-        public TrimmedsrftoMesh()
-          : base("TrimmedsrftoMesh", "TrimmedsrftoMesh",
+        public TrimmedSrfToMesh2Component()
+          : base("TrimmedSrfToMesh2", "TrimmedSrfToMesh2",
               "Makes a mesh out of trimmed surface quad with it's vertices known",
               "Zebra", "SurfaceToMesh")
         {
         }
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddSurfaceParameter("Surface", "s", "trimmed surface to be meshed", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("U", "u", "U paramter for mesh", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("V", "v", "V paramter for mesh", GH_ParamAccess.item);
+            pManager.AddSurfaceParameter("Surface", "s", "Untrimmed surface to be meshed", GH_ParamAccess.item);
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -34,52 +30,44 @@ namespace SurfaceTrails2.SurfaceToMesh
         {
             pManager.AddMeshParameter("Mesh", "m", "Output Mesh", GH_ParamAccess.item);
             pManager.AddPointParameter("Points", "p", "Output points", GH_ParamAccess.item);
-
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            Brep srfBrep = null;
-            int u = 1;
-            int v = 1;
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
+            Brep surface = null;
             Mesh mesh = new Mesh();
+            Mesh subMsh = new Mesh();
             //get values from grasshopper
-            if (!DA.GetData(0, ref srfBrep)) return;
-            if (!DA.GetData(1, ref u)) return;
-            if (!DA.GetData(2, ref v)) return;
+            if (!DA.GetData(0, ref surface)) return;
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
+            var srfPt = surface.DuplicateVertices();
 
-            var srfPt = srfBrep.DuplicateVertices();
-            var srf = NurbsSurface.CreateFromCorners(srfPt[0], srfPt[1], srfPt[2], srfPt[3]);
+            subMsh.Vertices.Add(srfPt[0]);
+            subMsh.Vertices.Add(srfPt[1]);
+            subMsh.Vertices.Add(srfPt[2]);
+            subMsh.Vertices.Add(srfPt[3]);
 
-            for (int i = 0; i < u; i++)
-            {
-                for (int j = 0; j < v; j++)
-                {
-                    Mesh subMsh = new Mesh();
+            subMsh.Faces.AddFace(0, 1, 2, 3);
 
-                    subMsh.Vertices.Add(srf.PointAt(srf.Domain(0).Length / u * i, srf.Domain(1).Length / v * j));
-                    subMsh.Vertices.Add(srf.PointAt(srf.Domain(0).Length / u * (i + 1), srf.Domain(1).Length / v * j));
-                    subMsh.Vertices.Add(srf.PointAt(srf.Domain(0).Length / u * (i + 1), srf.Domain(1).Length / v * (j + 1)));
-                    subMsh.Vertices.Add(srf.PointAt(srf.Domain(0).Length / u * i, srf.Domain(1).Length / v * (j + 1)));
-
-                    subMsh.Faces.AddFace(0, 1, 2, 3);
-
-                    mesh.Append(subMsh);
-                }
-            }
+            mesh.Append(subMsh);
             //mesh combine and unify normals
             mesh.Vertices.CombineIdentical(true, true);
             mesh.FaceNormals.ComputeFaceNormals();
             mesh.Normals.ComputeNormals();
-            //Export data to grasshopper
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             DA.SetData(0, mesh);
             DA.SetDataList(1, srfPt);
         }
-
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -89,16 +77,15 @@ namespace SurfaceTrails2.SurfaceToMesh
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.TrimmedSrfToMesh;
+                return Resources.TrimmedSrfToMesh2;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("bba6b195-ba54-4fde-856d-827819fbc1d6"); }
+            get { return new Guid("14da5ede-fcda-45dd-bd86-4c43a2a30e1a"); }
         }
     }
 }

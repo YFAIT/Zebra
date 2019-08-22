@@ -25,16 +25,16 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCircleParameter("Circles", "C", "Circles", GH_ParamAccess.list);
+            pManager.AddCircleParameter("Circles", "C", "Circles as attractor", GH_ParamAccess.list);
             pManager.AddBooleanParameter("Attract to Nearest Point", "N", "attracts agents to nearest point to their start point", GH_ParamAccess.item, true);
-            pManager.AddNumberParameter("Multiplier", "M", "Multiplier to increase the strength of the behaviour", GH_ParamAccess.item, 1);
+            pManager.AddNumberParameter("Multiplier", "M", "strength of the behaviour", GH_ParamAccess.item, 1);
         }
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AttractorBehaviour", "B", "AttractorBehaviour", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AttractorBehaviour", "B", "Attractor Behaviour to supply to container input in flocking engine", GH_ParamAccess.item);
         }
         /// <summary>
         /// This is the method that actually does the work.

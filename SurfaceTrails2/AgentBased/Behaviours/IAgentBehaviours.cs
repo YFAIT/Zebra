@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Rhino.Geometry;
-
+//Labels each behaviour according to it's type so we can differenciate between them
 public enum BehaviourType
 {
     Repeller,

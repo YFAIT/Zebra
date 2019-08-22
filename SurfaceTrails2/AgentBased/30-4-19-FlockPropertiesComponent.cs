@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 using SurfaceTrails2.Properties;
-
 /*This Class Control all changable parameters in form of sliders for ease of use
 Then adds them to the main component of flocking
 */

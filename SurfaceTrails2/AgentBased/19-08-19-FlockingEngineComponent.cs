@@ -9,7 +9,7 @@ using SurfaceTrails2.AgentBased.Containment;
 using SurfaceTrails2.AgentBased.FlockAgent;
 
 /*This Class is the main grasshopper component fo flocking that gets supplied by options to change the flocking attributes
- *Also this class controls the timing for the whole flocking algorithm
+ Also this class controls the timing for the whole flocking algorithm
  */
 namespace SurfaceTrails2.AgentBased
 {
@@ -124,10 +124,12 @@ namespace SurfaceTrails2.AgentBased
             {
                 agent.DisplayToGrasshopper();
                 positions.Add(agent.GHPosition);
-                velocities.Add(agent.GHVelocities);
+                velocities.Add(agent.GHVelocity);
             }
-            //Export data to grasshopper
-                DA.SetDataList("Positions", positions);
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
+            DA.SetDataList("Positions", positions);
                 DA.SetDataList("Velocities", velocities);
         }
         protected override System.Drawing.Bitmap Icon { get { return Properties.Resources.Engine__2_; } }

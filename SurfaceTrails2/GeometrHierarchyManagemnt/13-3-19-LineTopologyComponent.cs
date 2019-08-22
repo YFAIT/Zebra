@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
+//This component tells you how many lines are connected to a certain line, very useful for selection
 namespace SurfaceTrails2.GeometrHierarchyManagemnt
 {
     public class LineTopology : GH_Component
@@ -18,7 +18,6 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
               "Zebra", "GeometrHierarchyManagemnt")
         {
         }
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -26,7 +25,6 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
         {
             pManager.AddLineParameter("Lines", "l", "Lines for which you have to find the topolgy", GH_ParamAccess.list);
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -34,19 +32,26 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
         {
             pManager.AddIntegerParameter("Topology", "t", "Line topology(connectivity)", GH_ParamAccess.list);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             var lines = new List<Line>();
             //get varialbles from grasshopper
             if (!DA.GetDataList(0, lines)) return;
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             //Line topology
-           var topology = CurveOperations.LineTopology(lines, DocumentTolerance());
-            //export to grasshopper 
+            var topology = CurveOperations.LineTopology(lines, DocumentTolerance());
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             DA.SetDataList(0, topology);
         }
 

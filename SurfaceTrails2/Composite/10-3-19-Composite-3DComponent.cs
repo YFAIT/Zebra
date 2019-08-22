@@ -7,7 +7,7 @@ using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
+//This component creates the YFA composite on 3d meshes 
 namespace SurfaceTrails2.Composite
 {
     public class _28_11_18_Composite_3D_01 : GH_Component
@@ -48,6 +48,9 @@ namespace SurfaceTrails2.Composite
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             var topologyEdgesWatch = new Stopwatch();
             var addToTreeWatch = new Stopwatch();
             var dispatchPointsWatch = new Stopwatch();
@@ -67,6 +70,9 @@ namespace SurfaceTrails2.Composite
             if (!DA.GetDataList(0, meshes)) return;
             if (!DA.GetData(1, ref nakedLength)) return;
             if (!DA.GetData(2, ref clothedWidth)) return;
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             //applying code for each mesh in the mesh list
             var b = 0;
             foreach (var mesh in meshes)
@@ -153,6 +159,9 @@ namespace SurfaceTrails2.Composite
                 topoTreeFinal.Clear();
                 b++;
             }
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             //profiling data preview in grasshopper
             profiling.Add("Topology: "+topologyEdgesWatch.ElapsedMilliseconds);
             profiling.Add("Add to tree: "+addToTreeWatch.ElapsedMilliseconds);

@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
+//This Component explodes Breps while keeping all hieracrhial data in order
 namespace SurfaceTrails2.GeometrHierarchyManagemnt
 {
     public class BrepExplodeComponent : GH_Component
@@ -18,7 +18,6 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
               "Zebra", "GeometrHierarchyManagemnt")
         {
         }
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -26,7 +25,6 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
         {
             pManager.AddBrepParameter("Brep", "b", "Brep to explode", GH_ParamAccess.list);
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -36,21 +34,28 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
             pManager.AddCurveParameter("Brep Edges", "E", "Exploded brep edges", GH_ParamAccess.tree);
             pManager.AddPointParameter("Brep Vertices", "V", "Exploded brep Vertices", GH_ParamAccess.tree);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             var breps = new List<Brep>();
             //Calling data from grasshopper
             if (!DA.GetDataList(0, breps)) return;
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             //Assigning variables to classes
-            var a= BrepExplode.BrepFaces(breps);
+            var a = BrepExplode.BrepFaces(breps);
             var b= BrepExplode.BrepEdges(breps);
             var c= BrepExplode.BrepVertices(breps);
-            //Exporting data back to grasshopper
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             DA.SetDataTree(0, a);
             DA.SetDataTree(1, b);
             DA.SetDataTree(2, c);

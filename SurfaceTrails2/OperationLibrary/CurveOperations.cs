@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Rhino.Geometry;
-
+//This Class contains core methods for any curve operation used in my code
 namespace SurfaceTrails2.OperationLibrary
 {
    public static class CurveOperations
     {
-        //creates a closes curve out of a list of points
+// ===============================================================================================
+// creates a closed curve out of a list of points
+// ===============================================================================================
         public static Curve ClosedPolylineFromPoints(List<Point3d> PolylinePoints)
         {
             Polyline outputPolyline = new Polyline(PolylinePoints);
@@ -20,7 +22,9 @@ namespace SurfaceTrails2.OperationLibrary
             var closedPolylineArray = Curve.JoinCurves(summedPolyline);
             return closedPolylineArray[0];
         }
-        //Sorts curves by the value of their lengths
+// ===============================================================================================
+// Sorts curves by the value of their lengths
+// ===============================================================================================
         public static List<Curve> SortCurveByLength(List<Curve> curves)
         {
             var length = new List<double>();
@@ -34,7 +38,9 @@ namespace SurfaceTrails2.OperationLibrary
             Array.Sort(lengthArray,curvesArray);
            return curvesArray.ToList().GetRange(0, 4);
         }
-        //Finds the connectivity of lines (duplicate line in mesh face boundaries so we know the line valency)
+// ===============================================================================================
+// Finds the connectivity of lines (duplicate line in mesh face boundaries so we know the line valency)
+// ===============================================================================================
         public static List<int> LineTopology(List<Line> lines, double tolerance)
         {
             var countTopoList = new List<int>();
@@ -53,7 +59,9 @@ namespace SurfaceTrails2.OperationLibrary
             }
             return countTopoList;
         }
-        //splits curve at kinks (discontinuity)
+// ===============================================================================================
+// splits curve at kinks (discontinuity)
+// ===============================================================================================
         public static bool CurveDiscontinuity(List<Curve> L, Curve crv, int continuity, bool recursive)
         {
             if (crv == null) { return false; }

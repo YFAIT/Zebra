@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Rhino.Geometry;
-
+//This Class contains core methods for any Mesh operation used in my code
 namespace SurfaceTrails2.OperationLibrary
 {
     static class MeshOperations
     {
-        //Find the center of a mesh face
+// ===============================================================================================
+// Find the center of a mesh face
+// ===============================================================================================
         public static Point3d MeshFaceCenter(int meshfaceindex, Mesh m)
         {
             var temppt = new Point3d(0, 0, 0);
@@ -42,7 +44,9 @@ namespace SurfaceTrails2.OperationLibrary
 
             return temppt;
         }
-        //Move mesh vertex 
+// ===============================================================================================
+// Move mesh vertex 
+// ===============================================================================================
         public static Mesh VertexMove(Mesh meshIn, Point3d attrPt, int cPCount, Vector3d subVec, double vAmp,
             bool toggle)
         {

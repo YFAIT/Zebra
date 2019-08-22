@@ -5,7 +5,9 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
+/*This component makes a mesh interact with any moving points around it(mainly used with flocks),
+ mesh vertices move if any point approaches it
+ */
 namespace SurfaceTrails2.MeshCarving
 {
     public class MeshFormingComponent : GH_Component
@@ -21,8 +23,9 @@ namespace SurfaceTrails2.MeshCarving
         private Mesh _tempMesh2 = new Mesh();
 
         public MeshFormingComponent()
-          : base("MeshFormingComponent", "Nickname",
-              "Description",
+          : base("Mesh Forming Component", "MeshFormingComponent",
+              "This component makes a mesh interact with any moving points around it(mainly used with flocks)," +
+              " mesh vertices move if any point approaches it",
               "Zebra", "Manipulation")
         {
         }
@@ -53,6 +56,9 @@ namespace SurfaceTrails2.MeshCarving
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             var mesh = new Mesh();
             var attractorPoints = new List<Point3d>();
             var interval = 0;
@@ -60,7 +66,7 @@ namespace SurfaceTrails2.MeshCarving
             double distance= 0;
             var run = true;
             var reset = true;
-
+            //get values from grasshopper
             DA.GetData("Input Mesh", ref mesh);
             DA.GetDataList("Attractor Points", attractorPoints);
             DA.GetData("Interval", ref interval);
@@ -68,7 +74,9 @@ namespace SurfaceTrails2.MeshCarving
             DA.GetData("Distance", ref distance);
             DA.GetData("Run", ref run);
             DA.GetData("Reset", ref reset);
-
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             _pts = attractorPoints;
             _iThreshold = threshold;
             _iInterval = interval;
@@ -122,7 +130,9 @@ namespace SurfaceTrails2.MeshCarving
                 _tempMesh2 = mesh;
                 _count = 0;
             }
-            //Export output to grasshopper
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             var a = _tempMesh2;
             DA.SetData("Carved Mesh", a);
     }

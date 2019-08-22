@@ -2,9 +2,7 @@
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
-
-//This Component control containment in a Closed Mesh boundary
-
+//This Component controls containment in a Closed Mesh boundary
 namespace SurfaceTrails2.AgentBased.Containment
 {
     public class MeshContainmentComponent : GH_Component
@@ -13,14 +11,14 @@ namespace SurfaceTrails2.AgentBased.Containment
         /// Initializes a new instance of the MeshContainmentComponent class.
         /// </summary>
         public MeshContainmentComponent()
-          : base("MeshContainment", "Nickname",
-              "Description",
+          : base("Mesh Containment", "MeshContainment",
+              "controls containment in a Closed Mesh boundary",
               "Zebra",
               "AgentBased")
         {
         }
+        //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.secondary;
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -28,9 +26,7 @@ namespace SurfaceTrails2.AgentBased.Containment
         {
             pManager.AddMeshParameter("Mesh", "M", "Mesh", GH_ParamAccess.item);
             pManager.AddNumberParameter("Multiplier", "M", "Multiplier", GH_ParamAccess.item, 1);
-
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -38,28 +34,31 @@ namespace SurfaceTrails2.AgentBased.Containment
         {
             pManager.AddGenericParameter("MeshContainer", "C", "MeshContainer", GH_ParamAccess.item);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             MeshContainment container = new MeshContainment();
             Mesh mesh= new Mesh();
             double multiplier = 1.0;
-
+            //get values from grasshopper
             DA.GetData("Mesh", ref mesh);
             DA.GetData("Multiplier", ref multiplier);
-
-
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             container.Mesh = mesh;
             container.Multiplier = multiplier;
-
-
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             DA.SetData("MeshContainer", container);
         }
-
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -72,7 +71,6 @@ namespace SurfaceTrails2.AgentBased.Containment
                 return Resources.MeshContainer;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

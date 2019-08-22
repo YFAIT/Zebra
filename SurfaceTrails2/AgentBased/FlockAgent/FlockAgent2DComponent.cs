@@ -4,8 +4,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
-//this component control the flock strating position and velocity in 2d mode
+//this component controls the flock strating position and velocity in 2d mode
 namespace SurfaceTrails2.AgentBased.FlockAgent
 {
     public class FlockAgent2DComponent : GH_Component
@@ -14,15 +13,13 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         /// Initializes a new instance of the FlockAgent2DComponent class.
         /// </summary>
         public FlockAgent2DComponent()
-          : base("FlockAgent2D", "Nickname",
-              "Description",
+          : base("Flock Agent 2D", "FlockAgent2D",
+              "controls the flock strating position and velocity in 2d mode",
               "Zebra", "AgentBased")
         {
         }
-
+        //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.primary;
-
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -30,9 +27,8 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         {
             pManager.AddNumberParameter("Minimum velocity", "minV", "Minimum velocity for agent", GH_ParamAccess.item, 4);
             pManager.AddNumberParameter("Maximum velocity", "MaxV", "Maximum velocity for agent", GH_ParamAccess.item, 8);
-            pManager.AddPointParameter("Start point for agent", "startPt", "the point from which to start agents", GH_ParamAccess.list);
+            pManager.AddPointParameter("Start point for agent", "startPt", "Initial position for agents", GH_ParamAccess.list);
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -40,13 +36,15 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         {
             pManager.AddGenericParameter("Agent", "A", "agent to flock", GH_ParamAccess.item);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             //string info;
             double minVelocity = 4;
             double maxVelocity = 8;
@@ -56,6 +54,9 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
             DA.GetData("Minimum velocity", ref minVelocity);
             DA.GetData("Maximum velocity", ref maxVelocity);
             DA.GetDataList("Start point for agent", points);
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             //Assign velocity to points
             foreach (Point3d point in points)
             {
@@ -68,15 +69,12 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                     };
                 agents.Add(agent);
             }
-            //informations check
-            //info = "values are" + agents[0].MinVelocity + " " + agents[0].MaxVelocity;
-            //assigning data for export
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             var a = agents;
-            //Export data to grasshopper
             DA.SetDataList(0, a);
-            //DA.SetData("Info", info);
         }
-
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -89,7 +87,6 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                 return Resources._190512_01_FlockSimulation_2d;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

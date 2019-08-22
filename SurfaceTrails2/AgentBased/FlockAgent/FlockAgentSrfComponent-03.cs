@@ -4,8 +4,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
-//this component control the flock strating position and velocity on a surface
+//this component controls the flock starting position and velocity on a surface
 namespace SurfaceTrails2.AgentBased.FlockAgent
 {
     public class FlockAgentSrfComponent : GH_Component
@@ -14,11 +13,12 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         /// Initializes a new instance of the FlockAgent2DComponent class.
         /// </summary>
         public FlockAgentSrfComponent()
-          : base("FlockAgentSrf", "Nickname",
-              "Description",
+          : base("Flock Agent On Surface", "FlockAgentSrf",
+              "controls the flock starting position and velocity on a surface",
               "Zebra", "AgentBased")
         {
         }
+        //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -27,15 +27,14 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         {
             pManager.AddNumberParameter("Minimum velocity", "minV", "Minimum velocity for agent", GH_ParamAccess.item, 4);
             pManager.AddNumberParameter("Maximum velocity", "MaxV", "Maximum velocity for agent", GH_ParamAccess.item, 8);
-            pManager.AddPointParameter("Start point for agent", "startPt", "the point from which to start agents", GH_ParamAccess.list);
-            //pManager.AddSurfaceParameter("Surface", "S", "Surface to flock on", GH_ParamAccess.item);
+            pManager.AddPointParameter("Start point for agent", "startPt", "Initial position for agents", GH_ParamAccess.list);
         }
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Agent", "A", "agent to flock", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Agent", "A", "Agent to flock", GH_ParamAccess.item);
         }
         /// <summary>
         /// This is the method that actually does the work.
@@ -43,13 +42,14 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             //string info;
             double minVelocity = 4;
             double maxVelocity = 8;
             List<Point3d> points = new List<Point3d>();
             var agents = new List<FlockAgent>();
-            //Surface srf = null;
-
             const double xMin = 0;
             const double xMax = 30;
             const double yMin = 0;
@@ -58,8 +58,9 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
             DA.GetData("Minimum velocity", ref minVelocity);
             DA.GetData("Maximum velocity", ref maxVelocity);
             DA.GetDataList("Start point for agent", points);
-            //DA.GetData("Surface", ref srf);
-
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             BoundingBox box = new BoundingBox(points);
             //Assign velocity to points
             foreach (Point3d point in points)
@@ -77,17 +78,15 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                         MinVelocity = minVelocity,
                         MaxVelocity = maxVelocity
                     };
-
-
                 agents.Add(agent);
             }
-            //informations check
-            //info = "values are" + agents[0].MinVelocity + " " + agents[0].MaxVelocity;
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             //assigning data for export
             var a = agents;
             //Export data to grasshopper
             DA.SetDataList(0, a);
-            //DA.SetData("Info", info);
         }
         /// <summary>
         /// Provides an Icon for the component.

@@ -1,11 +1,11 @@
 ﻿using Rhino.Geometry;
-
 //This class contains all flocking containing algorithms, containing the flock in a certain boundary
-
 namespace SurfaceTrails2.AgentBased.Containment
 {
-    //contain agent in a box
-     class BoxContainment : IAgentContainment
+    // ===============================================================================================
+    // Contain agent in a box
+    // ===============================================================================================
+    class BoxContainment : IAgentContainment
     {
         public char Label { get; set; }
         public double Multiplier { get; set; }
@@ -18,7 +18,6 @@ namespace SurfaceTrails2.AgentBased.Containment
             double boundingBoxMaxX = Box.PointAt(1, 1, 1).X;
             double boundingBoxMaxY = Box.PointAt(1, 1, 1).Y;
             double boundingBoxMaxZ = Box.PointAt(1, 1, 1).Z;
-            //double multiplier = 3;
 
             if (position.X < boundingBoxMinX)
                 desiredVelocity += new Vector3d(boundingBoxMaxX - position.X, 0, 0) * Multiplier;
@@ -41,18 +40,16 @@ namespace SurfaceTrails2.AgentBased.Containment
             return desiredVelocity;
         }
     }
-    //contain agent in a brep
+    // ===============================================================================================
+    // Contain agent in a brep
+    // ===============================================================================================
     class BrepContainment : IAgentContainment
     {
         public char Label { get; set; }
-
         public double Multiplier { get; set; }
-
         public Mesh Mesh { get; set; }
         public Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity)
         {
-            //double multiplier = 3;
-
             if (!Mesh.IsPointInside(position, 0.01, false))
             {
                 var reverse = Point3d.Subtract(position, Mesh.ClosestPoint(position));
@@ -62,19 +59,17 @@ namespace SurfaceTrails2.AgentBased.Containment
             return desiredVelocity;
         }
     }
-    //contain agent in a mesh (fast)
+    // ===============================================================================================
+    // Contain agent in a mesh (fast)
+    // ===============================================================================================
     class MeshContainment : IAgentContainment
     {
         public char Label { get; set; }
-
         public double Multiplier { get; set; }
-
         public Mesh Mesh { get; set; }
 
         public Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity)
         {
-        //double multiplier = 40;
-
             if (!Mesh.IsPointInside(position, 0.01, false))
             {
                 var reverse = Point3d.Subtract(position, Mesh.ClosestPoint(position));
@@ -84,18 +79,18 @@ namespace SurfaceTrails2.AgentBased.Containment
             return desiredVelocity;
         }
     }
-    //contain agent in a Surface
+    // ===============================================================================================
+    // Contain agent in a surface
+    // ===============================================================================================
     class SurfaceContainment : IAgentContainment
     {
         public char Label { get; set; }
+        public double Multiplier { get; set; }
         char IAgentContainment.Label
         {
             get { return Label = 's'; }
             set { Label = value; }
         }
-
-        public double Multiplier { get; set; }
-
         public NurbsSurface Surface { get; set; }
         public double xMin { get; set; }
         public double xMax { get; set; }
@@ -120,17 +115,17 @@ namespace SurfaceTrails2.AgentBased.Containment
             return desiredVelocity;
         }
     }
-    //contain agent in a plane
+    // ===============================================================================================
+    // Contain agent in a plane
+    // ===============================================================================================
     class PlaneContainment : IAgentContainment
     {
         public char Label { get; set; }
-
         public double Multiplier { get; set; }
-
         public Curve Curve { get; set; }
+
         public Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity )
         {
-            //double multiplier = 80;
             if (Curve.Contains(position) == PointContainment.Outside || Curve.Contains(position) == PointContainment.Coincident)
             {
                 double t;
@@ -142,28 +137,24 @@ namespace SurfaceTrails2.AgentBased.Containment
             return desiredVelocity;
         }
     }
-    //contain agent in a mesh for forming with wind
-   public class ContainOutsideMesh : IAgentContainment
+    // ===============================================================================================
+    // Contain agent in a mesh for forming with wind
+    // ===============================================================================================
+    public class ContainOutsideMesh : IAgentContainment
     {
         public char Label { get; set; }
-
         public double Multiplier { get; set; }
-
         public Mesh Mesh { get; set; }
-        
 
         public Vector3d DesiredVector(Point3d position, Vector3d desiredVelocity)
         {
         var newMesh = Mesh.DuplicateMesh();
-        //double multiplier = 40;
 
             if (Mesh.IsPointInside(position, 0.01, false))
             {
                 var reverse = Point3d.Subtract(position, newMesh.ClosestPoint(position));
                 reverse.Reverse();
                 desiredVelocity += reverse * Multiplier;
-                
-                //Mesh = MeshOperations.VertexMove(newMesh, position, 1, desiredVelocity, 0.5, false);
             }
             return desiredVelocity;
         }

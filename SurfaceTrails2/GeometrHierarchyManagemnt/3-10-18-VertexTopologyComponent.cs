@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
+//This component tells you how many lines are connected to a certain vertex, very useful for selection
 namespace SurfaceTrails2.GeometrHierarchyManagemnt
 {
     public class _3_10_18_EdgeTopology : GH_Component
@@ -18,7 +18,6 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
               "Zebra", "GeometrHierarchyManagemnt")
         {
         }
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -28,7 +27,6 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
             pManager.AddIntegerParameter("Valence", "V", "The desired number of connection per vertex", GH_ParamAccess.item,2);
 
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -36,13 +34,15 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
         {
             pManager.AddPointParameter("pt", "pt", "Points of the desired valence", GH_ParamAccess.list);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             var allCurvesEdges = new List<Curve>();
             int valence = 0;
             var allBrepOuterPoints = new List<Point3d>();
@@ -52,6 +52,9 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
             //get variables from grasshopper
             if (!DA.GetDataList(0, allCurvesEdges)) return;
             if (!DA.GetData(1,ref valence)) return;
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             //get all brep points in a list
             foreach (Curve allCurvesEdge in allCurvesEdges)
             {
@@ -82,7 +85,9 @@ namespace SurfaceTrails2.GeometrHierarchyManagemnt
                 if(dupPointCount[i] ==valence)
                     pointsOfValence.Add(dupPoints[i]);
             }
-            //Export data to grasshopper
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             var a = pointsOfValence;
             DA.SetDataList(0, a);
         }

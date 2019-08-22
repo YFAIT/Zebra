@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
-
 //This component controls the Follow Points behaviour for the the flock
-
 namespace SurfaceTrails2.AgentBased.Behaviours
 {
     public class FollowOrganizedPointsComponent : GH_Component
@@ -14,8 +12,8 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         /// Initializes a new instance of the FollowOrganizedPointsComponent class.
         /// </summary>
         public FollowOrganizedPointsComponent()
-          : base("FollowOrganizedPointsComponent", "Nickname",
-              "Description",
+          : base("Follow Organized Points Component", "FollowOrganizedPointsComponent",
+              "controls the Follow Points behaviour for the the flock",
               "Zebra",
               "AgentBased")
         {
@@ -27,47 +25,46 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddCircleParameter("Circles", "C", "Circles", GH_ParamAccess.list);
-            //pManager.AddBooleanParameter("Attract to Nearest Point", "N", "attracts agents to nearest point to their start point", GH_ParamAccess.item, true);
-            pManager.AddNumberParameter("Multiplier", "M", "Multiplier", GH_ParamAccess.item, 1);
-            pManager.AddBooleanParameter("Loop", "L", "Loop", GH_ParamAccess.item, true);
+            pManager.AddCircleParameter("Circles", "C", "Sorted list of circles to follow by order", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Multiplier", "M", "strength of the behaviour", GH_ParamAccess.item, 1);
+            pManager.AddBooleanParameter("Loop", "L", "makes agents go back to the start when they reach the last point of the list", GH_ParamAccess.item, true);
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("FollowPointsBehaviour", "B", "FollowPointsBehaviour", GH_ParamAccess.item);
+            pManager.AddGenericParameter("FollowPointsBehaviour", "B", "Follow Points Behaviour to supply to container input in flocking engine",
+                GH_ParamAccess.item);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             List<Circle> circles = new List<Circle>();
             double multiplier = 1.0;
             bool loop = true;
             FollowOrganizedPoints follow = new FollowOrganizedPoints();
-            //bool attractToNearestPt = true;
-
+            //get values from grasshopper
             DA.GetDataList("Circles", circles);
             DA.GetData("Multiplier", ref multiplier);
             DA.GetData("Loop", ref loop);
-
-            //DA.GetData("Attract to Nearest Point", ref attractToNearestPt);
-
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             follow.Circles = circles;
             follow.Multiplier = multiplier;
             follow.Loop = loop;
-            //follow.Label = 'f';
-            //follow.AttractToNearestPt = attractToNearestPt;
-            //var info = "values are" + circles[0].Radius;
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             DA.SetData("FollowPointsBehaviour", follow);
         }
-
         /// <summary>
         /// Provides an Icon for the component
         /// </summary>
@@ -80,7 +77,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
                 return Resources.FollowOrganisedPoints_01;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

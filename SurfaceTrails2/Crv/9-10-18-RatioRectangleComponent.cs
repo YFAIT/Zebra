@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using SurfaceTrails2.Properties;
-
+//This component creates a retangle to any desired area with any desired ratio
 namespace SurfaceTrails2.Crv
 {
     public class _9_10_18_RatioRectangle : GH_Component
@@ -17,7 +17,6 @@ namespace SurfaceTrails2.Crv
               "Zebra", "Crv")
         {
         }
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -27,7 +26,6 @@ namespace SurfaceTrails2.Crv
             pManager.AddNumberParameter("Width", "w", "Width of the rectangle", GH_ParamAccess.item, 1);
             pManager.AddNumberParameter("Area", "a", "Desired area for the rectangle", GH_ParamAccess.item, 10);
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -37,13 +35,15 @@ namespace SurfaceTrails2.Crv
             pManager.AddNumberParameter("Area", "a", "area of the rectangle", GH_ParamAccess.item);
             pManager.AddPointParameter("Center", "c", "Center of the rectangle", GH_ParamAccess.item);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             double length = 1.0;
             double width = 1.0;
             double area = 10;
@@ -51,13 +51,18 @@ namespace SurfaceTrails2.Crv
             if (!DA.GetData(0, ref length)) return;
             if (!DA.GetData(1, ref width)) return;
             if (!DA.GetData(2, ref area)) return;
-
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             double u = length / width;
             double v = Math.Sqrt(u * area);
             double w = v / u;
             Rectangle3d rect = new Rectangle3d(Plane.WorldXY, Math.Ceiling(v), Math.Ceiling(w));
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             //values for export
-            var   r = new GH_Rectangle(rect);
+            var r = new GH_Rectangle(rect);
             var   a = rect.Area;
             var   c = rect.Center;
             //Export data to grasshopper

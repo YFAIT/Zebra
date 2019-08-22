@@ -4,23 +4,21 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
-//this component control the flock strating position and velocity
+//this component controls the flock strating position and velocity
 namespace SurfaceTrails2.AgentBased.FlockAgent
 {
     public class FlockAgentComponent : GH_Component
     {
-     
         /// <summary>
         /// Initializes a new instance of the BoxAgentComponent class.
         /// </summary>
         public FlockAgentComponent()
-          : base("Flock Agent 3D", "FlockAgent 3D",
-              "Agent parameters",
+          : base("Flock Agent 3D", "FlockAgent3D",
+              "controls the flock strating position and velocity",
               "Zebra", "AgentBased")
         {
         }
-
+        //Controls Place of component on grasshopper menu
         public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -29,17 +27,14 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         {
             pManager.AddNumberParameter("Minimum velocity", "minV", "Minimum velocity for agent", GH_ParamAccess.item, 4);
             pManager.AddNumberParameter("Maximum velocity", "MaxV", "Maximum velocity for agent", GH_ParamAccess.item, 8);
-            pManager.AddPointParameter("Start point for agent","startPt","the point from which to start agents",GH_ParamAccess.list);
-            //pManager[2].Optional = true;
+            pManager.AddPointParameter("Start point for agent","startPt", "Initial position for agents", GH_ParamAccess.list);
         }
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Agent", "A", "agent to flock", GH_ParamAccess.item);
-            //pManager.AddTextParameter("Info", "Info", "Information", GH_ParamAccess.item);
-
+            pManager.AddGenericParameter("Agent", "A", "Agent to flock", GH_ParamAccess.item);
         }
         /// <summary>
         /// This is the method that actually does the work.
@@ -47,6 +42,9 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             //string info;
             double minVelocity = 4;
             double maxVelocity = 8;
@@ -56,6 +54,9 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
             DA.GetData("Minimum velocity", ref minVelocity);
             DA.GetData("Maximum velocity", ref maxVelocity);
             DA.GetDataList("Start point for agent", points);
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             //Assign velocity to points
             foreach (Point3d point in points)
             {
@@ -65,13 +66,13 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                 agent.MaxVelocity = maxVelocity;
                 agents.Add(agent);
             }
-            //informations check
-            //info = "values are" + agents[0].MinVelocity + " " + agents[0].MaxVelocity;
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             //assigning data for export
             var a = agents;
             //Export data to grasshopper
             DA.SetDataList(0, a);
-            //DA.SetData("Info", info);
         }
         /// <summary>
         /// Provides an Icon for the component.

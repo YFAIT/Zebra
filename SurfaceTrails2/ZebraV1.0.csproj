@@ -76,16 +76,15 @@
     <Compile Include="AgentBased\FlockAgent\IFlockAgent.cs" />
     <Compile Include="AgentBased\Behaviours\RepellingBehaviourComponent.cs" />
     <Compile Include="AgentBased\Behaviours\WindBehaviourComponent.cs" />
-    <Compile Include="GeometrHierarchyManagemnt\3-10-18-VertexTopology.cs" />
+    <Compile Include="GeometrHierarchyManagemnt\3-10-18-VertexTopologyComponent.cs" />
     <Compile Include="MeshCarving\MeshFormingComponent.cs" />
     <Compile Include="OperationLibrary\BrepExplode.cs" />
     <Compile Include="GeometrHierarchyManagemnt\BrepExplodeComponent.cs" />
     <Compile Include="AgentBased\FlockSystem.cs" />
-    <Compile Include="GeometrHierarchyManagemnt\13-3-19-LineTopology.cs" />
-    <Compile Include="Composite\10-3-19-Composite-3D-01.cs" />
-    <Compile Include="Composite\11-12-18-Composite.cs" />
-    <Compile Include="Crv\9-10-18-RatioRectangle.cs" />
-    <Compile Include="Msh\MeshIterativeMoveV4.cs" />
+    <Compile Include="GeometrHierarchyManagemnt\13-3-19-LineTopologyComponent.cs" />
+    <Compile Include="Composite\10-3-19-Composite-3DComponent.cs" />
+    <Compile Include="Composite\11-12-18-CompositeComponent.cs" />
+    <Compile Include="Crv\9-10-18-RatioRectangleComponent.cs" />
     <Compile Include="OperationLibrary\MeshOperations.cs" />
     <Compile Include="OperationLibrary\NumberOperations.cs" />
     <Compile Include="Utilities\PartitionTreeComponent.cs" />
@@ -97,8 +96,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SurfaceToMesh\TrimmedSrfToMesh2.cs" />
-    <Compile Include="SurfaceToMesh\TrimmedsrftoMesh.cs" />
+    <Compile Include="SurfaceToMesh\TrimmedSrfToMesh2Component.cs" />
+    <Compile Include="SurfaceToMesh\TrimmedsrftoMeshComponent.cs" />
     <Compile Include="SurfaceToMesh\UntrimmedSurfaceToMeshComponent.cs" />
     <Compile Include="SurfaceToMesh\UntrimmedSurfaceToMeshInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,7 +7,7 @@ using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 using SurfaceTrails2.OperationLibrary;
 using SurfaceTrails2.Properties;
-
+//This boundary creates the YFA componsite on any 2d mesh with a higher level of detail 
 namespace SurfaceTrails2.Composite
 {
     public class Composite : GH_Component
@@ -32,7 +32,6 @@ namespace SurfaceTrails2.Composite
             pManager.AddNumberParameter("Offset Thickness", "t", "Offset thickness of composite", GH_ParamAccess.item, 0.02);
             pManager.AddNumberParameter("Naked edge length", "l", "Length of edge on the naked sides of the brep", GH_ParamAccess.item, 0.05);
             pManager.AddNumberParameter("Clothed edge width", "w", "width of edge on the clothed sides of the brep", GH_ParamAccess.item, 0.01);
-
         }
 
         /// <summary>
@@ -52,6 +51,9 @@ namespace SurfaceTrails2.Composite
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             var topologyEdgesWatch = new Stopwatch();
             var addToTreeWatch = new Stopwatch();
             var dispatchPointsWatch = new Stopwatch();
@@ -73,6 +75,9 @@ namespace SurfaceTrails2.Composite
             if (!DA.GetData(1, ref thickness)) return;
             if (!DA.GetData(2, ref nakedLength)) return;
             if (!DA.GetData(3, ref clothedWidth)) return;
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             //applying code for each mesh in the mesh list
             var b = 0;
             foreach (var mesh in meshes)
@@ -170,6 +175,9 @@ namespace SurfaceTrails2.Composite
                 topoTreeFinal.Clear();
                 b++;
             }
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             //profiling data preview in grasshopper
             profiling.Add("Topology: " + topologyEdgesWatch.ElapsedMilliseconds);
             profiling.Add("Add to tree: " + addToTreeWatch.ElapsedMilliseconds);

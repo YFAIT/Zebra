@@ -3,7 +3,9 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using SurfaceTrails2.Properties;
-
+/*This component records any type of data and outputs list of it,
+ useful for any recursive operation save data from each iteration seperately
+ */
 namespace SurfaceTrails2.Utilities
 {
     public class ResettableDataRecorderComponent : GH_Component
@@ -12,14 +14,13 @@ namespace SurfaceTrails2.Utilities
         /// Initializes a new instance of the ResettableDataRecorderComponent class.
         /// </summary>
         public ResettableDataRecorderComponent()
-          : base("ResettableDataRecorderComponent", "Nickname",
-              "Description",
+          : base("Resettable Data Recorder", "ResettableRecorder",
+              "This component records any type of data and outputs list of it," +
+              " useful for any recursive operation save data from each iteration seperately",
               "Zebra", "Utilities")
         {
         }
-
         GH_Structure<IGH_Goo> tree = new GH_Structure<IGH_Goo>();
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -29,29 +30,33 @@ namespace SurfaceTrails2.Utilities
             pManager.AddBooleanParameter("Reset", "R", "reset data stored in recorder if true", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Clear", "C", "Clears data stored in recorder if true", GH_ParamAccess.item);
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Data", "D", "Recorded Data", GH_ParamAccess.tree);
+            //pManager[0].DataMapping = GH_DataMapping.Graft;
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+// ===============================================================================================
+// Read input parameters
+// ===============================================================================================
             bool reset = false;
             bool clear = true;
-            GH_Structure<IGH_Goo> data = new GH_Structure<IGH_Goo>();
-
+            GH_Structure<IGH_Goo> data;
+            //get values from grasshopper
             DA.GetDataTree("Data",out data);
             DA.GetData("Reset", ref reset);
             DA.GetData("Clear", ref clear);
-
+// ===============================================================================================
+// Applying Values to Class
+// ===============================================================================================
             if (reset == true || clear == true)
                 tree.Clear();
             else
@@ -59,20 +64,19 @@ namespace SurfaceTrails2.Utilities
                 for (int i = 0; i < data.PathCount; i++)
                 {
                     var list = data.get_Branch(i);
-                    //tree.AppendRange(list, new GH_Path(i));
-                    foreach (var item in list)
+                    for (var j = 0; j < list.Count; j++)
                     {
-                        tree.Append(item as IGH_Goo, new GH_Path(i));
+                        var item = list[j];
+                        tree.Append(item as IGH_Goo, new GH_Path(i,j));
                     }
                 }
             }
-
+// ===============================================================================================
+// Exporting Data to Grasshopper
+// ===============================================================================================
             var a = tree;
-
             DA.SetDataTree(0, a);
-
         }
-
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
@@ -85,7 +89,6 @@ namespace SurfaceTrails2.Utilities
                 return Resources.Rec__2_;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
