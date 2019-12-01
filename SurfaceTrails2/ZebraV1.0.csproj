@@ -54,9 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgentBased\19-08-19-FlockingEngineComponent.cs" />
-    <Compile Include="AgentBased\Behaviours\20-05-19-AgentBehaviours.cs" />
+    <Compile Include="AgentBased\Behaviours\AgentBehavioursV2.0.cs" />
     <Compile Include="AgentBased\Behaviours\FollowCurveComponent.cs" />
     <Compile Include="AgentBased\Behaviours\FollowOrganizedPointsComponent.cs" />
+    <Compile Include="AgentBased\Behaviours\IAgentBehavioursV2.0.cs" />
+    <Compile Include="AgentBased\Behaviours\RepellerCurveComponent.cs" />
     <Compile Include="AgentBased\Containment\20-5-19-AgentContainment.cs" />
     <Compile Include="AgentBased\Containment\BoxContainmentComponent.cs" />
     <Compile Include="AgentBased\Containment\BrepContainmentComponent.cs" />
@@ -68,11 +70,10 @@
     <Compile Include="AgentBased\30-4-19-FlockPropertiesComponent.cs" />
     <Compile Include="AgentBased\Behaviours\AttractingBehaviourComponent.cs" />
     <Compile Include="AgentBased\Behaviours\AttractorCurveBehaviourComponent.cs" />
-    <Compile Include="AgentBased\FlockAgent\19-08-19-FlockAgenV2.0.cs" />
     <Compile Include="AgentBased\FlockAgent\FlockAgent2DComponent.cs" />
     <Compile Include="AgentBased\FlockAgent\FlockAgentComponent.cs" />
-    <Compile Include="AgentBased\Behaviours\IAgentBehaviours.cs" />
     <Compile Include="AgentBased\FlockAgent\FlockAgentSrfComponent-03.cs" />
+    <Compile Include="AgentBased\FlockAgent\FlockAgentV2.1.cs" />
     <Compile Include="AgentBased\FlockAgent\IFlockAgent.cs" />
     <Compile Include="AgentBased\Behaviours\RepellingBehaviourComponent.cs" />
     <Compile Include="AgentBased\Behaviours\WindBehaviourComponent.cs" />
@@ -118,9 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\190512-01-FlockSimulation-YA.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\RepellerBehaviour.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\190512-01-FlockSimulation-2d.png" />
@@ -214,6 +212,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FollowOrganisedPoints-01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RepellerBehaviour.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RepellerCurveBehaviour.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

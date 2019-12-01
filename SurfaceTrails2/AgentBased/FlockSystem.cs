@@ -25,6 +25,8 @@ namespace SurfaceTrails2.AgentBased
         public List<Circle> FollowAttractors;
         public List<Circle> FollowCurveAttractors;
         public List<Curve> AttractorCurves;
+        public bool AttractorCurvesSwitch;
+        public List<Curve> RepllerCurves;
         public Vector3d Wind;
         public List<IFlockAgent> IAgents = new List<IFlockAgent>();
         private List<IFlockAgent> _iAgents = new List<IFlockAgent>();

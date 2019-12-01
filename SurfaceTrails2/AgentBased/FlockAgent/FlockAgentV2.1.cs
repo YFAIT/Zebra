@@ -98,11 +98,13 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                     //=======================================================================================
                     //if interaction is repeller
                     case BehaviourType.Repeller:
+
+                        var interactionRepeller = interaction as Repeller;
                         if (Containment[0].Label == 's')
                         {
-                            _container = (SurfaceContainment)Containment[0];
+                            _container = Containment[0] as  SurfaceContainment;
 
-                            foreach (var repeller in interaction.Circles)
+                            foreach (var repeller in interactionRepeller.Circles)
                             {
                                 // Remap repellers
                                 double u;
@@ -120,17 +122,19 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                             FlockSystem.Repellers = _surfaceRepller;
                         }
                         else
-                            FlockSystem.Repellers = interaction.Circles;
+                            FlockSystem.Repellers = interactionRepeller.Circles;
 
                         break;
                     //=======================================================================================
                     //if interaction is Attractor
                     case BehaviourType.Attractor:
+                        var interactionAttractor = interaction as Attractor;
+
                         if (Containment[0].Label == 's')
                         {
-                            _container = (SurfaceContainment)Containment[0];
+                            _container = Containment[0] as SurfaceContainment;
 
-                            foreach (var attractor in interaction.Circles)
+                            foreach (var attractor in interactionAttractor.Circles)
                             {
                                 // Remap Attractors
                                 double u;
@@ -148,20 +152,21 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                             FlockSystem.Attractors = _surfaceAttractors;
                         }
                         else
-                            FlockSystem.Attractors = interaction.Circles;
+                            FlockSystem.Attractors = interactionAttractor.Circles;
 
                         var closestPoint = PointOperations.ClosestPoints(Position, FlockSystem.Attractors.Select(p => p.Center).ToList(), 1);
-                        interaction.ClosestPoint = closestPoint[0];
+                        interactionAttractor.ClosestPoint = closestPoint[0];
                         break;
                     //=======================================================================================
                     //if interaction is Attractor curve
                     case BehaviourType.AttractorCurve:
 
+                        var interactionAttractorCurve = interaction as AttractorCurve;
+
                         if (Containment[0].Label == 's')
                         {
                             //getting curve data: points and degree
-                            _container = (SurfaceContainment)Containment[0];
-                            var interactionAttractorCurve = (AttractorCurve)interaction;
+                            _container = Containment[0] as SurfaceContainment;
                             var attractorcurve = interactionAttractorCurve.Curves[0].ToNurbsCurve();
                             var controlpoints = attractorcurve.Points;
                             var degree = attractorcurve.Degree;
@@ -184,11 +189,10 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                             FlockSystem.AttractorCurves = _remappedCurves;
                         }
                         else
-                            FlockSystem.AttractorCurves = interaction.Curves;
+                            FlockSystem.AttractorCurves = interactionAttractorCurve.Curves;
 
 
-                        var attractorCast = (AttractorCurve) interaction;
-                        FlockSystem.AttractorCurvesSwitch = attractorCast.AttractorCurveSwitch;
+                        FlockSystem.AttractorCurvesSwitch = interactionAttractorCurve.AttractorCurveSwitch;
 
                         //FlockSystem.AttractorCurves[0].ClosestPoint(StartPosition, out t);
                         //var curveClosestPoint = FlockSystem.AttractorCurves[0].PointAt(t);
@@ -216,19 +220,20 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                             }
                             curveClosestPoint = PointOperations.ClosestPoints(Position, curveClosestPoints, 1)[0];
                         }
-                       
 
-                        interaction.ClosestPoint = curveClosestPoint;
+
+                        interactionAttractorCurve.ClosestPoint = curveClosestPoint;
                         break;
                     //=======================================================================================
                     //if interaction is Repeller curve
                     case BehaviourType.RepellerCurve:
 
+                        var interactionRepellerCurve = interaction as RepellerCurve;
+
                         if (Containment[0].Label == 's')
                         {
                             //getting curve data: points and degree
-                            _container = (SurfaceContainment)Containment[0];
-                            var interactionRepellerCurve = (RepellerCurve)interaction;
+                            _container = Containment[0] as SurfaceContainment;
                             var attractorcurve = interactionRepellerCurve.Curves[0].ToNurbsCurve();
                             var controlpoints = attractorcurve.Points;
                             var degree = attractorcurve.Degree;
@@ -251,7 +256,7 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                             FlockSystem.RepllerCurves = _remappedCurves;
                         }
                         else
-                            FlockSystem.RepllerCurves = interaction.Curves;
+                            FlockSystem.RepllerCurves = interactionRepellerCurve.Curves;
 
                         //FlockSystem.RepllerCurves[0].ClosestPoint(Position, out t);
                         //var repellerCurveClosestPoint = FlockSystem.RepllerCurves[0].PointAt(t);
@@ -264,23 +269,25 @@ namespace SurfaceTrails2.AgentBased.FlockAgent
                         }
                         var repellerCurveClosestPoint = PointOperations.ClosestPoints(Position, repellerCurveClosestPoints, 1)[0];
 
-                        interaction.ClosestPoint = repellerCurveClosestPoint;
+                        interactionRepellerCurve.ClosestPoint = repellerCurveClosestPoint;
                         break;
-
                     //=======================================================================================
-                    //if interaction is Follow Points
+                    //if interaction is Follow Organized Points
                     case BehaviourType.FollowPoints:
-                        FlockSystem.FollowAttractors = interaction.Circles;
+                        var interactionFollowOrganizedPoints = interaction as FollowOrganizedPoints;
+                        FlockSystem.FollowAttractors = interactionFollowOrganizedPoints.Circles;
                         break;
                     //=======================================================================================
                     //if interaction is follow curve
                     case BehaviourType.FollowCurve:
-                        FlockSystem.FollowCurveAttractors = interaction.Circles;
+                        var interactionFollowCurve = interaction as FollowCurve;
+                        FlockSystem.FollowCurveAttractors = interactionFollowCurve.Circles;
                         break;
                     //=======================================================================================
                     //if interaction is Wind
                     case BehaviourType.Wind:
-                        FlockSystem.Wind = interaction.WindVec;
+                        var interactionWind = interaction as Wind;
+                        FlockSystem.Wind = interactionWind.WindVec;
                         break;
                 }
                 interaction.Position = Position;

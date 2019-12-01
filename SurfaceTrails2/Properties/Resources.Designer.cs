@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace SurfaceTrails2.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -333,6 +336,16 @@ namespace SurfaceTrails2.Properties {
         internal static System.Drawing.Bitmap RepellerBehaviour {
             get {
                 object obj = ResourceManager.GetObject("RepellerBehaviour", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RepellerCurveBehaviour {
+            get {
+                object obj = ResourceManager.GetObject("RepellerCurveBehaviour", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

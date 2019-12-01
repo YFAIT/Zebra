@@ -82,9 +82,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public Vector3d DesiredVelocity { get; set; }
         public FlockSystem FlockSystem { get; set; }
         public List<Circle> Circles { get; set; }
-        public Point3d ClosestPoint { get; set; }
-        public List<Curve> Curves { get; set; }
-        public Vector3d WindVec { get; set; }
         public double Multiplier { get; set; }
         public Vector3d ComputeDesiredVelocity()
         {
@@ -116,8 +113,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public FlockSystem FlockSystem { get; set; }
         public List<Circle> Circles { get; set; }
         public Point3d ClosestPoint { get; set; }
-        public List<Curve> Curves { get; set; }
-        public Vector3d WindVec { get; set; }
         public double Multiplier { get; set; }
 
         public Vector3d ComputeDesiredVelocity()
@@ -161,8 +156,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public Point3d Position { get; set; }
         public Vector3d DesiredVelocity { get; set; }
         public FlockSystem FlockSystem { get; set; }
-        public List<Circle> Circles { get; set; }
-        public Vector3d WindVec { get; set; }
         public Point3d ClosestPoint { get; set; }
         public double Multiplier { get; set; }
         public bool AttractorCurveSwitch { get; set; }
@@ -191,8 +184,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public Point3d Position { get; set; }
         public Vector3d DesiredVelocity { get; set; }
         public FlockSystem FlockSystem { get; set; }
-        public List<Circle> Circles { get; set; }
-        public Vector3d WindVec { get; set; }
         public Point3d ClosestPoint { get; set; }
         public double Multiplier { get; set; }
 
@@ -221,9 +212,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public Vector3d WindVec { get; set; }
         public Vector3d DesiredVelocity { get; set; }
         public FlockSystem FlockSystem { get; set; }
-        public List<Circle> Circles { get; set; }
-        public Point3d ClosestPoint { get; set; }
-        public List<Curve> Curves { get; set; }
         public double Multiplier { get; set; }
         public Vector3d ComputeDesiredVelocity()
         {
@@ -245,9 +233,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public Point3d Position { get; set; }
         public Vector3d DesiredVelocity { get; set; }
         public FlockSystem FlockSystem { get; set; }
-        public Point3d ClosestPoint { get; set; }
-        public List<Curve> Curves { get; set; }
-        public Vector3d WindVec { get; set; }
         public double Multiplier { get; set; }
         public bool Loop { get; set; }
         public Vector3d ComputeDesiredVelocity()
@@ -299,9 +284,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         public Point3d Position { get; set; }
         public Vector3d DesiredVelocity { get; set; }
         public FlockSystem FlockSystem { get; set; }
-        public Point3d ClosestPoint { get; set; }
-        public List<Curve> Curves { get; set; }
-        public Vector3d WindVec { get; set; }
         public double Multiplier { get; set; }
         public bool Loop { get; set; }
         public Vector3d ComputeDesiredVelocity()

@@ -32,7 +32,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
             pManager.AddBooleanParameter("Loop", "L", "makes agents go back to the start when they reach the last point of the curve",
                 GH_ParamAccess.item, true);
         }
-
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
@@ -41,7 +40,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
             pManager.AddGenericParameter("FollowCurveBehaviour", "B", "Follow Curve Behaviour to supply to container input in flocking engine",
                 GH_ParamAccess.item);
         }
-
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -79,7 +77,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
 // ===============================================================================================
             DA.SetData("FollowCurveBehaviour", followCurve);
         }
-
         /// <summary>
         /// Provides an Icon for the component
         /// </summary>
@@ -92,7 +89,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
                 return Resources.FollowCurve_01;
             }
         }
-
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>

@@ -6,14 +6,14 @@ using SurfaceTrails2.Properties;
 //This component controls the attracting Curve behaviour for the the flock
 namespace SurfaceTrails2.AgentBased.Behaviours
 {
-    public class AttractorCurveBehaviourComponent : GH_Component
+    public class RepellerCurveBehaviourComponent : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the AttractorCurveBehaviourComponent class.
         /// </summary>
-        public AttractorCurveBehaviourComponent()
-          : base("Attractor Curve Behaviour", "AttractorCurve",
-              "controls the attracting Curve behaviour for the the flock",
+        public RepellerCurveBehaviourComponent()
+          : base("Repeller Curve Behaviour", "RepellerCurve",
+              "controls the repelling Curve behaviour for the the flock",
               "Zebra",
               "AgentBased")
         {
@@ -27,9 +27,6 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("Curves", "C", "Curves to attract agents", GH_ParamAccess.list);
-            pManager.AddBooleanParameter("StartPosition/Position", "P", "This switch makes you choose between attracting the agents to closest" +
-             "point from the start point of the agent or from it's current postion in each iteration",
-                GH_ParamAccess.item, true);
             pManager.AddNumberParameter("Multiplier", "M", "strength of the behaviour", GH_ParamAccess.item, 1);
         }
         /// <summary>
@@ -37,7 +34,7 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AttractorCurveBehaviour", "B", "Attractor Curve Behaviour to supply to container input in flocking engine",
+            pManager.AddGenericParameter("RepellerCurveBehaviour", "B", "Repeller Curve Behaviour to supply to container input in flocking engine",
                 GH_ParamAccess.list);
         }
         /// <summary>
@@ -46,27 +43,24 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-// ===============================================================================================
-// Read input parameters
-// ===============================================================================================
-            AttractorCurve attractorCurve = new AttractorCurve();
+            // ===============================================================================================
+            // Read input parameters
+            // ===============================================================================================
+            RepellerCurve repellerCurve = new RepellerCurve();
             List<Curve> curves = new List<Curve>();
             double multiplier = 1.0;
-            bool atttractorCurveSwitch = false;
             //get values from grasshopper
             DA.GetDataList("Curves", curves);
             DA.GetData("Multiplier", ref multiplier);
-            DA.GetData("StartPosition/Position", ref atttractorCurveSwitch);
             // ===============================================================================================
             // Applying Values to Class
             // ===============================================================================================
-            attractorCurve.Curves = curves;
-            attractorCurve.Multiplier = multiplier;
-            attractorCurve.AttractorCurveSwitch = atttractorCurveSwitch;
-// ===============================================================================================
-// Exporting Data to Grasshopper
-// ===============================================================================================
-            DA.SetData("AttractorCurveBehaviour", attractorCurve);
+            repellerCurve.Curves = curves;
+            repellerCurve.Multiplier = multiplier;
+            // ===============================================================================================
+            // Exporting Data to Grasshopper
+            // ===============================================================================================
+            DA.SetData("RepellerCurveBehaviour", repellerCurve);
         }
 
         /// <summary>
@@ -78,7 +72,7 @@ namespace SurfaceTrails2.AgentBased.Behaviours
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.AttractingCurveBehaviour;
+                return Resources.RepellerCurveBehaviour;
             }
         }
 
@@ -87,7 +81,7 @@ namespace SurfaceTrails2.AgentBased.Behaviours
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("e9ecf167-151f-44df-8085-575628106436"); }
+            get { return new Guid("cd785ef9-1762-49a9-80bf-77f0c0519066"); }
         }
     }
 }
